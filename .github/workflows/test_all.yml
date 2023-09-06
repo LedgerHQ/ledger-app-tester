@@ -1,0 +1,372 @@
+name: Test apps on given SDK ref
+
+on:
+  schedule:
+    - cron: '32 5 * * 1'
+
+  workflow_dispatch:
+    inputs:
+      sdk_ref_nanosp:
+        type: string
+        required: false
+        default: 'API_LEVEL_1'
+      run_nanosp: 
+        type: boolean
+        required: false
+        default: true
+
+      sdk_ref_nanox:
+        type: string
+        required: false
+        default: 'API_LEVEL_5'
+      run_nanox: 
+        type: boolean
+        required: false
+        default: true
+
+      sdk_ref_stax:
+        type: string
+        required: false
+        default: 'API_LEVEL_12'
+      run_stax: 
+        type: boolean
+        required: false
+        default: true
+
+      send_to_slack:
+        type: boolean
+        required: false
+        default: false
+
+jobs:
+  split-input-file: 
+    name: Split input file
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Split input into 10 files
+        run: | 
+          python3 scripts/split_input/split_input.py --input_file input_files/input.json 
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: input_1.json
+          path: input_1.json
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: input_2.json
+          path: input_2.json
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: input_3.json
+          path: input_3.json
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: input_4.json
+          path: input_4.json
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: input_5.json
+          path: input_5.json
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: input_6.json
+          path: input_6.json
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: input_7.json
+          path: input_7.json
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: input_8.json
+          path: input_8.json
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: input_9.json
+          path: input_9.json
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: input_10.json
+          path: input_10.json
+
+  test-all:
+    name: Test for all targets
+    runs-on: ubuntu-latest
+    needs: split-input-file
+    container:
+      image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-dev-tools:latest
+
+    strategy:
+      matrix:
+        index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]  
+
+    env:
+        API_LEVEL_NANOSP: 'API_LEVEL_1'
+        API_LEVEL_NANOX: 'API_LEVEL_5'
+        API_LEVEL_STAX: 'API_LEVEL_12'
+
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Download split input file
+        uses: actions/download-artifact@v3
+        with:
+          name: input_${{ matrix.index }}.json
+
+      - name: Setup repos
+        run: | 
+          python3 scripts/build_and_test/main.py --input_file input_${{ matrix.index }}.json 
+
+      - name: Install tests dependencies
+        run: |
+          apk add gmp-dev g++ openssl-dev
+          pip install -U pip setuptools
+
+      - name: Setup inputs
+        run: | 
+            echo "test_nanosp=${{inputs.run_nanosp}}" >> $GITHUB_ENV
+            echo "test_nanox=${{inputs.run_nanox}}" >> $GITHUB_ENV
+            echo "test_stax=${{inputs.run_stax}}" >> $GITHUB_ENV
+
+            echo "api_level_nanosp=${{inputs.sdk_ref_nanosp}}" >> $GITHUB_ENV
+            echo "api_level_nanox=${{inputs.sdk_ref_nanox}}" >> $GITHUB_ENV
+            echo "api_level_stax=${{inputs.sdk_ref_stax}}" >> $GITHUB_ENV
+
+      - name: Override for schedule event
+        if: ${{ github.event_name == 'schedule' }}
+        run: | 
+            echo "test_nanosp=true" >> $GITHUB_ENV
+            echo "test_nanox=true" >> $GITHUB_ENV
+            echo "test_stax=true" >> $GITHUB_ENV
+
+            echo "api_level_nanosp=${{env.API_LEVEL_NANOSP}}" >> $GITHUB_ENV
+            echo "api_level_nanox=${{env.API_LEVEL_NANOX}}" >> $GITHUB_ENV
+            echo "api_level_stax=${{env.API_LEVEL_STAX}}" >> $GITHUB_ENV
+
+      - name: Launch test nanosp
+        if: ${{ env.test_nanosp }}
+        run: | 
+          python scripts/build_and_test/main.py --sdk_ref ${{ env.api_level_nanosp }} --input_file input_${{ matrix.index }}.json --test --nanosp --skip_setup --output_file test_nanosp_${{ matrix.index }}.json --logs_file log_nanosp.txt
+
+      - name: Launch test nanox
+        if: ${{ env.test_nanox }}
+        run: | 
+          python scripts/build_and_test/main.py --sdk_ref ${{ env.api_level_nanox }} --input_file input_${{ matrix.index }}.json --test --nanox --skip_setup --output_file test_nanox_${{ matrix.index }}.json --logs_file log_nanox.txt
+
+      - name: Launch test stax
+        if: ${{ env.test_stax }}
+        run: | 
+          python scripts/build_and_test/main.py --sdk_ref ${{ env.api_level_stax }} --input_file input_${{ matrix.index }}.json --test --stax --skip_setup --output_file test_stax_${{ matrix.index }}.json --logs_file log_stax.txt
+
+      - name: Merge output files
+        run: | 
+          python scripts/output_scripts/merge.py --input_pattern "test_*.json" --output_file test_output_${{ matrix.index }}.json --key "test"
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: test_output_${{ matrix.index }}.json
+          path: test_output_${{ matrix.index }}.json
+
+      - name: Merge log file
+        continue-on-error: true
+        run: |
+            cat log_* > log_${{ matrix.index }}.txt
+
+      - name: Archive log file
+        uses: actions/upload-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_${{ matrix.index }}.txt
+          path: log_${{ matrix.index }}.txt
+
+  build-error_log:
+    name: Build error logs
+    runs-on: ubuntu-latest
+    needs: test-all
+    steps:
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_1.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_2.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_3.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_4.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_5.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_6.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_7.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_8.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_9.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_10.txt
+
+      - name: Merge all
+        continue-on-error: true
+        run: |
+            cat log_* > error_log.txt
+
+      - name: Archive log error file
+        uses: actions/upload-artifact@v3
+        continue-on-error: true
+        with:
+          name: error_log.txt
+          path: error_log.txt
+
+
+  info-devices:
+    name: Setup test infos
+    runs-on: ubuntu-latest
+    needs: test-all
+
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        with:
+          name: test_output_1.json
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        with:
+          name: test_output_2.json
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        with:
+          name: test_output_3.json
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        with:
+          name: test_output_4.json
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        with:
+          name: test_output_5.json
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        with:
+          name: test_output_6.json
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        with:
+          name: test_output_7.json
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        with:
+          name: test_output_8.json
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        with:
+          name: test_output_9.json
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        with:
+          name: test_output_10.json
+
+      - name: Merge output files
+        run: | 
+          python scripts/output_scripts/merge.py --input_pattern "test_output_*.json" --output_file test_output.json --key "test"
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: report.json
+          path: test_output.json
+
+      - name: Convert to markdown
+        run: |
+          python scripts/output_scripts/convert.py --input_file test_output.json --output_file out.md --key test
+          cat out.md >> $GITHUB_STEP_SUMMARY
+
+      - name: Convert to slack json
+        run: |
+          python scripts/output_scripts/slack.py --input_file test_output.json --output_file slack.json --key test
+
+      - name: Send custom JSON data to Slack workflow
+        if: ${{ github.event_name == 'schedule' || inputs.send_to_slack == true }}
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+            payload-file-path: slack.json
+        env:
+            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Set job status
+        run: |
+          python scripts/output_scripts/status.py --input_file test_output.json --key test

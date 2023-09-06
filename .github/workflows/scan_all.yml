@@ -1,0 +1,587 @@
+name: Scan apps on given SDK ref
+
+on:
+  schedule:
+    - cron: '32 5 * * 1,2,3,4,5'
+
+  workflow_dispatch:
+    inputs:
+      sdk_ref:
+        type: string
+        required: false
+        default: 'master'
+      scan_stax:
+        type: boolean
+        required: false
+        default: true
+      scan_nanos:
+        type: boolean
+        required: false
+        default: true
+      scan_nanox:
+        type: boolean
+        required: false
+        default: true
+      scan_nanosp:
+        type: boolean
+        required: false
+        default: true
+      send_to_slack:
+        type: boolean
+        required: false
+        default: false
+        
+jobs:
+  setup-devices:
+    name: Setup devices
+    runs-on: ubuntu-latest
+    outputs:
+      names: ${{ steps.build-array.outputs.names }}
+
+    steps:
+      - name: Setup inputs
+        run: | 
+            echo "scan_stax=${{inputs.scan_stax}}" >> $GITHUB_ENV
+            echo "scan_nanos=${{inputs.scan_nanos}}" >> $GITHUB_ENV
+            echo "scan_nanox=${{inputs.scan_nanox}}" >> $GITHUB_ENV
+            echo "scan_nanosp=${{inputs.scan_nanosp}}" >> $GITHUB_ENV
+            echo "sdk_ref=${{inputs.sdk_ref}}" >> $GITHUB_ENV
+
+      - name: Override for schedule event
+        if: ${{ github.event_name == 'schedule' }}
+        run: | 
+            echo "scan_stax=true" >> $GITHUB_ENV
+            echo "scan_nanos=true" >> $GITHUB_ENV
+            echo "scan_nanox=true" >> $GITHUB_ENV
+            echo "scan_nanosp=true" >> $GITHUB_ENV
+            echo "sdk_ref=master" >> $GITHUB_ENV
+            
+      - name: Build matrix
+        id: build-array
+        run: |
+          if [[ ${{ env.scan_nanos }} == "true" ]]; then
+            NAMES+=("nanos")
+          fi
+          if [[ ${{ env.scan_nanox }} == "true" ]]; then
+            NAMES+=("nanox")
+          fi
+          if [[ ${{ env.scan_nanosp }} == "true" ]]; then
+            NAMES+=("nanosp")
+          fi
+          if [[ ${{ env.scan_stax }} == "true" ]]; then
+            NAMES+=("stax")
+          fi
+          devices="[\"$(echo ${NAMES[@]} | sed 's/ /","/g')\"]"
+          echo "names=$devices" >> $GITHUB_OUTPUT
+
+
+  split-input-file: 
+    name: Split input file
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Split input into 10 files
+        run: | 
+          python3 scripts/split_input/split_input.py --input_file input_files/input.json 
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: input_1.json
+          path: input_1.json
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: input_2.json
+          path: input_2.json
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: input_3.json
+          path: input_3.json
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: input_4.json
+          path: input_4.json
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: input_5.json
+          path: input_5.json
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: input_6.json
+          path: input_6.json
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: input_7.json
+          path: input_7.json
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: input_8.json
+          path: input_8.json
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: input_9.json
+          path: input_9.json
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: input_10.json
+          path: input_10.json
+
+  scan-all:
+    name: Scan for all targets
+    runs-on: ubuntu-latest
+    needs: [split-input-file, setup-devices]
+    container:
+      image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest
+
+    strategy:
+      matrix:
+        index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]  
+        device: ${{ fromJSON(needs.setup-devices.outputs.names) }}
+
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Download split input file
+        uses: actions/download-artifact@v3
+        with:
+          name: input_${{ matrix.index }}.json
+
+      - name: Setup repos
+        run: | 
+          python3 scripts/build_and_test/main.py --input_file input_${{ matrix.index }}.json 
+
+      - name: Launch scan
+        run: | 
+          python3 scripts/build_and_test/main.py --sdk_ref ${{ inputs.sdk_ref || 'master' }} --input_file input_${{ matrix.index }}.json --scan --${{ matrix.device }} --skip_setup --output_file scan_${{ matrix.device }}_${{ matrix.index }}.json --logs_file log_${{ matrix.device }}_${{ matrix.index }}.txt
+
+      #- name: Push info to DB
+      #  run: | 
+      #    python3 scripts/push_db.py --input_file scan_output.json
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: scan_${{ matrix.device }}_${{ matrix.index }}.json
+          path: scan_${{ matrix.device }}_${{ matrix.index }}.json
+
+      - name: Archive log file
+        uses: actions/upload-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_${{ matrix.device }}_${{ matrix.index }}.txt
+          path: log_${{ matrix.device }}_${{ matrix.index }}.txt
+
+  info-devices:
+    name: Setup scan infos by devices
+    runs-on: ubuntu-latest
+    needs: [scan-all, setup-devices]
+    strategy:
+      matrix:
+        device: ${{ fromJSON(needs.setup-devices.outputs.names) }}
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        with:
+          name: scan_${{ matrix.device }}_1.json
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        with:
+          name: scan_${{ matrix.device }}_2.json
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        with:
+          name: scan_${{ matrix.device }}_3.json
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        with:
+          name: scan_${{ matrix.device }}_4.json
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        with:
+          name: scan_${{ matrix.device }}_5.json
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        with:
+          name: scan_${{ matrix.device }}_6.json
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        with:
+          name: scan_${{ matrix.device }}_7.json
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        with:
+          name: scan_${{ matrix.device }}_8.json
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        with:
+          name: scan_${{ matrix.device }}_9.json
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        with:
+          name: scan_${{ matrix.device }}_10.json
+
+      - name: Merge output files
+        run: | 
+          python3 scripts/output_scripts/merge.py --input_pattern "scan_"${{ matrix.device }}"_*.json" --output_file merged_scan_${{ matrix.device }}.json --key "scan"
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: merged_scan_${{ matrix.device }}.json
+          path: merged_scan_${{ matrix.device }}.json
+
+  build-error_log:
+    name: Build error logs
+    runs-on: ubuntu-latest
+    needs: [scan-all, setup-devices]
+    steps:
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanos_1.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanos_2.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanos_3.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanos_4.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanos_5.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanos_6.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanos_7.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanos_8.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanos_9.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanos_10.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanosp_1.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanosp_2.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanosp_3.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanosp_4.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanosp_5.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanosp_6.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanosp_7.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanosp_8.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanosp_9.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanosp_10.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanox_1.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanox_2.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanox_3.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanox_4.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanox_5.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanox_6.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanox_7.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanox_8.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanox_9.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanox_10.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_1.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_2.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_3.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_4.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_5.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_6.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_7.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_8.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_9.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_10.txt
+
+      - name: Merge all
+        continue-on-error: true
+        run: |
+            cat log_* > error_log.txt
+
+      - name: Archive log error file
+        uses: actions/upload-artifact@v3
+        continue-on-error: true
+        with:
+          name: error_log.txt
+          path: error_log.txt
+
+  info-all:
+    name: Setup scan infos
+    runs-on: ubuntu-latest
+    needs: [info-devices, setup-devices]
+
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Download LNS
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: merged_scan_nanos.json
+
+      - name: Download LNSP
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: merged_scan_nanosp.json
+
+      - name: Download LNX
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: merged_scan_nanox.json
+
+      - name: Download stax
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: merged_scan_stax.json
+
+      - name: Merge output files
+        run: | 
+          python3 scripts/output_scripts/merge.py --input_pattern "merged_scan_*.json" --output_file full_scan_output.json --key "scan"
+
+      - name: Convert to markdown
+        run: |
+          python3 scripts/output_scripts/convert.py --input_file full_scan_output.json --output_file out.md --key scan
+          cat out.md >> $GITHUB_STEP_SUMMARY
+
+      - name: Convert to slack json
+        run: |
+          python3 scripts/output_scripts/slack.py --input_file full_scan_output.json --output_file slack.json --key scan --devices ${{ needs.setup-devices.outputs.names }}
+
+      - name: Send custom JSON data to Slack workflow
+        if: ${{ github.event_name == 'schedule' || inputs.send_to_slack == true }}
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+            payload-file-path: slack.json
+        env:
+            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Set job status
+        run: |
+          python3 scripts/output_scripts/status.py --input_file full_scan_output.json --key scan
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: full_scan_output.json
+          path: full_scan_output.json
