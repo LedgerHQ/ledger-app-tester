@@ -1,0 +1,33 @@
+name: Check outdated build db
+
+on:
+  workflow_dispatch:
+
+jobs:
+  compare_files:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Build db
+        run: | 
+          python3 scripts/create_app_list/main.py --full_output_file out.json --access_token ${{ secrets.GH_ACCESS_TOKEN }} 
+      - name: Compare Files
+        run: |
+          # Compare two files using diff
+          diff -q out.json input_files/input.json
+          
+          # Store the exit code of the diff command
+          DIFF_EXIT_CODE=$?
+          
+          # If exit code is 0, files are the same; if not, they are different
+          if [ $DIFF_EXIT_CODE -ne 0 ]; then
+            echo "Files are different!"
+            exit 1  # Fail the workflow
+          else
+            echo "Files are the same!"
+          fi

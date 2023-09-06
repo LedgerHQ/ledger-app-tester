@@ -1,0 +1,84 @@
+name: Test apps on given SDK ref
+
+on:
+  workflow_dispatch:
+    inputs:
+      sdk_ref_nanosp:
+        type: string
+        required: false
+        default: 'API_LEVEL_1'
+      run_nanosp: 
+        type: boolean
+        required: false
+        default: true
+
+      sdk_ref_nanox:
+        type: string
+        required: false
+        default: 'API_LEVEL_5'
+      run_nanox: 
+        type: boolean
+        required: false
+        default: true
+
+      sdk_ref_stax:
+        type: string
+        required: false
+        default: 'API_LEVEL_12'
+      run_stax: 
+        type: boolean
+        required: false
+        default: true
+
+jobs:
+  test:
+    name: Test for all targets
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-dev-tools:latest
+
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Setup repos
+        run: | 
+          python3 scripts/build_and_test/main.py --input_file input_files/input.json 
+
+      - name: Install tests dependencies
+        run: |
+          pip install -U pip setuptools
+
+      - name: Launch test nanosp
+        if: ${{ inputs.run_nanosp }}
+        run: | 
+          python3 scripts/build_and_test/main.py --sdk_ref ${{ inputs.sdk_ref_nanosp }} --input_file input_files/input.json --test --nanosp --skip_setup --output_file test_nanosp.json
+
+      - name: Launch test nanox
+        if: ${{ inputs.run_nanox }}
+        run: | 
+          python3 scripts/build_and_test/main.py --sdk_ref ${{ inputs.sdk_ref_nanox }} --input_file input_files/input.json --test --nanox --skip_setup --output_file test_nanox.json
+
+      - name: Launch test stax
+        if: ${{ inputs.run_stax }}
+        run: | 
+          python3 scripts/build_and_test/main.py --sdk_ref ${{ inputs.sdk_ref_stax }} --input_file input_files/input.json --test --stax --skip_setup --output_file test_stax.json
+
+      - name: Merge output files
+        run: | 
+          python3 scripts/output_scripts/merge.py --input_pattern "test_*.json" --output_file test_output.json --key "test"
+
+      - name: Archive output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: report.json
+          path: test_output.json
+
+      - name: Convert to markdown
+        run: |
+          python3 scripts/output_scripts/convert.py --input_file test_output.json --output_file out.md --key test
+          cat out.md >> $GITHUB_STEP_SUMMARY
+
+      - name: Set job status
+        run: |
+          python3 scripts/output_scripts/status.py --input_file test_output.json --key test

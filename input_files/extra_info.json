@@ -1,0 +1,746 @@
+[
+  {
+    "name": "app-acala",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-aergo",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-aeternity",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-age",
+    "build_blacklist": ["nanos", "nanosp", "nanox", "stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-aion",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-alephzero",
+    "build_path": "app",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-algorand",
+    "build_path": "app",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-aptos",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-ardor",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-ark",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-arweave",
+    "build_path": "app",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-astar",
+    "build_path": "app",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-avalanche",
+    "build_path": "app",
+    "build_blacklist": ["nanos", "nanosp", "nanox", "stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-axelar",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-bifrost-kusama",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-bifrost-new",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-binance",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-bitsong",
+    "build_blacklist": ["nanos", "nanosp", "nanox", "stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-blockstack",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-boilerplate",
+    "test_dir": "tests"
+  },
+  {
+    "name": "app-btec",
+    "build_blacklist": ["stax"],
+    "test_dir": "tests"
+  },
+  {
+    "name": "app-casper",
+    "build_path": "app",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-celo-spender",
+    "test_dir": "tests/python"
+  },
+  {
+    "name": "app-centrifuge",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-celo-validator-signer",
+    "build_blacklist": ["nanos", "nanosp", "nanox", "stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-concordium",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-conflux",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-constellation",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-cosmos",
+    "build_path": "app",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-coti",
+    "build_path": "app",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-cryptocom",
+    "build_path": "app",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-dgld",
+    "build_path": "app",
+    "build_blacklist": ["nanos", "nanosp", "nanox", "stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-decimal",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-decred",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-desmos",
+    "build_path": "app",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-dock",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-edgeware",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-elastos",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-eos",
+    "test_dir": "tests/functional"
+  },
+  {
+    "name": "app-equilibrium",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-ergo",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-ethereum",
+    "test_dir": "tests/ragger",
+    "extra_flags": "DEBUG=1 CAL_CI_KEY=1 DOMAIN_NAME_TEST_KEY=1"
+  },
+  {
+    "name": "app-everscale",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-exchange",
+    "test_dir": "test/python"
+  },
+  {
+    "name": "app-factom",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-fantom",
+    "test_dir": "tests",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-fic",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-fio",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-filecoin",
+    "build_path": "app",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-flow",
+    "build_path": "app",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-genshiro",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-groestlcoin",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-handshake",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-harmony-one",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-hathor",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-hedera",
+    "test_dir": "tests"
+  },
+  {
+    "name": "app-helium",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-helium-solana",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-hive",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-hodl",
+    "build_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-hycon",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-insolar",
+    "build_blacklist": ["nanos", "nanosp", "nanox", "stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-icx",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-iota",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-iota-legacy",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-iotex",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-internetcomputer",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-iov",
+    "build_path": "app",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-kadena",
+    "build_blacklist": ["nanos", "nanosp", "nanox", "stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-karura",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-keepass",
+    "build_blacklist": ["nanos", "nanosp", "nanox", "stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-khala",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-kin",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-kin-spl",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-kusama",
+    "build_path": "app",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-lisk",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-lto",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-medibloc",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-mimblewimblecoin",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-monero",
+    "test_dir": "tests",
+    "extra_flags": "DEBUG=1"
+  },
+  {
+    "name": "app-multiversx",
+    "test_dir": "tests"
+  },
+  {
+    "name": "app-nano",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-navcoin",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-near",
+    "build_path": "workdir/app-near",
+    "test_dir": "./workdir/app-near/tests"
+  },
+  {
+    "name": "app-neo",
+    "test_dir": "./test"
+  },
+  {
+    "name": "app-neo3",
+    "test_dir": "./tests"
+  },
+  {
+    "name": "app-nem",
+    "test_dir": "tests/functional"
+  },
+  {
+    "name": "app-nimiq",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-nodle",
+    "build_path": "app",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-oasis",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-ont",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-oxen",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-panacea",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-parallel",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-particl",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-passwords",
+    "test_dir": "tests/functional",
+    "extra_flags": "TESTING=1 POPULATE=1"
+  },
+  {
+    "name": "app-pendulum",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-persistence",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-phantom",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-phoenix",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-phala",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-platon",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-plugin-angle",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-plugin-art-blocks",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-plugin-cbridge",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-plugin-compound",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-plugin-harvest",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-plugin-opensea-new",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-plugin-ribbon",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-plugin-squid",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-plugin-stakedao",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-polkadex",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-polkadot",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-polymesh",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-qrl",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-radix",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-ravencoin",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-recovery-check",
+    "test_dir": "tests/functional"
+  },
+  {
+    "name": "app-reef",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-rise",
+    "build_blacklist": ["nanos", "nanosp", "nanox", "stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-rizon",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-secret",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-sia",
+    "build_blacklist": ["nanos", "nanosp", "nanox", "stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-sia-x",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-solana",
+    "test_dir": "tests/python"
+  },
+  {
+    "name": "app-solar",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-starknet",
+    "build_path": "app",
+    "build_blacklist": ["nanos", "nanosp", "nanox", "stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-statemine",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-statemint",
+    "build_path": "app",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-sui",
+    "build_blacklist": ["nanos", "nanosp", "nanox", "stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-symbol",
+    "test_dir": "tests/functional"
+  },
+  {
+    "name": "app-tendermint",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-terra",
+    "build_path": "app",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-tess-train",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-tezos",
+    "test_dir": "test/python/tests_wallet",
+    "extra_flags": "APP=tezos_wallet"
+  },
+  {
+    "name": "app-theta",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-thorchain",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-ton-new",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-trustchain-poc",
+    "build_path": "tests"
+  },
+  {
+    "name": "app-vechain",
+    "test_dir": "tests"
+  },
+  {
+    "name": "app-velas",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-waves",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-west",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-windows-hello",
+    "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-woleet",
+    "build_blacklist": ["nanosp", "nanox", "stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-xrp",
+    "test_dir": "tests",
+    "extra_flags": "DEBUG=1"
+  },
+  {
+    "name": "app-xxnetwork",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-zilliqa",
+    "test_dir": "./tests/functional"
+  }
+]
