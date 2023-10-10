@@ -2,6 +2,9 @@ name: Check outdated build db
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '32 5 * * *'
+
 
 jobs:
   compare_files:
@@ -16,6 +19,12 @@ jobs:
       - name: Build db
         run: | 
           python3 scripts/create_app_list/main.py --full_output_file out.json --access_token ${{ secrets.GH_ACCESS_TOKEN }} 
+      - name: Upload file
+        uses: actions/upload-artifact@v3
+        with:
+          name: out.json
+          path: out.json
+          if-no-files-found: error
       - name: Compare Files
         run: |
           # Compare two files using diff
@@ -31,3 +40,17 @@ jobs:
           else
             echo "Files are the same!"
           fi
+      - name: Send custom JSON data to Slack workflow
+        if: ${{ failure() }}
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+            payload-file-path: slack.json
+            payload: |
+                {
+                    "title": "Check input list",
+                    "status": ":red-cross: Fail",
+                    "status_detail": ":alert: Please update input file ! "
+                }
+        env:
+            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

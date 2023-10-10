@@ -3,6 +3,7 @@ from pathlib import Path
 from argparse import ArgumentParser
 from build_app import build_all_devices
 from test_app import test_all_devices
+from scan_app import scan_all_devices
 from device import Devices
 from utils import git_setup, merge_json
 
@@ -26,6 +27,7 @@ if __name__ == "__main__":
 
     parser.add_argument("--test", action='store_true')
     parser.add_argument("--build", action='store_true')
+    parser.add_argument("--scan_build", action='store_true')
 
     parser.add_argument("--sdk_ref", required=False, type=Path, default="origin/master")
 
@@ -72,6 +74,7 @@ if __name__ == "__main__":
     output = {}
     test_output = []
     build_output = []
+
     for app_json in input_json:
         repo_name = app_json.get("name")
         if not args.skip_setup:
@@ -89,6 +92,11 @@ if __name__ == "__main__":
             print(f"Test {repo_name}")
             test_app = test_all_devices(devices, abs_workdir/Path(SDK_NAME), app_json, abs_workdir)
             build_output.append(test_app)
+
+        if args.scan_build:
+            print(f"Scan build {repo_name}")
+            scan_app = scan_all_devices(devices, abs_workdir/Path(SDK_NAME), app_json, abs_workdir)
+            build_output.append(scan_app)
 
     output = merge_json(build_output, test_output, "name")
 

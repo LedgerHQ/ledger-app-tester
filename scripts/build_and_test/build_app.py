@@ -32,12 +32,15 @@ def build_all_variants(target: str, sdk_path: str, variant_param: str, variant_l
 def build_device(device: Device, variant_param: str, app_build_path: Path, sdk_path: Path, app_json: dict):
     blacklist = app_json.get("build_blacklist", "[]")
 
+    if not device.selected:
+        return
+
     if device.model_name in blacklist:
         return "Skipped"
 
     variants = app_json.get(f"variants_{device.model_name}", [])
     variant_output = {}
-    if device.selected and len(variants) > 0:
+    if len(variants) > 0:
         variant_output = build_all_variants(device.target_name, sdk_path, variant_param, variants, app_build_path)
 
     return variant_output

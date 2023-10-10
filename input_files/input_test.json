@@ -1,0 +1,60 @@
+[
+ {
+  "name": "app-aeternity",
+  "owner": "LedgerHQ",
+  "ref": "master",
+  "url": "https://github.com/LedgerHQ/app-aeternity",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "aeternity"
+  ],
+  "variants_nanox": [
+   "aeternity"
+  ],
+  "variants_nanosp": [
+   "aeternity"
+  ],
+  "variants_stax": [
+   "aeternity"
+  ]
+ },
+ {
+  "name": "app-age",
+  "owner": "LedgerHQ",
+  "ref": "main",
+  "url": "https://github.com/LedgerHQ/app-age",
+  "build_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ]
+ },
+ {
+  "name": "app-monero",
+  "owner": "LedgerHQ",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-monero",
+  "test_dir": "tests",
+  "extra_flags": "DEBUG=1",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "monero"
+  ],
+  "variants_nanox": [
+   "monero"
+  ],
+  "variants_nanosp": [
+   "monero"
+  ],
+  "variants_stax": [
+   "monero"
+  ]
+ }
+]
