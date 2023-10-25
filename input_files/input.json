@@ -710,8 +710,13 @@
   "name": "app-boilerplate-vierzon",
   "owner": "LedgerHQ",
   "ref": "master",
-  "test_blacklist": ["nanos", "nanosp", "nanox", "stax"],
   "url": "https://github.com/LedgerHQ/app-boilerplate-vierzon",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "BOL"
@@ -1259,7 +1264,6 @@
    "hpb",
    "id4good",
    "kardiachain",
-   "kusd",
    "meter",
    "mix",
    "moonbeam",
@@ -1281,7 +1285,6 @@
    "tecracoin",
    "tecratestnet",
    "thundercore",
-   "tobalaba",
    "tomochain",
    "ubiq",
    "volta",
@@ -1318,7 +1321,6 @@
    "hpb",
    "id4good",
    "kardiachain",
-   "kusd",
    "meter",
    "mix",
    "moonbeam",
@@ -1340,7 +1342,6 @@
    "tecracoin",
    "tecratestnet",
    "thundercore",
-   "tobalaba",
    "tomochain",
    "ubiq",
    "volta",
@@ -1377,7 +1378,6 @@
    "hpb",
    "id4good",
    "kardiachain",
-   "kusd",
    "meter",
    "mix",
    "moonbeam",
@@ -1399,7 +1399,6 @@
    "tecracoin",
    "tecratestnet",
    "thundercore",
-   "tobalaba",
    "tomochain",
    "ubiq",
    "volta",
@@ -1436,7 +1435,6 @@
    "hpb",
    "id4good",
    "kardiachain",
-   "kusd",
    "meter",
    "mix",
    "moonbeam",
@@ -1458,7 +1456,6 @@
    "tecracoin",
    "tecratestnet",
    "thundercore",
-   "tobalaba",
    "tomochain",
    "ubiq",
    "volta",
@@ -2139,6 +2136,25 @@
   ],
   "variants_nanosp": [
    "KAR"
+  ]
+ },
+ {
+  "name": "app-kaspa",
+  "owner": "coderofstuff",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-kaspa",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "KAS"
+  ],
+  "variants_nanox": [
+   "KAS"
+  ],
+  "variants_nanosp": [
+   "KAS"
+  ],
+  "variants_stax": [
+   "KAS"
   ]
  },
  {
@@ -4018,10 +4034,10 @@
   "owner": "LedgerHQ",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-security-key",
+  "test_dir": "tests/speculos",
   "test_blacklist": [
    "stax"
   ],
-  "test_dir": "tests/speculos",
   "test_param_nanosp": "--fast",
   "test_param_nanox": "--transport HID --fast",
   "variant_param": "APP",
