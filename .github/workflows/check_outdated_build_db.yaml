@@ -41,7 +41,7 @@ jobs:
             echo "Files are the same!"
           fi
       - name: Send custom JSON data to Slack workflow
-        if: ${{ failure() }}
+        if: ${{ failure() }} && ${{ github.event_name == 'schedule' }}
         id: slack
         uses: slackapi/slack-github-action@v1.24.0
         with:

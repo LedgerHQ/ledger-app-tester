@@ -6,6 +6,7 @@ def run_cmd(cmd: str,
             cwd: Path,
             print_output: bool = True,
             no_throw: bool = False) -> str:
+    error_log = ""
     print(f"[run_cmd] Running: {cmd} from {cwd}")
 
     ret = subprocess.run(cmd,
