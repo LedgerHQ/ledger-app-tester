@@ -6,27 +6,29 @@ def scan_variant(target: str, sdk_path: str, variant_param: str, variant_value: 
         Path, extra_flags: str=""):
     error = run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make clean", cwd=app_build_path, no_throw=True)
     if variant_param:
-        error = run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make {variant_param}={variant_value} -j ENABLE_SDK_WERROR=1 scan-build", cwd=app_build_path, no_throw=True)
+        error, log = run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make {variant_param}={variant_value} -j ENABLE_SDK_WERROR=1 scan-build", cwd=app_build_path, no_throw=True)
     else:
-        error = run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make -j ENABLE_SDK_WERROR=1 scan-build", cwd=app_build_path, no_throw=True)
+        error, log = run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make -j ENABLE_SDK_WERROR=1 scan-build", cwd=app_build_path, no_throw=True)
 
     if error:
         print("\t=> KO")
 
-    return error
+    return error, log
 
 
 def scan_all_variants(target: str, sdk_path: str, variant_param: str, variant_list: list, app_build_path: Path):
     output = {}
+    error_log = ""
     for variant in variant_list:
-        error = scan_variant(target, sdk_path, variant_param, variant, app_build_path)
+        error, log = scan_variant(target, sdk_path, variant_param, variant, app_build_path)
 
         if (error):
             output[variant] = "Fail"
+            error_log += log
         else:
             output[variant] = "Success"
 
-    return output
+    return output, error_log
 
 
 def scan_device(device: Device, variant_param: str, app_build_path: Path, sdk_path: Path, app_json: dict):
@@ -41,9 +43,9 @@ def scan_device(device: Device, variant_param: str, app_build_path: Path, sdk_pa
     variants = app_json.get(f"variants_{device.model_name}", [])
     variant_output = {}
     if len(variants) > 0:
-        variant_output = scan_all_variants(device.target_name, sdk_path, variant_param, variants, app_build_path)
+        variant_output, error_log = scan_all_variants(device.target_name, sdk_path, variant_param, variants, app_build_path)
 
-    return variant_output
+    return variant_output, error_log
 
 
 def scan_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir: Path):
@@ -56,13 +58,13 @@ def scan_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir: 
     }
     output["scan"] = {}
 
-    nanos_output = scan_device(devices.nanos, variant_param, app_build_path, sdk_path, app_json)
+    nanos_output, nanos_log = scan_device(devices.nanos, variant_param, app_build_path, sdk_path, app_json)
 
-    nanosp_output = scan_device(devices.nanosp, variant_param, app_build_path, sdk_path, app_json)
+    nanosp_output, nanosp_log = scan_device(devices.nanosp, variant_param, app_build_path, sdk_path, app_json)
 
-    nanox_output = scan_device(devices.nanox, variant_param, app_build_path, sdk_path, app_json)
+    nanox_output, nanox_log = scan_device(devices.nanox, variant_param, app_build_path, sdk_path, app_json)
 
-    stax_output = scan_device(devices.stax, variant_param, app_build_path, sdk_path, app_json)
+    stax_output, stax_log = scan_device(devices.stax, variant_param, app_build_path, sdk_path, app_json)
 
     if nanos_output:
         output["scan"]["nanos"] = nanos_output
@@ -73,4 +75,5 @@ def scan_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir: 
     if stax_output:
         output["scan"]["stax"] = stax_output
 
-    return output
+    log = nanos_log + nanosp_log + nanox_log + stax_log
+    return output, log

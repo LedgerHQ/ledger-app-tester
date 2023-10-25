@@ -1,6 +1,7 @@
 import subprocess
 from pathlib import Path
 
+
 def run_cmd(cmd: str,
             cwd: Path,
             print_output: bool = True,
@@ -22,7 +23,7 @@ def run_cmd(cmd: str,
     if ret.returncode:
         print(f"[run_cmd] Output:\n{ret.stdout}")
 
-    return ret.returncode
+    return ret.returncode, ret.stdout
 
 
 def git_setup(repo_name: str, repo_ref: str, repo_url: str, workdir: Path):

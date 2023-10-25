@@ -33,6 +33,8 @@ if __name__ == "__main__":
 
     parser.add_argument("--input_file", required=False, type=Path, default=Path("input_files/test_input.json"))
     parser.add_argument("--output_file", required=False, type=Path, default=Path("output_files/output.json"))
+    parser.add_argument("--logs_file", required=False, type=Path,
+            default=Path("output_files/error_logs.txt"))
     parser.add_argument("--workdir", required=False, type=str, default="workdir")
 
     args = parser.parse_args()
@@ -74,6 +76,7 @@ if __name__ == "__main__":
     output = {}
     test_output = []
     build_output = []
+    logs = ""
 
     for app_json in input_json:
         repo_name = app_json.get("name")
@@ -85,20 +88,26 @@ if __name__ == "__main__":
 
         if args.build:
             print(f"Build {repo_name}")
-            build_app = build_all_devices(devices, abs_workdir/Path(SDK_NAME), app_json, abs_workdir)
+            build_app, log = build_all_devices(devices, abs_workdir/Path(SDK_NAME), app_json, abs_workdir)
             build_output.append(build_app)
+            logs += log
 
         if args.test:
             print(f"Test {repo_name}")
-            test_app = test_all_devices(devices, abs_workdir/Path(SDK_NAME), app_json, abs_workdir)
+            test_app, log = test_all_devices(devices, abs_workdir/Path(SDK_NAME), app_json, abs_workdir)
             build_output.append(test_app)
+            logs += log
 
         if args.scan_build:
             print(f"Scan build {repo_name}")
-            scan_app = scan_all_devices(devices, abs_workdir/Path(SDK_NAME), app_json, abs_workdir)
+            scan_app, log = scan_all_devices(devices, abs_workdir/Path(SDK_NAME), app_json, abs_workdir)
             build_output.append(scan_app)
+            logs += log
 
     output = merge_json(build_output, test_output, "name")
 
     with open(args.output_file, 'w') as json_file:
         json.dump(output, json_file, indent=1)
+
+    with open(args.logs_file, 'w') as file:
+        file.write(logs)

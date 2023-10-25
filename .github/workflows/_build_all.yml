@@ -169,7 +169,7 @@ jobs:
 
       - name: Launch build
         run: | 
-          python3 scripts/build_and_test/main.py --sdk_ref ${{ inputs.sdk_ref || 'master' }} --input_file input_${{ matrix.index }}.json --build --${{ matrix.device }} --skip_setup --output_file build_${{ matrix.device }}_${{ matrix.index }}.json
+          python3 scripts/build_and_test/main.py --sdk_ref ${{ inputs.sdk_ref || 'master' }} --input_file input_${{ matrix.index }}.json --build --${{ matrix.device }} --skip_setup --output_file build_${{ matrix.device }}_${{ matrix.index }}.json --logs_file log_${{ matrix.device }}_${{ matrix.index }}.txt
 
       #- name: Push info to DB
       #  run: | 
@@ -180,6 +180,270 @@ jobs:
         with:
           name: build_${{ matrix.device }}_${{ matrix.index }}.json
           path: build_${{ matrix.device }}_${{ matrix.index }}.json
+
+      - name: Archive log file
+        uses: actions/upload-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_${{ matrix.device }}_${{ matrix.index }}.txt
+          path: log_${{ matrix.device }}_${{ matrix.index }}.txt
+
+  build-error_log:
+    name: Build error logs
+    runs-on: ubuntu-latest
+    needs: [build-all, setup-devices]
+    steps:
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanos_1.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanos_2.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanos_3.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanos_4.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanos_5.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanos_6.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanos_7.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanos_8.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanos_9.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanos_10.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanosp_1.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanosp_2.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanosp_3.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanosp_4.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanosp_5.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanosp_6.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanosp_7.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanosp_8.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanosp_9.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanosp_10.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanox_1.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanox_2.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanox_3.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanox_4.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanox_5.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanox_6.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanox_7.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanox_8.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanox_9.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_nanox_10.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_1.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_2.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_3.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_4.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_5.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_6.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_7.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_8.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_9.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_10.txt
+
+      - name: Merge all
+        continue-on-error: true
+        run: |
+            cat log_* > error_log.txt
+
+      - name: Archive log error file
+        uses: actions/upload-artifact@v3
+        continue-on-error: true
+        with:
+          name: error_log.txt
+          path: error_log.txt
 
   info-devices:
     name: Setup build infos by devices

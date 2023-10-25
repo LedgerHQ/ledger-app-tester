@@ -5,41 +5,43 @@ from utils import run_cmd
 
 def test(model: str, app_test_path: Path, app_build_path: Path, test_params: str):
     output = {}
-    error = run_cmd(f"pytest {app_test_path}/ --tb=short -v --device {model} {test_params}", cwd=app_build_path, no_throw=True)
+    error, log = run_cmd(f"pytest {app_test_path}/ --tb=short -v --device {model} {test_params}", cwd=app_build_path, no_throw=True)
 
     if (error):
         output = "Fail"
         print("\t=> KO")
     else:
         output = "Success"
-    return output
+    return output, log
 
 
 def install_dependencies(app_test_path: Path):
     error = run_cmd("pip install -r requirements.txt", cwd=app_test_path, no_throw=True)
-    return error
+    return error, ""
 
 def test_device(device: Device, variant_param: str, app_build_path: Path, app_test_path: Path,
         sdk_path: Path, extra_flags: str, blacklist: str, test_params: str):
     test_output = {}
+    log = ""
 
     if not device.selected:
-        return
+        return None, log
 
     if device.model_name in blacklist:
-        return "Skipped"
+        return "Skipped", log
 
     if install_dependencies(app_test_path):
         print("Error installing dependencies")
-        return "Fail"
+        return "Fail", log
 
-    if build_variant(device.target_name, sdk_path, "", "", app_build_path, extra_flags):
-        return "Fail"
+    error, log = build_variant(device.target_name, sdk_path, "", "", app_build_path, extra_flags)
+    if error:
+        return "Fail", log
 
-    test_output = test(device.model_name, app_test_path, app_build_path, test_params)
+    test_output, log = test(device.model_name, app_test_path, app_build_path, test_params)
 
     print(test_output)
-    return test_output
+    return test_output, log
 
 
 def test_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir: Path):
@@ -58,20 +60,20 @@ def test_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir: 
     blacklist = app_json.get(f"test_blacklist", [])
 
     test_params = app_json.get("test_param_nanos", "")
-    nanos_output = test_device(devices.nanos, variant_param, app_build_path, app_test_path,
+    nanos_output, nanos_log = test_device(devices.nanos, variant_param, app_build_path, app_test_path,
             sdk_path, extra_flags, blacklist, test_params)
 
     test_params = app_json.get("test_param_nanosp", "")
-    nanosp_output = test_device(devices.nanosp, variant_param, app_build_path, app_test_path,
+    nanosp_output, nanosp_log = test_device(devices.nanosp, variant_param, app_build_path, app_test_path,
             sdk_path, extra_flags, blacklist, test_params)
 
 
     test_params = app_json.get("test_param_nanox", "")
-    nanox_output = test_device(devices.nanox, variant_param, app_build_path, app_test_path,
+    nanox_output, nanox_log = test_device(devices.nanox, variant_param, app_build_path, app_test_path,
             sdk_path, extra_flags, blacklist, test_params)
 
     test_params = app_json.get("test_param_stax", "")
-    stax_output = test_device(devices.stax, variant_param, app_build_path, app_test_path,
+    stax_output, stax_log = test_device(devices.stax, variant_param, app_build_path, app_test_path,
                 sdk_path, extra_flags, blacklist, test_params)
 
     if nanos_output:
@@ -84,4 +86,6 @@ def test_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir: 
         output["test"]["stax"] = stax_output
     print(output)
 
-    return output
+    log = nanos_log + nanosp_output + nanox_log + stax_log
+
+    return output, log
