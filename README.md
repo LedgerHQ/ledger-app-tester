@@ -15,9 +15,9 @@ The `create_app_list` script is designed to parse GitHub repositories and genera
 
 **Note**: To use this script locally, you'll need to create a GitHub access token.
 
-### 2. Build and Test
+### 2. Build and Test and Scan
 
-The `build_and_test` script performs either build or test operations on the apps listed in the input
+The `build_and_test` script performs either build or test or scan operations on the apps listed in the input
 file generated previously.
 
 **Build Operation**:
@@ -29,24 +29,33 @@ file generated previously.
 - Installs required dependencies.
 - Executes pytest in the test directory specified in the input file for the specified device.
 
+**Scan Operation**:
+- Sets up repositories and SDK.
+- Chooses the correct build path and extra flags based on the input file.
+- Performs the scan build operation for the specified device.
+
 **CI Usage**:
-- `test_devices.yml`: Tests devices.
-- `build_nanos.yml`: Builds for Nano S.
-- `build_nanosp.yml`: Builds for Nano SP.
-- `build_nanox.yml`: Builds for Nano X.
-- `build_stax.yml`: Builds for STAX.
+- `test_all.yml`: Tests devices.
+- `build_all.yml`: Builds for selected devices.
+- `scan_all.yml`: Scans for selected devices
+- `refresh_inputs.yml`: Check whether the input list needs updating.
 
-To reduce CI run times, builds were split by devices.
-
+To reduce CI run times, the input file is automatically splitted into 10 sub-inputs, and then all the inputs are run through a matrix strategy.
 ### 3. Planned Improvements
 
 - **Support for ZEMU Tests**
-- **Guideline Enforcer Test**
 
 ## Getting Started
 
 To get started with this repository, follow these steps:
 
 1. Clone the repository to your local machine.
-2. Review the corresponding CI files and scripts to understand their usage.
-3. Ensure you have set up a GitHub access token if you intend to use the scripts locally.
+2. Ensure you have set up a GitHub access token if you intend to use the scripts locally.
+3. Make sure to run the scripts inside the ledger-app-dev-tools docker to use a proper build setup.
+
+Alternatively you can run the script from the actions tab of the repo. 
+You can view the result in the summary of the GH action: 
+:red_circle: means a fail.
+:heavy_check_mark: means success,
+:fast_forward: means the action was explicitely blacklisted in the input file.
+nothing: means there was no variant associated to the device when running make listvariants.
