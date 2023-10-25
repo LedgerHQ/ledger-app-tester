@@ -2,7 +2,37 @@ import json
 from argparse import ArgumentParser
 from pathlib import Path
 
-def count_status(json_list, key):
+def count_test_status(json_list):
+    success_count = 0
+    fail_count = 0
+    total_count = 0
+    fail_list = {}
+
+    # Iterate over each dictionary in the list
+    for json_data in json_list:
+        app_data = json_data.get("test", {})
+        app_name = json_data.get("name", {})
+        fail_list[app_name] = {}
+
+        device_list = []
+        for d in ["nanos", "nanosp", "nanox", "stax"]:
+            build_data = app_data.get(d, {})
+
+            status = build_data
+            if status == "Success":
+                total_count += 1
+                success_count += 1
+            elif status == "Fail":
+                total_count += 1
+                fail_count += 1
+                device_list.append(d)
+
+        if device_list:
+            fail_list[app_name] = device_list
+
+    return success_count, fail_count, total_count, fail_list
+
+def count_build_status(json_list):
     success_count = 0
     fail_count = 0
     total_count = 0
@@ -11,32 +41,26 @@ def count_status(json_list, key):
     variant = None
     # Iterate over each dictionary in the list
     for json_data in json_list:
-        app_data = json_data.get(key, {})
+        app_data = json_data.get("build", {})
         app_name = json_data.get("name", {})
         fail_list[app_name] = {}
 
-        failed_devices = ""
-        for key_data, build_data in app_data.items():
+        for d in ["nanos", "nanosp", "nanox", "stax"]:
+            build_data = app_data.get(d, {})
+
             if isinstance(build_data, dict):  # nested structure
-                variant, status = build_data.popitem()
-            else:
-                status = build_data
-                
+                failed_variant_list = []
+                for variant, status in build_data.items():
+                    if status == "Success":
+                        total_count += 1
+                        success_count += 1
+                    elif status == "Fail":
+                        total_count += 1
+                        fail_count += 1
+                        failed_variant_list.append(variant)
 
-            if status == "Success":
-                total_count += 1
-                success_count += 1
-            elif status == "Fail":
-                total_count += 1
-                fail_count += 1
-                if variant:
-                    fail_list[app_name][key_data] = variant
-                else:
-                    failed_devices += f"{key_data}, "
-
-        if key == "test" and failed_devices:
-            fail_list[app_name] = failed_devices
-
+                if failed_variant_list:
+                    fail_list[app_name][d] = failed_variant_list
     return success_count, fail_count, total_count, fail_list
 
 
@@ -54,7 +78,13 @@ if __name__ == "__main__":
     with open(args.input_file) as json_file:
         json_list = json.load(json_file)
 
-    success_count, fail_count, total_count, fail_list = count_status(json_list, args.key)
+    if args.key == "build":
+
+        success_count, fail_count, total_count, fail_list = count_build_status(json_list)
+
+    elif args.key == "test":
+
+        success_count, fail_count, total_count, fail_list = count_test_status(json_list)
 
     title = f"{args.key}"
 

@@ -232,7 +232,7 @@ jobs:
 
       - name: Convert to slack json
         run: |
-          python scripts/output_scripts/slack.py --input_file test_output.json --output_file slack.json --key test --devices nanox
+          python scripts/output_scripts/slack.py --input_file test_output.json --output_file slack.json --key test
 
       - name: Send custom JSON data to Slack workflow
         if: always()
@@ -245,4 +245,4 @@ jobs:
 
       - name: Set job status
         run: |
-          python scripts/output_scripts/status.py --input_file test_output.json --key test --devices "all devices"
+          python scripts/output_scripts/status.py --input_file test_output.json --key test

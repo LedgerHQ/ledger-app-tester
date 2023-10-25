@@ -16,9 +16,9 @@ def json_to_markdown(json_list, key):
         # Start constructing the row with app_name
         row = "| {} |".format(app_name)
 
-        # Iterate over each build and append the status
-        for build in ["nanos", "nanosp", "nanox", "stax"]:
-            build_data = app_data.get(build, {})
+        # Iterate over each device and append the status
+        for d in ["nanos", "nanosp", "nanox", "stax"]:
+            build_data = app_data.get(d, {})
             if isinstance(build_data, dict):  # nested structure
                 status_icon = ":red_circle:" if "Fail" in build_data.values() else ":heavy_check_mark:" if "Success" in build_data.values() else ":fast_forward:" if "Skipped" in build_data.values() else ""
             else: 
