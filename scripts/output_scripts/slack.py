@@ -107,7 +107,8 @@ if __name__ == "__main__":
                         for v in variant:
                             fail_status += f"\t\t\t{v}\n";
                 else:
-                    fail_status += f"\t\t  -  {details}\n"
+                    for device in details:
+                        fail_status += f"\t\t- {device}\n"
         status_detail = f"{fail_status}"
 
     slack_json = {}

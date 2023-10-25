@@ -16,8 +16,8 @@ def test(model: str, app_test_path: Path, app_build_path: Path, test_params: str
 
 
 def install_dependencies(app_test_path: Path):
-    error = run_cmd("pip install -r requirements.txt", cwd=app_test_path, no_throw=True)
-    return error, ""
+    error, log = run_cmd("pip install -r requirements.txt", cwd=app_test_path, no_throw=True)
+    return error, log
 
 def test_device(device: Device, variant_param: str, app_build_path: Path, app_test_path: Path,
         sdk_path: Path, extra_flags: str, blacklist: str, test_params: str):
@@ -30,7 +30,8 @@ def test_device(device: Device, variant_param: str, app_build_path: Path, app_te
     if device.model_name in blacklist:
         return "Skipped", log
 
-    if install_dependencies(app_test_path):
+    error, log = install_dependencies(app_test_path)
+    if error:
         print("Error installing dependencies")
         return "Fail", log
 
@@ -86,6 +87,6 @@ def test_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir: 
         output["test"]["stax"] = stax_output
     print(output)
 
-    log = nanos_log + nanosp_output + nanox_log + stax_log
+    log = nanos_log + nanosp_log + nanox_log + stax_log
 
     return output, log
