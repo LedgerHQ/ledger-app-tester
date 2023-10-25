@@ -103,7 +103,9 @@ if __name__ == "__main__":
                 fail_status += f"\t•  {app_name}\n"
                 if isinstance(details, dict):
                     for device, variant in details.items():
-                        fail_status += f"\t\t  - {device} : {variant} \n"
+                        fail_status += f"\t\t  - {device}: \n";
+                        for v in variant:
+                            fail_status += f"\t\t\t{v}\n";
                 else:
                     fail_status += f"\t\t  -  {details}\n"
         status_detail = f"{fail_status}"

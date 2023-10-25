@@ -3,7 +3,7 @@ name: Check outdated build db
 on:
   workflow_dispatch:
   schedule:
-    - cron: '32 5 * * *'
+    - cron: '32 5 * * 3'
 
 
 jobs:

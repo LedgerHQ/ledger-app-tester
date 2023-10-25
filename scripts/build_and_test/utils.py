@@ -23,7 +23,12 @@ def run_cmd(cmd: str,
     if ret.returncode:
         print(f"[run_cmd] Output:\n{ret.stdout}")
 
-    return ret.returncode, ret.stdout
+        error_log = f'''
+        ##################################################################
+        [run_cmd] Running: {cmd} from {cwd}"
+        ##################################################################
+        ''' + ret.stdout
+    return ret.returncode, error_log
 
 
 def git_setup(repo_name: str, repo_ref: str, repo_url: str, workdir: Path):
