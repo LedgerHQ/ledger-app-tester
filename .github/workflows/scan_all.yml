@@ -23,6 +23,10 @@ on:
         type: boolean
         required: false
         default: true
+      send_to_slack:
+        type: boolean
+        required: false
+        default: false
         
 jobs:
   setup-devices:
@@ -560,7 +564,7 @@ jobs:
           python3 scripts/output_scripts/slack.py --input_file full_scan_output.json --output_file slack.json --key scan --devices ${{ needs.setup-devices.outputs.names }}
 
       - name: Send custom JSON data to Slack workflow
-        if: always() && ${{ github.event_name == 'schedule' }}
+        if: ${{ github.event_name == 'schedule' || inputs.send_to_slack == true }}
         id: slack
         uses: slackapi/slack-github-action@v1.24.0
         with:
