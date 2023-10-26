@@ -32,7 +32,7 @@ def count_test_status(json_list):
 
     return success_count, fail_count, total_count, fail_list
 
-def count_build_status(json_list):
+def count_status(json_list, key):
     success_count = 0
     fail_count = 0
     total_count = 0
@@ -41,7 +41,7 @@ def count_build_status(json_list):
     variant = None
     # Iterate over each dictionary in the list
     for json_data in json_list:
-        app_data = json_data.get("build", {})
+        app_data = json_data.get(key, {})
         app_name = json_data.get("name", {})
         fail_list[app_name] = {}
 
@@ -78,13 +78,11 @@ if __name__ == "__main__":
     with open(args.input_file) as json_file:
         json_list = json.load(json_file)
 
-    if args.key == "build":
-
-        success_count, fail_count, total_count, fail_list = count_build_status(json_list)
-
-    elif args.key == "test":
-
+    if args.key == "test":
         success_count, fail_count, total_count, fail_list = count_test_status(json_list)
+    else:
+        success_count, fail_count, total_count, fail_list = count_status(json_list, args.key)
+
 
     title = f"{args.key}"
 

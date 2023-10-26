@@ -7,6 +7,10 @@ on:
         type: boolean
         required: false
         default: false
+      send_to_slack:
+        type: boolean
+        required: false
+        default: false
   schedule:
     - cron: '32 5 * * 3'
 
@@ -46,7 +50,7 @@ jobs:
             echo "Files are the same!"
           fi
       - name: Send custom JSON data to Slack workflow
-        if: ${{ failure() && github.event_name == 'schedule' }}
+        if: ${{ failure() && (github.event_name == 'schedule' || inputs.send_to_slack == true) }}
         id: slack
         uses: slackapi/slack-github-action@v1.24.0
         with:
@@ -72,9 +76,10 @@ jobs:
           git push --set-upstream origin update-input --force
 
       - name: Create Pull Request
+        if: ${{ failure() && (github.event_name == 'schedule' || inputs.create_pr == true) }}
         run: |
           apk add github-cli
           gh pr create --base "test-all-apps" --head "update-input" --title "[BOT] Update input file" --body "Input file has changed ! Please review changes !"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
 
