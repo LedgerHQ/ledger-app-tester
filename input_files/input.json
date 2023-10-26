@@ -485,7 +485,7 @@
  {
   "name": "app-bitcoin",
   "owner": "LedgerHQ",
-  "ref": "master",
+  "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-bitcoin",
   "test_blacklist": [
    "nanos",
@@ -511,7 +511,6 @@
    "vertcoin",
    "stealth",
    "digibyte",
-   "qtum",
    "bitcoin_private",
    "firo",
    "gamecredits",
@@ -542,7 +541,6 @@
    "vertcoin",
    "stealth",
    "digibyte",
-   "qtum",
    "bitcoin_private",
    "firo",
    "gamecredits",
@@ -572,7 +570,6 @@
    "vertcoin",
    "stealth",
    "digibyte",
-   "qtum",
    "bitcoin_private",
    "firo",
    "gamecredits",
@@ -602,7 +599,6 @@
    "vertcoin",
    "stealth",
    "digibyte",
-   "qtum",
    "bitcoin_private",
    "firo",
    "gamecredits",
@@ -2258,6 +2254,25 @@
   ]
  },
  {
+  "name": "app-lisk-new",
+  "owner": "Zondax",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-lisk-new",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "lisk_testnet"
+  ],
+  "variants_nanox": [
+   "lisk_testnet"
+  ],
+  "variants_nanosp": [
+   "lisk_testnet"
+  ],
+  "variants_stax": [
+   "lisk_testnet"
+  ]
+ },
+ {
   "name": "app-lto",
   "owner": "ltonetwork",
   "ref": "master",
@@ -3155,6 +3170,25 @@
   ]
  },
  {
+  "name": "app-plugin-figment",
+  "owner": "figment-networks",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-figment",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "figment"
+  ],
+  "variants_nanox": [
+   "figment"
+  ],
+  "variants_nanosp": [
+   "figment"
+  ],
+  "variants_stax": [
+   "figment"
+  ]
+ },
+ {
   "name": "app-plugin-harvest",
   "owner": "bogdoslavik",
   "ref": "develop",
@@ -3358,6 +3392,25 @@
   ],
   "variants_stax": [
    "opensea"
+  ]
+ },
+ {
+  "name": "app-plugin-p2p",
+  "owner": "p2p-org",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-p2p",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "p2p"
+  ],
+  "variants_nanox": [
+   "p2p"
+  ],
+  "variants_nanosp": [
+   "p2p"
+  ],
+  "variants_stax": [
+   "p2p"
   ]
  },
  {
@@ -3617,6 +3670,25 @@
   ],
   "variants_stax": [
    "stakedao"
+  ]
+ },
+ {
+  "name": "app-plugin-stakekit",
+  "owner": "blooo-io",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-stakekit",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "stakekit"
+  ],
+  "variants_nanox": [
+   "stakekit"
+  ],
+  "variants_nanosp": [
+   "stakekit"
+  ],
+  "variants_stax": [
+   "stakekit"
   ]
  },
  {
