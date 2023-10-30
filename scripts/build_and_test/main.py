@@ -6,6 +6,7 @@ from test_app import test_all_devices
 from scan_app import scan_all_devices
 from device import Devices
 from utils import git_setup, merge_json
+from sha1 import override_sha1
 
 SDK_NAME = "sdk"
 SDK_URL = "https://github.com/LedgerHQ/ledger-secure-sdk.git"
@@ -36,6 +37,11 @@ if __name__ == "__main__":
     parser.add_argument("--logs_file", required=False, type=Path,
             default=Path("output_files/error_logs.txt"))
     parser.add_argument("--workdir", required=False, type=str, default="workdir")
+
+    parser.add_argument("--use_sha1_from_live", required=False, action='store_true')
+    parser.add_argument("--provider", required=False, type=str)
+    parser.add_argument("--device", required=False, type=str)
+    parser.add_argument("--version", required=False, type=str)
 
     args = parser.parse_args()
 
@@ -70,6 +76,20 @@ if __name__ == "__main__":
     else:
         print("Error: input file does not exist")
         exit()
+
+    if args.use_sha1_from_live:
+        if not args.provider:
+            print("Error: you must specify provider")
+            exit()
+        if not args.device:
+            print("Error: you must specify device")
+            exit()
+        if not args.version:
+            print("Error: you must specify version")
+            exit()
+
+        input_json = override_sha1(input_json, args.provider, args.device, args.version)
+
 
     git_setup(SDK_NAME, args.sdk_ref, SDK_URL, abs_workdir)
 

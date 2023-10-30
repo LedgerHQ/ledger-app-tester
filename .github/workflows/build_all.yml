@@ -30,6 +30,23 @@ on:
         type: boolean
         required: false
         default: false
+
+      use_sha1_from_live:
+        type: boolean
+        required: false
+        default: false
+      provider:
+        type: string
+        required: false
+        default: "1"
+      device:
+        type: string
+        required: false
+        default: "nanos+"
+      version:
+        type: string
+        required: false
+        default: "1.1.0"
         
 jobs:
   setup-devices:
@@ -168,8 +185,14 @@ jobs:
           name: input_${{ matrix.index }}.json
 
       - name: Setup repos
+        if: ${{ inputs.use_sha1_from_live }}
         run: | 
-          python3 scripts/build_and_test/main.py --input_file input_${{ matrix.index }}.json 
+          python3 scripts/build_and_test/main.py --input_file input_${{ matrix.index }}.json --use_sha1_from_live --provider ${{ inputs.provider }} --device ${{ inputs.device }} --version ${{ inputs.version }} 
+
+      - name: Setup repos
+        if: ${{ !inputs.use_sha1_from_live }}
+        run: | 
+          python3 scripts/build_and_test/main.py --input_file input_${{ matrix.index }}.json
 
       - name: Launch build
         run: | 

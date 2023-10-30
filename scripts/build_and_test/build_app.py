@@ -1,9 +1,15 @@
 from pathlib import Path
 from device import Devices, Device
 from utils import run_cmd
+import os
 
 def build_variant(target: str, sdk_path: str, variant_param: str, variant_value: str, app_build_path:
         Path, extra_flags: str=""):
+
+    if not os.path.exists(app_build_path):
+        print("\t=> KO")
+        return True, f"Error: {app_build_path} does not exists\n"
+
     error = run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make clean", cwd=app_build_path, no_throw=True)
     if variant_param:
         error, log = run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make {variant_param}={variant_value} {extra_flags}", cwd=app_build_path, no_throw=True)
