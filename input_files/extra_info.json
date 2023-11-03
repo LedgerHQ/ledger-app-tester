@@ -629,6 +629,10 @@
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
+    "name": "app-plugin-uniswap",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
     "name": "app-plugin-yearn",
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
