@@ -3796,44 +3796,6 @@
   ]
  },
  {
-  "name": "app-plugin-uniswap-test",
-  "owner": "LedgerHQ",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-plugin-uniswap-test",
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "pbol"
-  ],
-  "variants_nanox": [
-   "pbol"
-  ],
-  "variants_nanosp": [
-   "pbol"
-  ],
-  "variants_stax": [
-   "pbol"
-  ]
- },
- {
-  "name": "app-plugin-uniswap-test2",
-  "owner": "LedgerHQ",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-plugin-uniswap-test2",
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "pbol"
-  ],
-  "variants_nanox": [
-   "pbol"
-  ],
-  "variants_nanosp": [
-   "pbol"
-  ],
-  "variants_stax": [
-   "pbol"
-  ]
- },
- {
   "name": "app-plugin-yearn",
   "owner": "LedgerHQ",
   "ref": "develop",
