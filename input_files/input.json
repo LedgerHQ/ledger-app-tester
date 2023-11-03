@@ -21,6 +21,9 @@
   ],
   "variants_nanosp": [
    "ACA"
+  ],
+  "variants_stax": [
+   "ACA"
   ]
  },
  {
@@ -380,6 +383,30 @@
   ]
  },
  {
+  "name": "app-bifrost",
+  "owner": "Zondax",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-bifrost",
+  "build_path": "app",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "BNC",
+   "BNC_XL"
+  ],
+  "variants_nanox": [
+   "BNC"
+  ],
+  "variants_nanosp": [
+   "BNC"
+  ]
+ },
+ {
   "name": "app-bifrost-kusama",
   "owner": "bifrost-finance",
   "ref": "develop",
@@ -458,8 +485,14 @@
  {
   "name": "app-bitcoin",
   "owner": "LedgerHQ",
-  "ref": "master",
+  "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-bitcoin",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "bitcoin_testnet_legacy",
@@ -478,7 +511,6 @@
    "vertcoin",
    "stealth",
    "digibyte",
-   "qtum",
    "bitcoin_private",
    "firo",
    "gamecredits",
@@ -509,7 +541,6 @@
    "vertcoin",
    "stealth",
    "digibyte",
-   "qtum",
    "bitcoin_private",
    "firo",
    "gamecredits",
@@ -539,7 +570,6 @@
    "vertcoin",
    "stealth",
    "digibyte",
-   "qtum",
    "bitcoin_private",
    "firo",
    "gamecredits",
@@ -569,7 +599,6 @@
    "vertcoin",
    "stealth",
    "digibyte",
-   "qtum",
    "bitcoin_private",
    "firo",
    "gamecredits",
@@ -588,6 +617,12 @@
   "owner": "LedgerHQ",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-bitcoin-new",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "bitcoin_testnet",
@@ -604,31 +639,6 @@
   "variants_stax": [
    "bitcoin_testnet",
    "bitcoin"
-  ]
- },
- {
-  "name": "app-bitsong",
-  "owner": "LedgerHQ",
-  "ref": "master",
-  "url": "https://github.com/LedgerHQ/app-bitsong",
-  "build_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "bitsong"
-  ],
-  "variants_nanox": [
-   "bitsong"
   ]
  },
  {
@@ -675,10 +685,34 @@
   ]
  },
  {
+  "name": "app-boilerplate-rust",
+  "owner": "LedgerHQ",
+  "ref": "main",
+  "url": "https://github.com/LedgerHQ/app-boilerplate-rust",
+  "build_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ]
+ },
+ {
   "name": "app-boilerplate-vierzon",
   "owner": "LedgerHQ",
   "ref": "master",
   "url": "https://github.com/LedgerHQ/app-boilerplate-vierzon",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "BOL"
@@ -721,6 +755,12 @@
   "owner": "vacuumlabs",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-cardano",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "cardano_ada"
@@ -782,24 +822,6 @@
   ],
   "variants_stax": [
    "celo"
-  ]
- },
- {
-  "name": "app-celo-validator-signer",
-  "owner": "celo-org",
-  "ref": "master",
-  "url": "https://github.com/LedgerHQ/app-celo-validator-signer",
-  "build_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
   ]
  },
  {
@@ -1082,38 +1104,6 @@
   ]
  },
  {
-  "name": "app-dgld",
-  "owner": "LedgerHQ",
-  "ref": "master",
-  "url": "https://github.com/LedgerHQ/app-dgld",
-  "build_path": "app",
-  "build_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "dgld"
-  ],
-  "variants_nanox": [
-   "dgld"
-  ],
-  "variants_nanosp": [
-   "dgld"
-  ],
-  "variants_stax": [
-   "dgld"
-  ]
- },
- {
   "name": "app-dock",
   "owner": "LedgerHQ",
   "ref": "develop",
@@ -1207,26 +1197,6 @@
   ]
  },
  {
-  "name": "app-equilibrium",
-  "owner": "LedgerHQ",
-  "ref": "master",
-  "url": "https://github.com/LedgerHQ/app-equilibrium",
-  "build_path": "app",
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "Equilibrium"
-  ],
-  "variants_nanox": [
-   "Equilibrium"
-  ]
- },
- {
   "name": "app-ergo",
   "owner": "tesseract-one",
   "ref": "develop",
@@ -1290,7 +1260,6 @@
    "hpb",
    "id4good",
    "kardiachain",
-   "kusd",
    "meter",
    "mix",
    "moonbeam",
@@ -1312,7 +1281,6 @@
    "tecracoin",
    "tecratestnet",
    "thundercore",
-   "tobalaba",
    "tomochain",
    "ubiq",
    "volta",
@@ -1349,7 +1317,6 @@
    "hpb",
    "id4good",
    "kardiachain",
-   "kusd",
    "meter",
    "mix",
    "moonbeam",
@@ -1371,7 +1338,6 @@
    "tecracoin",
    "tecratestnet",
    "thundercore",
-   "tobalaba",
    "tomochain",
    "ubiq",
    "volta",
@@ -1408,7 +1374,6 @@
    "hpb",
    "id4good",
    "kardiachain",
-   "kusd",
    "meter",
    "mix",
    "moonbeam",
@@ -1430,7 +1395,6 @@
    "tecracoin",
    "tecratestnet",
    "thundercore",
-   "tobalaba",
    "tomochain",
    "ubiq",
    "volta",
@@ -1467,7 +1431,6 @@
    "hpb",
    "id4good",
    "kardiachain",
-   "kusd",
    "meter",
    "mix",
    "moonbeam",
@@ -1489,7 +1452,6 @@
    "tecracoin",
    "tecratestnet",
    "thundercore",
-   "tobalaba",
    "tomochain",
    "ubiq",
    "volta",
@@ -1536,7 +1498,12 @@
   "owner": "LedgerHQ",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-exchange",
-  "test_dir": "test/python",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "exchange"
@@ -1609,34 +1576,6 @@
   ]
  },
  {
-  "name": "app-fic",
-  "owner": "LedgerHQ",
-  "ref": "master",
-  "url": "https://github.com/LedgerHQ/app-fic",
-  "build_blacklist": [
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "fic"
-  ],
-  "variants_nanox": [
-   "fic"
-  ],
-  "variants_nanosp": [
-   "fic"
-  ],
-  "variants_stax": [
-   "fic"
-  ]
- },
- {
   "name": "app-filecoin",
   "owner": "Zondax",
   "ref": "develop",
@@ -1698,6 +1637,13 @@
   "owner": "FirmaChain",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-firmachain",
+  "build_path": "app",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "FCT"
@@ -1723,19 +1669,6 @@
    "nanosp",
    "nanox",
    "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "FLOW"
-  ],
-  "variants_nanox": [
-   "FLOW"
-  ],
-  "variants_nanosp": [
-   "FLOW"
-  ],
-  "variants_stax": [
-   "FLOW"
   ]
  },
  {
@@ -1898,38 +1831,6 @@
   ]
  },
  {
-  "name": "app-helium",
-  "owner": "helium",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-helium",
-  "build_blacklist": [
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "helium",
-   "helium_tn"
-  ],
-  "variants_nanox": [
-   "helium",
-   "helium_tn"
-  ],
-  "variants_nanosp": [
-   "helium",
-   "helium_tn"
-  ],
-  "variants_stax": [
-   "helium",
-   "helium_tn"
-  ]
- },
- {
   "name": "app-helium-solana",
   "owner": "helium",
   "ref": "develop",
@@ -1996,6 +1897,12 @@
    "nanox",
    "stax"
   ],
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "APP",
   "variants_nanos": [
    "hodl"
@@ -2011,13 +1918,11 @@
   ]
  },
  {
-  "name": "app-hycon",
-  "owner": "Team-Hycon",
-  "ref": "master",
-  "url": "https://github.com/LedgerHQ/app-hycon",
-  "build_blacklist": [
-   "stax"
-  ],
+  "name": "app-icp",
+  "owner": "Zondax",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-icp",
+  "build_path": "app",
   "test_blacklist": [
    "nanos",
    "nanosp",
@@ -2026,31 +1931,15 @@
   ],
   "variant_param": "COIN",
   "variants_nanos": [
-   "hycon"
+   "ICP"
   ],
   "variants_nanox": [
-   "hycon"
+   "ICP"
   ],
   "variants_nanosp": [
-   "hycon"
+   "ICP"
   ],
   "variants_stax": [
-   "hycon"
-  ]
- },
- {
-  "name": "app-icp",
-  "owner": "Zondax",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-icp",
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "ICP"
-  ],
-  "variants_nanox": [
-   "ICP"
-  ],
-  "variants_nanosp": [
    "ICP"
   ]
  },
@@ -2084,31 +1973,6 @@
   "variants_stax": [
    "icon",
    "icon_testnet"
-  ]
- },
- {
-  "name": "app-insolar",
-  "owner": "insolar",
-  "ref": "master",
-  "url": "https://github.com/LedgerHQ/app-insolar",
-  "build_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "cosmos"
-  ],
-  "variants_nanox": [
-   "cosmos"
   ]
  },
  {
@@ -2271,9 +2135,28 @@
   ]
  },
  {
+  "name": "app-kaspa",
+  "owner": "coderofstuff",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-kaspa",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "KAS"
+  ],
+  "variants_nanox": [
+   "KAS"
+  ],
+  "variants_nanosp": [
+   "KAS"
+  ],
+  "variants_stax": [
+   "KAS"
+  ]
+ },
+ {
   "name": "app-keepass",
   "owner": "aguinet",
-  "ref": "main",
+  "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-keepass",
   "build_blacklist": [
    "nanos",
@@ -2310,62 +2193,6 @@
   ],
   "variants_nanosp": [
    "KHALA"
-  ]
- },
- {
-  "name": "app-kin",
-  "owner": "LedgerHQ",
-  "ref": "master",
-  "url": "https://github.com/LedgerHQ/app-kin",
-  "build_blacklist": [
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "kin"
-  ],
-  "variants_nanox": [
-   "kin"
-  ],
-  "variants_nanosp": [
-   "kin"
-  ],
-  "variants_stax": [
-   "kin"
-  ]
- },
- {
-  "name": "app-kin-spl",
-  "owner": "LedgerHQ",
-  "ref": "master",
-  "url": "https://github.com/LedgerHQ/app-kin-spl",
-  "build_blacklist": [
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "kin"
-  ],
-  "variants_nanox": [
-   "kin"
-  ],
-  "variants_nanosp": [
-   "kin"
-  ],
-  "variants_stax": [
-   "kin"
   ]
  },
  {
@@ -2424,6 +2251,25 @@
   ],
   "variants_stax": [
    "lisk"
+  ]
+ },
+ {
+  "name": "app-lisk-new",
+  "owner": "Zondax",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-lisk-new",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "lisk_testnet"
+  ],
+  "variants_nanox": [
+   "lisk_testnet"
+  ],
+  "variants_nanosp": [
+   "lisk_testnet"
+  ],
+  "variants_stax": [
+   "lisk_testnet"
   ]
  },
  {
@@ -2522,6 +2368,8 @@
   "owner": "jspada",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-mina",
+  "test_dir": "tests",
+  "extra_flags": "RELEASE_BUILD=0",
   "variant_param": "COIN",
   "variants_nanos": [
    "mina"
@@ -2540,7 +2388,13 @@
   "name": "app-mobilecoin",
   "owner": "mobilecoinofficial",
   "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-mobilecoin"
+  "url": "https://github.com/LedgerHQ/app-mobilecoin",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ]
  },
  {
   "name": "app-monero",
@@ -2718,6 +2572,12 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-neo3",
   "test_dir": "./tests",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "NEO3"
@@ -2737,6 +2597,12 @@
   "owner": "obsidiansystems",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-nervos",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "CKB"
@@ -2887,26 +2753,6 @@
   ],
   "variants_stax": [
    "oxen"
-  ]
- },
- {
-  "name": "app-panacea",
-  "owner": "LedgerHQ",
-  "ref": "master",
-  "url": "https://github.com/LedgerHQ/app-panacea",
-  "build_path": "app",
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "panacea"
-  ],
-  "variants_nanox": [
-   "panacea"
   ]
  },
  {
@@ -3091,6 +2937,12 @@
   "owner": "LedgerHQ",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-1inch",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "NONE",
   "variants_nanos": [
    "1inch"
@@ -3110,6 +2962,12 @@
   "owner": "AlkemiNetwork",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-alkemi",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "NONE",
   "variants_nanos": [
    "alkemi"
@@ -3157,6 +3015,12 @@
   "owner": "blooo-io",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-apwine",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "NONE",
   "variants_nanos": [
    "apwine"
@@ -3204,6 +3068,12 @@
   "owner": "LedgerHQ",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-boilerplate",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "pbol"
@@ -3251,6 +3121,12 @@
   "owner": "cometh-game",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-cometh",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "NONE",
   "variants_nanos": [
    "cometh"
@@ -3294,6 +3170,25 @@
   ]
  },
  {
+  "name": "app-plugin-figment",
+  "owner": "figment-networks",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-figment",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "figment"
+  ],
+  "variants_nanox": [
+   "figment"
+  ],
+  "variants_nanosp": [
+   "figment"
+  ],
+  "variants_stax": [
+   "figment"
+  ]
+ },
+ {
   "name": "app-plugin-harvest",
   "owner": "bogdoslavik",
   "ref": "develop",
@@ -3326,6 +3221,12 @@
   "owner": "kilnfi",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-kiln",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "NONE",
   "variants_nanos": [
    "kiln"
@@ -3341,10 +3242,41 @@
   ]
  },
  {
+  "name": "app-plugin-libertify",
+  "owner": "LibertyFi",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-libertify",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "variant_param": "NONE",
+  "variants_nanos": [
+   "libertify"
+  ],
+  "variants_nanox": [
+   "libertify"
+  ],
+  "variants_nanosp": [
+   "libertify"
+  ],
+  "variants_stax": [
+   "libertify"
+  ]
+ },
+ {
   "name": "app-plugin-lido",
   "owner": "LedgerHQ",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-lido",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "NONE",
   "variants_nanos": [
    "lido"
@@ -3364,6 +3296,12 @@
   "owner": "morpho-org",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-morpho",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "morpho"
@@ -3380,9 +3318,15 @@
  },
  {
   "name": "app-plugin-nested",
-  "owner": "NestedFi",
+  "owner": "MassDotMoney",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-nested",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "NONE",
   "variants_nanos": [
    "nested"
@@ -3402,6 +3346,12 @@
   "owner": "blooo-io",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-nft",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "NONE",
   "variants_nanos": [
    "nft"
@@ -3445,10 +3395,35 @@
   ]
  },
  {
+  "name": "app-plugin-p2p",
+  "owner": "p2p-org",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-p2p",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "p2p"
+  ],
+  "variants_nanox": [
+   "p2p"
+  ],
+  "variants_nanosp": [
+   "p2p"
+  ],
+  "variants_stax": [
+   "p2p"
+  ]
+ },
+ {
   "name": "app-plugin-paraswap",
   "owner": "LedgerHQ",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-paraswap",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "NONE",
   "variants_nanos": [
    "paraswap"
@@ -3468,6 +3443,12 @@
   "owner": "blooo-io",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-poap",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "NONE",
   "variants_nanos": [
    "poap"
@@ -3487,6 +3468,12 @@
   "owner": "blooo-io",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-quickswap",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "NONE",
   "variants_nanos": [
    "quickswap"
@@ -3506,6 +3493,12 @@
   "owner": "Zondax",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-rarible",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "NONE",
   "variants_nanos": [
    "rarible"
@@ -3553,6 +3546,12 @@
   "owner": "blooo-io",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-ricochet",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "NONE",
   "variants_nanos": [
    "ricochet"
@@ -3572,7 +3571,13 @@
   "owner": "rocket-pool",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-rocketpool",
-  "variant_param": "NONE",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "variant_param": "COIN",
   "variants_nanos": [
    "rocketpool"
   ],
@@ -3619,7 +3624,13 @@
   "owner": "stader-labs",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-staderlabs",
-  "variant_param": "NONE",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "variant_param": "COIN",
   "variants_nanos": [
    "staderlabs"
   ],
@@ -3662,10 +3673,35 @@
   ]
  },
  {
+  "name": "app-plugin-stakekit",
+  "owner": "blooo-io",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-stakekit",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "stakekit"
+  ],
+  "variants_nanox": [
+   "stakekit"
+  ],
+  "variants_nanosp": [
+   "stakekit"
+  ],
+  "variants_stax": [
+   "stakekit"
+  ]
+ },
+ {
   "name": "app-plugin-yearn",
   "owner": "LedgerHQ",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-yearn",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "NONE",
   "variants_nanos": [
    "yearn"
@@ -3684,7 +3720,13 @@
   "name": "app-pocket",
   "owner": "obsidiansystems",
   "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-pocket"
+  "url": "https://github.com/LedgerHQ/app-pocket",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ]
  },
  {
   "name": "app-polkadex",
@@ -3759,6 +3801,9 @@
   ],
   "variants_nanosp": [
    "POLYX"
+  ],
+  "variants_stax": [
+   "POLYX"
   ]
  },
  {
@@ -3766,6 +3811,13 @@
   "owner": "LedgerHQ",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-pro",
+  "build_path": "app",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "ATOM"
@@ -3781,7 +3833,13 @@
   "name": "app-provenance",
   "owner": "obsidiansystems",
   "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-provenance"
+  "url": "https://github.com/LedgerHQ/app-provenance",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ]
  },
  {
   "name": "app-qrl",
@@ -3809,6 +3867,35 @@
   ],
   "variants_stax": [
    "qrl"
+  ]
+ },
+ {
+  "name": "app-qtum",
+  "owner": "qtumproject",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-qtum",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "qtum_testnet",
+   "qtum"
+  ],
+  "variants_nanox": [
+   "qtum_testnet",
+   "qtum"
+  ],
+  "variants_nanosp": [
+   "qtum_testnet",
+   "qtum"
+  ],
+  "variants_stax": [
+   "qtum_testnet",
+   "qtum"
   ]
  },
  {
@@ -3843,7 +3930,13 @@
   "name": "app-radix-babylon",
   "owner": "radixdlt",
   "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-radix-babylon"
+  "url": "https://github.com/LedgerHQ/app-radix-babylon",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ]
  },
  {
   "name": "app-ravencoin",
@@ -3883,6 +3976,11 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-recovery-check",
   "test_dir": "tests/functional",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox"
+  ],
   "variant_param": "APP",
   "variants_nanos": [
    "recovery_check"
@@ -3917,12 +4015,6 @@
   "variants_nanox": [
    "REEF"
   ]
- },
- {
-  "name": "app-revealer",
-  "owner": "LedgerHQ",
-  "ref": "master",
-  "url": "https://github.com/LedgerHQ/app-revealer"
  },
  {
   "name": "app-rise",
@@ -3960,6 +4052,15 @@
   "owner": "LedgerHQ",
   "ref": "main",
   "url": "https://github.com/LedgerHQ/app-safecoin",
+  "build_blacklist": [
+   "stax"
+  ],
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "safecoin"
@@ -3995,6 +4096,9 @@
   ],
   "variants_nanosp": [
    "SCRT"
+  ],
+  "variants_stax": [
+   "SCRT"
   ]
  },
  {
@@ -4002,7 +4106,13 @@
   "owner": "LedgerHQ",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-security-key",
-  "variant_param": "NONE",
+  "test_dir": "tests/speculos",
+  "test_blacklist": [
+   "stax"
+  ],
+  "test_param_nanosp": "--fast",
+  "test_param_nanox": "--transport HID --fast",
+  "variant_param": "APP",
   "variants_nanox": [
    "SecurityKey"
   ],
@@ -4122,6 +4232,12 @@
   "owner": "LedgerHQ",
   "ref": "master",
   "url": "https://github.com/LedgerHQ/app-ssh-agent",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "APP",
   "variants_nanos": [
    "ssh"
@@ -4141,6 +4257,25 @@
   "owner": "LedgerHQ",
   "ref": "main",
   "url": "https://github.com/LedgerHQ/app-starknet",
+  "build_path": "app",
+  "build_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ]
+ },
+ {
+  "name": "app-starknet-zondax",
+  "owner": "LedgerHQ",
+  "ref": "main",
+  "url": "https://github.com/LedgerHQ/app-starknet-zondax",
   "build_path": "app",
   "build_blacklist": [
    "nanos",
@@ -4187,6 +4322,9 @@
   ],
   "variants_nanosp": [
    "STATEMINE"
+  ],
+  "variants_stax": [
+   "STATEMINE"
   ]
  },
  {
@@ -4224,9 +4362,12 @@
   "owner": "LedgerHQ",
   "ref": "main",
   "url": "https://github.com/LedgerHQ/app-stax-bip-wordle",
-  "variant_param": "COIN",
-  "variants_stax": [
-   "BOL"
+  "build_path": "app",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
   ]
  },
  {
@@ -4234,6 +4375,12 @@
   "owner": "LedgerHQ",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-stellar",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "stellar"
@@ -4252,7 +4399,13 @@
   "name": "app-streaming",
   "owner": "LedgerHQ",
   "ref": "main",
-  "url": "https://github.com/LedgerHQ/app-streaming"
+  "url": "https://github.com/LedgerHQ/app-streaming",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ]
  },
  {
   "name": "app-sui",
@@ -4486,6 +4639,7 @@
   "owner": "klever-io",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-tron",
+  "test_dir": "tests",
   "variant_param": "COIN",
   "variants_nanos": [
    "tron"
@@ -4505,6 +4659,7 @@
   "owner": "LedgerHQ",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-u2f",
+  "test_dir": "tests/speculos",
   "variant_param": "NONE",
   "variants_nanos": [
    "fido_u2f"
@@ -4685,7 +4840,13 @@
   "name": "app-xinfin",
   "owner": "XinFinOrg",
   "ref": "master",
-  "url": "https://github.com/LedgerHQ/app-xinfin"
+  "url": "https://github.com/LedgerHQ/app-xinfin",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ]
  },
  {
   "name": "app-xrp",
@@ -4737,6 +4898,12 @@
   "owner": "LedgerHQ",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-zcash",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "zcash"
