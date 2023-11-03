@@ -101,7 +101,7 @@ jobs:
 
       - name: Split input into 10 files
         run: | 
-          python3 scripts/split_input/split_input.py --input_file input_files/input.json 
+          python3 scripts/split_input/split_input.py --input_file input_files/input_test.json 
 
       - name: Archive output file
         uses: actions/upload-artifact@v3
