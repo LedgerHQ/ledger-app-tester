@@ -468,6 +468,11 @@
    "nanox",
    "stax"
   ],
+  "scan_whitelist": [
+   "nanos",
+   "nanosp",
+   "nanox"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "binance_chain"
@@ -488,6 +493,12 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-bitcoin",
   "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "scan_whitelist": [
    "nanos",
    "nanosp",
    "nanox",
@@ -623,6 +634,12 @@
    "nanox",
    "stax"
   ],
+  "scan_whitelist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "bitcoin_testnet",
@@ -670,6 +687,12 @@
   "ref": "master",
   "url": "https://github.com/LedgerHQ/app-boilerplate",
   "test_dir": "tests",
+  "scan_whitelist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "BOL"
@@ -696,6 +719,12 @@
    "stax"
   ],
   "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "scan_whitelist": [
    "nanos",
    "nanosp",
    "nanox",
@@ -756,6 +785,12 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-cardano",
   "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "scan_whitelist": [
    "nanos",
    "nanosp",
    "nanox",
@@ -1005,6 +1040,11 @@
    "nanox",
    "stax"
   ],
+  "scan_whitelist": [
+   "nanos",
+   "nanosp",
+   "nanox"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "cro_org"
@@ -1231,6 +1271,12 @@
   "url": "https://github.com/LedgerHQ/app-ethereum",
   "test_dir": "tests/ragger",
   "extra_flags": "DEBUG=1 CAL_CI_KEY=1 DOMAIN_NAME_TEST_KEY=1",
+  "scan_whitelist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "CHAIN",
   "variants_nanos": [
    "akroma",
@@ -1499,6 +1545,12 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-exchange",
   "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "scan_whitelist": [
    "nanos",
    "nanosp",
    "nanox",
@@ -2403,6 +2455,12 @@
   "url": "https://github.com/LedgerHQ/app-monero",
   "test_dir": "tests",
   "extra_flags": "DEBUG=1",
+  "scan_whitelist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "monero"
@@ -2573,6 +2631,12 @@
   "url": "https://github.com/LedgerHQ/app-neo3",
   "test_dir": "./tests",
   "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "scan_whitelist": [
    "nanos",
    "nanosp",
    "nanox",
@@ -2814,6 +2878,12 @@
   "url": "https://github.com/LedgerHQ/app-passwords",
   "test_dir": "tests/functional",
   "extra_flags": "TESTING=1 POPULATE=1",
+  "scan_whitelist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "NONE",
   "variants_nanos": [
    "pwmgr"
@@ -3069,6 +3139,12 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-boilerplate",
   "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "scan_whitelist": [
    "nanos",
    "nanosp",
    "nanox",
@@ -3981,6 +4057,12 @@
    "nanosp",
    "nanox"
   ],
+  "scan_whitelist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "APP",
   "variants_nanos": [
    "recovery_check"
@@ -4112,6 +4194,12 @@
   ],
   "test_param_nanosp": "--fast",
   "test_param_nanox": "--transport HID --fast",
+  "scan_whitelist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "APP",
   "variants_nanox": [
    "SecurityKey"
@@ -4640,6 +4728,12 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-tron",
   "test_dir": "tests",
+  "scan_whitelist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "tron"
@@ -4855,6 +4949,12 @@
   "url": "https://github.com/LedgerHQ/app-xrp",
   "test_dir": "tests",
   "extra_flags": "DEBUG=1",
+  "scan_whitelist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "xrp"
