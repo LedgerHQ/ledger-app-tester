@@ -71,6 +71,7 @@ if __name__ == "__main__":
     parser.add_argument("--output_file", required=False, type=Path)
     parser.add_argument("--key", required=False, type=str, default="build")
     parser.add_argument("--devices", required=False, type=str)
+    parser.add_argument("--url", required=False, type=str)
 
     args = parser.parse_args()
 
@@ -114,6 +115,8 @@ if __name__ == "__main__":
     slack_json["status"] = status
     if status_detail:
         slack_json["status_detail"] = status_detail
+
+    slack_json["url"] = args.url
 
     if args.output_file:
         with open(args.output_file, 'w') as f:

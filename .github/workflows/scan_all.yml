@@ -562,9 +562,12 @@ jobs:
           python3 scripts/output_scripts/convert.py --input_file full_scan_output.json --output_file out.md --key scan
           cat out.md >> $GITHUB_STEP_SUMMARY
 
+      - name: Echo GHA url 
+        run: echo "url"=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} >> $GITHUB_ENV
+
       - name: Convert to slack json
         run: |
-          python3 scripts/output_scripts/slack.py --input_file full_scan_output.json --output_file slack.json --key scan --devices ${{ needs.setup-devices.outputs.names }}
+          python3 scripts/output_scripts/slack.py --input_file full_scan_output.json --output_file slack.json --key scan --devices ${{ needs.setup-devices.outputs.names }} --url ${{ env.url }}
 
       - name: Send custom JSON data to Slack workflow
         if: ${{ github.event_name == 'schedule' || inputs.send_to_slack == true }}
