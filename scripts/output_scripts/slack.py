@@ -2,6 +2,7 @@ import json
 from argparse import ArgumentParser
 from pathlib import Path
 
+
 def count_test_status(json_list):
     success_count = 0
     fail_count = 0
@@ -31,6 +32,7 @@ def count_test_status(json_list):
             fail_list[app_name] = device_list
 
     return success_count, fail_count, total_count, fail_list
+
 
 def count_status(json_list, key):
     success_count = 0
@@ -75,7 +77,6 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-
     with open(args.input_file) as json_file:
         json_list = json.load(json_file)
 
@@ -84,12 +85,10 @@ if __name__ == "__main__":
     else:
         success_count, fail_count, total_count, fail_list = count_status(json_list, args.key)
 
-
     title = f"{args.key}"
 
     if args.devices:
         title += f" on {args.devices}"
-
 
     status_detail = ""
     if fail_count == 0:
@@ -102,9 +101,9 @@ if __name__ == "__main__":
                 fail_status += f"\t•  {app_name}\n"
                 if isinstance(details, dict):
                     for device, variant in details.items():
-                        fail_status += f"\t\t  - {device}: \n";
+                        fail_status += f"\t\t  - {device}: \n"
                         for v in variant:
-                            fail_status += f"\t\t\t{v}\n";
+                            fail_status += f"\t\t\t{v}\n"
                 else:
                     for device in details:
                         fail_status += f"\t\t- {device}\n"
@@ -121,4 +120,3 @@ if __name__ == "__main__":
     if args.output_file:
         with open(args.output_file, 'w') as f:
             json.dump(slack_json, f, indent=1)
-

@@ -2,10 +2,11 @@ import argparse
 import glob
 import json
 
+
 def merge_jsons(json1, json2, key):
     # Create a dictionary to store the merged data by name
     merged_data = {}
-    
+
     # Merge data from the first JSON array
     for item in json1:
         name = item["name"]
@@ -13,7 +14,7 @@ def merge_jsons(json1, json2, key):
             merged_data[name] = item[key]
         else:
             merged_data[name].update(item[key])
-    
+
     # Merge data from the second JSON array
     for item in json2:
         name = item["name"]
@@ -21,11 +22,12 @@ def merge_jsons(json1, json2, key):
             merged_data[name] = item[key]
         else:
             merged_data[name].update(item[key])
-    
+
     # Convert the merged dictionary back to a list of JSON objects
     merged_json = [{"name": name, key: merged_data[name]} for name in merged_data]
-    
+
     return merged_json
+
 
 def merge_multiple_jsons(input_files, key):
     result = {}
@@ -43,7 +45,7 @@ def main():
     parser.add_argument("--key", help="Key to use for merging")
 
     args = parser.parse_args()
-    
+
     input_files = glob.glob(args.input_pattern)
     if not input_files:
         print("No input files found.")

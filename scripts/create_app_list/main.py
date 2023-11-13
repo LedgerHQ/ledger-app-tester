@@ -3,8 +3,7 @@ from pathlib import Path
 import json
 
 from parse_github import parse_github
-import sys
-sys.path.append('..')
+
 from gen_variant import gen_variant
 from utils import git_setup, merge_json
 
@@ -69,4 +68,3 @@ if __name__ == "__main__":
 
     with open(args.full_output_file, 'w') as json_file:
         json.dump(full_output, json_file, indent=1)
-

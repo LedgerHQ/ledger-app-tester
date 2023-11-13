@@ -8,8 +8,9 @@ NANOSP_API_LEVEL = 1
 NANOX_API_LEVEL = 5
 STAX_API_LEVEL = 12
 
+
 class Device:
-    def __init__(self, target_name: str, model_name:str, sdk_name: str, api_level: int, enabled: bool):
+    def __init__(self, target_name: str, model_name: str, sdk_name: str, api_level: int, enabled: bool):
         self.selected = enabled
         self.target_name = target_name
         self.model_name = model_name

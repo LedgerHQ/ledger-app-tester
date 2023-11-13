@@ -1,13 +1,12 @@
 import requests
-import json
-from pathlib import Path
+from typing import Dict, List, Union
 
 base_url = "https://api.github.com"
 org_name = "LedgerHQ"
 
 repos_endpoint = f"{base_url}/orgs/{org_name}/repos"
 
-params = {
+params: Dict[str, Union[str, int]] = {
     "type": "public",
     "archived": "false",
     "sort": "full_name",
@@ -16,7 +15,7 @@ params = {
 }
 
 
-def parse_github(access_token: str = "") -> str:
+def parse_github(access_token: str = "") -> List[Dict]:
     repos = []
     headers = {
         "Authorization": f"Bearer {access_token}",

@@ -1,12 +1,13 @@
 import subprocess
 import shutil
 from pathlib import Path
+from typing import Tuple
 
 
 def run_cmd(cmd: str,
             cwd: Path,
             print_output: bool = True,
-            no_throw: bool = False) -> str:
+            no_throw: bool = False) -> Tuple[int, str]:
     error_log = ""
     print(f"[run_cmd] Running: {cmd} from {cwd}")
 
@@ -40,7 +41,7 @@ def git_setup(repo_name: str, repo_ref: str, repo_url: str, workdir: Path):
     if not Path.exists(workdir/Path(repo_name)):
         run_cmd(f"git {GIT_CONFIG} clone {repo_url} {repo_name}", cwd=workdir)
     else:
-        run_cmd(f"git fetch", cwd=workdir/Path(repo_name))
+        run_cmd("git fetch", cwd=workdir/Path(repo_name))
 
     error, _ = run_cmd(f"git checkout {repo_ref}", cwd=workdir/Path(repo_name), no_throw=True)
     if error:
@@ -48,7 +49,9 @@ def git_setup(repo_name: str, repo_ref: str, repo_url: str, workdir: Path):
         shutil.rmtree(workdir/Path(repo_name))
         return
 
-    error, _ = run_cmd(f"git {GIT_CONFIG} submodule update --init --recursive", cwd=workdir/Path(repo_name), no_throw=True)
+    error, _ = run_cmd(f"git {GIT_CONFIG} submodule update --init --recursive",
+                       cwd=workdir/Path(repo_name),
+                       no_throw=True)
     if error:
         print("Error: removing folder")
         shutil.rmtree(workdir/Path(repo_name))

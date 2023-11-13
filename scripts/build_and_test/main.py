@@ -1,12 +1,13 @@
 import json
 from pathlib import Path
 from argparse import ArgumentParser
+from sha1 import override_sha1
+
 from build_app import build_all_devices
 from test_app import test_all_devices
 from scan_app import scan_all_devices
 from device import Devices
 from utils import git_setup, merge_json
-from sha1 import override_sha1
 
 SDK_NAME = "sdk"
 SDK_URL = "https://github.com/LedgerHQ/ledger-secure-sdk.git"
@@ -35,7 +36,7 @@ if __name__ == "__main__":
     parser.add_argument("--input_file", required=False, type=Path, default=Path("input_files/test_input.json"))
     parser.add_argument("--output_file", required=False, type=Path, default=Path("output_files/output.json"))
     parser.add_argument("--logs_file", required=False, type=Path,
-            default=Path("output_files/error_logs.txt"))
+                        default=Path("output_files/error_logs.txt"))
     parser.add_argument("--workdir", required=False, type=str, default="workdir")
 
     parser.add_argument("--use_sha1_from_live", required=False, action='store_true')
@@ -90,11 +91,10 @@ if __name__ == "__main__":
 
         input_json = override_sha1(input_json, args.provider, args.device, args.version)
 
-
     git_setup(SDK_NAME, args.sdk_ref, SDK_URL, abs_workdir)
 
     output = {}
-    test_output = []
+    test_output = {}
     build_output = []
     logs = ""
 

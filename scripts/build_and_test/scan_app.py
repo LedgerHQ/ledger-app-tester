@@ -2,13 +2,21 @@ from pathlib import Path
 from device import Devices, Device
 from utils import run_cmd
 
-def scan_variant(target: str, sdk_path: str, variant_param: str, variant_value: str, app_build_path:
-        Path, extra_flags: str=""):
+
+def scan_variant(target: str,
+                 sdk_path: str,
+                 variant_param: str,
+                 variant_value: str,
+                 app_build_path: Path,
+                 extra_flags: str = ""):
     error = run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make clean", cwd=app_build_path, no_throw=True)
     if variant_param:
-        error, log = run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make {variant_param}={variant_value} -j ENABLE_SDK_WERROR=1 scan-build", cwd=app_build_path, no_throw=True)
+        error, log = run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make {variant_param}={variant_value} "
+                             "-j ENABLE_SDK_WERROR=1 scan-build",
+                             cwd=app_build_path, no_throw=True)
     else:
-        error, log = run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make -j ENABLE_SDK_WERROR=1 scan-build", cwd=app_build_path, no_throw=True)
+        error, log = run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make -j ENABLE_SDK_WERROR=1 scan-build",
+                             cwd=app_build_path, no_throw=True)
 
     if error:
         print("\t=> KO")
@@ -44,7 +52,11 @@ def scan_device(device: Device, variant_param: str, app_build_path: Path, sdk_pa
     variants = app_json.get(f"variants_{device.model_name}", [])
     variant_output = {}
     if len(variants) > 0:
-        variant_output, error_log = scan_all_variants(device.target_name, sdk_path, variant_param, variants, app_build_path)
+        variant_output, error_log = scan_all_variants(device.target_name,
+                                                      sdk_path,
+                                                      variant_param,
+                                                      variants,
+                                                      app_build_path)
 
     return variant_output, error_log
 

@@ -72,7 +72,7 @@ def parse_listapploadparams(app_load_params_str: str) -> Dict:
     return dict(app_load_params)
 
 
-def check_manifest(manifest: dict, database: dict) -> None:
+def check_manifest(manifest: dict, database: dict) -> int:
     ret = 0
 
     for variant, data in manifest["VARIANTS"].items():
@@ -103,7 +103,8 @@ def check_manifest(manifest: dict, database: dict) -> None:
             app_load_params_value = app_load_params.get(key)
             if key == "appName":
                 if len(app_load_params_value) != 1:
-                    print(f"[ERROR] Expected a single value for 'appName' ({app_load_params_value} vs {app_params_ref_value})")
+                    print("[ERROR] Expected a single value for 'appName' "
+                          f"({app_load_params_value} vs {app_params_ref_value})")
                     ret = -1
                     continue
                 app_load_params_value = app_load_params_value[0]
@@ -112,7 +113,8 @@ def check_manifest(manifest: dict, database: dict) -> None:
                     app_load_params_value = ["0x000"]
 
                 if len(app_load_params_value) != 1:
-                    print(f"[ERROR] Expected a single value for 'appFlags' ({app_load_params_value} vs {app_params_ref_value})")
+                    print("[ERROR] Expected a single value for 'appFlags' "
+                          f"({app_load_params_value} vs {app_params_ref_value})")
                     ret = -1
                     continue
 

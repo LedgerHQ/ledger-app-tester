@@ -1,6 +1,7 @@
 import subprocess
 from pathlib import Path
 
+
 def run_cmd(cmd: str,
             cwd: Path,
             print_output: bool = True,
@@ -32,7 +33,7 @@ def git_setup(repo_name: str, repo_ref: str, repo_url: str, workdir: Path):
     if not Path.exists(workdir/Path(repo_name)):
         run_cmd(f"git {GIT_CONFIG} clone {repo_url} --recurse-submodules {repo_name}", cwd=workdir)
     else:
-        run_cmd(f"git fetch", cwd=workdir/Path(repo_name))
+        run_cmd("git fetch", cwd=workdir/Path(repo_name))
 
     run_cmd(f"git checkout {repo_ref}", cwd=workdir/Path(repo_name))
     run_cmd("git submodule update --recursive", cwd=workdir/Path(repo_name))
