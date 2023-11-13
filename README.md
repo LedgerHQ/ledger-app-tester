@@ -23,7 +23,7 @@ file generated previously.
 **Build Operation**:
 - Sets up repositories and SDK.
 - Chooses the correct build path and extra flags based on the input file.
-- Performs the build operation for the specified device.
+- Performs the build (`make`) operation for the specified device.
 
 **Test Operation**:
 - Installs required dependencies.
@@ -32,7 +32,8 @@ file generated previously.
 **Scan Operation**:
 - Sets up repositories and SDK.
 - Chooses the correct build path and extra flags based on the input file.
-- Performs the scan build operation for the specified device.
+- Performs the scan build (`make scan`) operation for the specified device.
+  It currently consist on a build with the Clang Static Analyser.
 
 **CI Usage**:
 - `test_all.yml`: Tests devices.
