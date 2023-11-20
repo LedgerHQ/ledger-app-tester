@@ -1,10 +1,8 @@
-#!/usr/bin/env python3
-
 from pathlib import Path
 from collections import namedtuple
 from typing import Dict, List, Union
 
-from makefile_dump import get_app_listvariants
+from create_app_list.makefile_dump import get_app_listvariants
 
 Models = namedtuple('Models', ['sdk_value', 'device_name'])
 

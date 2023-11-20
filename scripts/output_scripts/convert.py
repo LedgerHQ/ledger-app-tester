@@ -1,6 +1,5 @@
 import json
-from argparse import ArgumentParser
-from pathlib import Path
+from argparse import Namespace
 
 
 def json_to_markdown(json_list, key):
@@ -69,15 +68,7 @@ Total: {counts['Total']}
 """
 
 
-if __name__ == "__main__":
-    parser = ArgumentParser()
-
-    parser.add_argument("--input_file", required=True, type=Path)
-    parser.add_argument("--output_file", required=False, type=Path)
-    parser.add_argument("--key", required=False, type=str, default="build")
-
-    args = parser.parse_args()
-
+def main(args: Namespace) -> None:
     with open(args.input_file) as json_file:
         json_list = json.load(json_file)
 

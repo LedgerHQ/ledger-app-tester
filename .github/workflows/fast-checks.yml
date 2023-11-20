@@ -12,12 +12,6 @@ jobs:
   lint:
     strategy:
       fail-fast: false
-      matrix:
-        directory:
-          - build_and_test
-          - create_app_list
-          - output_scripts
-          - split_input
     name: Linting
     runs-on: ubuntu-latest
     steps:
@@ -25,17 +19,11 @@ jobs:
       uses: actions/checkout@v3
     - run: pip install flake8
     - name: Flake8 lint Python code
-      run: find scripts/${{ matrix.directory }} -type f -name '*.py' -exec flake8 --max-line-length=120 '{}' '+'
+      run: find scripts/ -type f -name '*.py' -exec flake8 --max-line-length=120 '{}' '+'
 
   mypy:
     strategy:
       fail-fast: false
-      matrix:
-        directory:
-          - build_and_test
-          - create_app_list
-          - output_scripts
-          - split_input
     name: Type checking
     runs-on: ubuntu-latest
     steps:
@@ -43,7 +31,7 @@ jobs:
       uses: actions/checkout@v3
     - run: pip install mypy types-requests
     - name: Mypy type checking
-      run: mypy scripts/${{ matrix.directory }}
+      run: mypy scripts/
 
   misspell:
     strategy:

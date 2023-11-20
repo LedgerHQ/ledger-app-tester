@@ -47,8 +47,8 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Split input into 10 files
-        run: | 
-          python3 scripts/split_input/split_input.py --input_file input_files/input.json 
+        run: |
+          python3 scripts/entrypoint.py split_input --input_file input_files/input.json
 
       - name: Archive output file
         uses: actions/upload-artifact@v3
@@ -136,8 +136,8 @@ jobs:
           name: input_${{ matrix.index }}.json
 
       - name: Setup repos
-        run: | 
-          python3 scripts/build_and_test/main.py --input_file input_${{ matrix.index }}.json 
+        run: |
+          python3 scripts/entrypoint.py build_and_test --input_file input_${{ matrix.index }}.json
 
       - name: Install tests dependencies
         run: |
@@ -167,22 +167,22 @@ jobs:
 
       - name: Launch test nanosp
         if: ${{ env.test_nanosp }}
-        run: | 
-          python scripts/build_and_test/main.py --sdk_ref ${{ env.api_level_nanosp }} --input_file input_${{ matrix.index }}.json --test --nanosp --skip_setup --output_file test_nanosp_${{ matrix.index }}.json --logs_file log_nanosp.txt
+        run: |
+          python scripts/entrypoint.py build_and_test --sdk_ref ${{ env.api_level_nanosp }} --input_file input_${{ matrix.index }}.json --test --nanosp --skip_setup --output_file test_nanosp_${{ matrix.index }}.json --logs_file log_nanosp.txt
 
       - name: Launch test nanox
         if: ${{ env.test_nanox }}
-        run: | 
-          python scripts/build_and_test/main.py --sdk_ref ${{ env.api_level_nanox }} --input_file input_${{ matrix.index }}.json --test --nanox --skip_setup --output_file test_nanox_${{ matrix.index }}.json --logs_file log_nanox.txt
+        run: |
+          python scripts/entrypoint.py build_and_test --sdk_ref ${{ env.api_level_nanox }} --input_file input_${{ matrix.index }}.json --test --nanox --skip_setup --output_file test_nanox_${{ matrix.index }}.json --logs_file log_nanox.txt
 
       - name: Launch test stax
         if: ${{ env.test_stax }}
-        run: | 
-          python scripts/build_and_test/main.py --sdk_ref ${{ env.api_level_stax }} --input_file input_${{ matrix.index }}.json --test --stax --skip_setup --output_file test_stax_${{ matrix.index }}.json --logs_file log_stax.txt
+        run: |
+          python scripts/entrypoint.py build_and_test --sdk_ref ${{ env.api_level_stax }} --input_file input_${{ matrix.index }}.json --test --stax --skip_setup --output_file test_stax_${{ matrix.index }}.json --logs_file log_stax.txt
 
       - name: Merge output files
-        run: | 
-          python scripts/output_scripts/merge.py --input_pattern "test_*.json" --output_file test_output_${{ matrix.index }}.json --key "test"
+        run: |
+          python scripts/entrypoint.py merge_output --input_pattern "test_*.json" --output_file test_output_${{ matrix.index }}.json --key "test"
       - name: Archive output file
         uses: actions/upload-artifact@v3
         with:
@@ -339,8 +339,8 @@ jobs:
           name: test_output_10.json
 
       - name: Merge output files
-        run: | 
-          python scripts/output_scripts/merge.py --input_pattern "test_output_*.json" --output_file test_output.json --key "test"
+        run: |
+          python scripts/entrypoint.py merge_output --input_pattern "test_output_*.json" --output_file test_output.json --key "test"
 
       - name: Archive output file
         uses: actions/upload-artifact@v3
@@ -351,7 +351,7 @@ jobs:
 
       - name: Convert to markdown
         run: |
-          python scripts/output_scripts/convert.py --input_file test_output.json --output_file out.md --key test
+          python scripts/entrypoint.py convert_output --input_file test_output.json --output_file out.md --key test
           cat out.md >> $GITHUB_STEP_SUMMARY
 
       - name: Echo GHA url 
@@ -359,7 +359,7 @@ jobs:
 
       - name: Convert to slack json
         run: |
-          python scripts/output_scripts/slack.py --input_file test_output.json --output_file slack.json --key test --url ${{ env.url }}
+          python scripts/entrypoint.py slack_output --input_file test_output.json --output_file slack.json --key test --url ${{ env.url }}
 
       - name: Send custom JSON data to Slack workflow
         if: ${{ github.event_name == 'schedule' || inputs.send_to_slack == true }}
@@ -372,4 +372,4 @@ jobs:
 
       - name: Set job status
         run: |
-          python scripts/output_scripts/status.py --input_file test_output.json --key test
+          python scripts/entrypoint.py status_output --input_file test_output.json --key test

@@ -1,6 +1,5 @@
 import json
-from argparse import ArgumentParser
-from pathlib import Path
+from argparse import Namespace
 
 
 def check_status(json_data, key):
@@ -19,15 +18,7 @@ def check_status(json_data, key):
                     raise ValueError(f"Failed for {app_name}")
 
 
-if __name__ == "__main__":
-    parser = ArgumentParser()
-
-    parser.add_argument("--input_file", required=True, type=Path)
-    parser.add_argument("--key", required=True)
-
-    args = parser.parse_args()
-
+def main(args: Namespace) -> None:
     with open(args.input_file) as json_file:
         json_data = json.load(json_file)
-
     check_status(json_data, args.key)

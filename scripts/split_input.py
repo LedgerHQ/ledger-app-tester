@@ -1,17 +1,10 @@
 import json
 from pathlib import Path
-from argparse import ArgumentParser
+from argparse import Namespace
 
 
-if __name__ == "__main__":
-    parser = ArgumentParser()
+def main(args: Namespace) -> None:
     input_json = {}
-
-    parser.add_argument("--input_file", required=False, type=Path,
-                        default=Path("input_files/input.json"))
-    parser.add_argument("--split_count", required=False, type=Path, default=10)
-
-    args = parser.parse_args()
 
     if Path(args.input_file).exists():
         with open(args.input_file) as json_file:

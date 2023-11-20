@@ -1,7 +1,8 @@
-from pathlib import Path
-from device import Devices, Device
-from utils import run_cmd
 import os
+from pathlib import Path
+
+from build_and_test.device import Devices, Device
+from build_and_test.utils import run_cmd
 
 
 def build_variant(target: str,

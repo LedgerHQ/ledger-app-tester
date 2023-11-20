@@ -20,14 +20,14 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        
+
       - name: Build db
-        run: | 
-          python3 scripts/create_app_list/main.py --full_output_file out.json --access_token ${{ secrets.GH_ACCESS_TOKEN }} 
+        run: |
+          python3 scripts/entrypoint.py  create_app_list --full_output_file out.json --access_token ${{ secrets.GH_ACCESS_TOKEN }}
       - name: Upload file
         uses: actions/upload-artifact@v3
         with:

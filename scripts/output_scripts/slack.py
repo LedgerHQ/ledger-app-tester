@@ -1,6 +1,5 @@
 import json
-from argparse import ArgumentParser
-from pathlib import Path
+from argparse import Namespace
 
 
 def count_test_status(json_list):
@@ -66,17 +65,7 @@ def count_status(json_list, key):
     return success_count, fail_count, total_count, fail_list
 
 
-if __name__ == "__main__":
-    parser = ArgumentParser()
-
-    parser.add_argument("--input_file", required=True, type=Path)
-    parser.add_argument("--output_file", required=False, type=Path)
-    parser.add_argument("--key", required=False, type=str, default="build")
-    parser.add_argument("--devices", required=False, type=str)
-    parser.add_argument("--url", required=False, type=str)
-
-    args = parser.parse_args()
-
+def main(args: Namespace) -> None:
     with open(args.input_file) as json_file:
         json_list = json.load(json_file)
 

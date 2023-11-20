@@ -1,6 +1,6 @@
-import argparse
 import glob
 import json
+from argparse import Namespace
 
 
 def merge_jsons(json1, json2, key):
@@ -38,14 +38,7 @@ def merge_multiple_jsons(input_files, key):
     return result
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Merge JSON files based on a specified key")
-    parser.add_argument("--input_pattern", help="Pattern for input JSON files (e.g., input*.json)")
-    parser.add_argument("--output_file", help="Output merged JSON file")
-    parser.add_argument("--key", help="Key to use for merging")
-
-    args = parser.parse_args()
-
+def main(args: Namespace) -> None:
     input_files = glob.glob(args.input_pattern)
     if not input_files:
         print("No input files found.")
@@ -54,7 +47,3 @@ def main():
     merged_json = merge_multiple_jsons(input_files, args.key)
     with open(args.output_file, 'w') as f:
         json.dump(merged_json, f, indent=1)
-
-
-if __name__ == "__main__":
-    main()
