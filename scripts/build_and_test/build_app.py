@@ -1,23 +1,24 @@
 import os
 from pathlib import Path
+from typing import Dict, Optional, Tuple, Union
 
 from build_and_test.device import Devices, Device
 from utils import run_cmd
 
 
 def build_variant(target: str,
-                  sdk_path: str,
-                  variant_param: str,
+                  sdk_path: Path,
+                  variant_param: Optional[str],
                   variant_value: str,
                   app_build_path: Path,
-                  extra_flags: str = ""):
+                  extra_flags: str = "") -> Tuple[int, str]:
 
     if not os.path.exists(app_build_path):
         print("\t=> KO")
         return True, f"Error: {app_build_path} does not exists\n"
 
-    error = run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make clean", cwd=app_build_path, no_throw=True)
-    if variant_param:
+    run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make clean", cwd=app_build_path, no_throw=True)
+    if variant_param is not None:
         error, log = run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make {variant_param}={variant_value} {extra_flags}",
                              cwd=app_build_path, no_throw=True)
     else:
@@ -30,7 +31,11 @@ def build_variant(target: str,
     return error, log
 
 
-def build_all_variants(target: str, sdk_path: str, variant_param: str, variant_list: list, app_build_path: Path):
+def build_all_variants(target: str,
+                       sdk_path: Path,
+                       variant_param: Optional[str],
+                       variant_list: list,
+                       app_build_path: Path) -> Tuple[Dict[str, str], str]:
     output = {}
     error_log = ""
     for variant in variant_list:
@@ -45,18 +50,22 @@ def build_all_variants(target: str, sdk_path: str, variant_param: str, variant_l
     return output, error_log
 
 
-def build_device(device: Device, variant_param: str, app_build_path: Path, sdk_path: Path, app_json: dict):
-    blacklist = app_json.get("build_blacklist", "[]")
+def build_device(device: Device,
+                 variant_param: Optional[str],
+                 app_build_path: Path,
+                 sdk_path: Path,
+                 app_json: dict) -> Tuple[Union[str, Dict[str, str]], str]:
+    blacklist = app_json.get("build_blacklist", [])
     error_log = ""
 
     if not device.selected:
-        return None, error_log
+        return "Skipped - not selected", error_log
 
     if device.model_name in blacklist:
-        return "Skipped", error_log
+        return "Skipped - blacklisted", error_log
 
     variants = app_json.get(f"variants_{device.model_name}", [])
-    variant_output = {}
+    variant_output: Dict[str, str] = {}
     if len(variants) > 0:
         variant_output, error_log = build_all_variants(device.target_name,
                                                        sdk_path,
@@ -68,9 +77,9 @@ def build_device(device: Device, variant_param: str, app_build_path: Path, sdk_p
 
 
 def build_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir: Path):
-    repo_name = app_json.get("name")
+    repo_name = app_json["name"]
     variant_param = app_json.get("variant_param")
-    app_build_path = workdir / Path(app_json.get("name") + "/" + app_json.get("build_path", "."))
+    app_build_path = workdir / Path(repo_name + "/" + app_json.get("build_path", "."))
 
     output = {
         "name": repo_name,

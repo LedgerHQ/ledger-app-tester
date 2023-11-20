@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Tuple
+from typing import Optional, Tuple
 
 from build_and_test.device import Devices, Device
 from build_and_test.build_app import build_variant
@@ -19,21 +19,27 @@ def test(model: str, app_test_path: Path, app_build_path: Path, test_params: str
     return output, log
 
 
-def install_dependencies(app_test_path: Path):
+def install_dependencies(app_test_path: Path) -> Tuple[int, str]:
     error, log = run_cmd("pip install -r requirements.txt", cwd=app_test_path, no_throw=True)
     return error, log
 
 
-def test_device(device: Device, variant_param: str, app_build_path: Path, app_test_path: Path,
-                sdk_path: Path, extra_flags: str, blacklist: str, test_params: str):
+def test_device(device: Device,
+                variant_param: Optional[str],
+                app_build_path: Path,
+                app_test_path: Path,
+                sdk_path: Path,
+                extra_flags: str,
+                blacklist: str,
+                test_params: str) -> Tuple[str, str]:
     test_output: str
     log = ""
 
     if not device.selected:
-        return None, log
+        return "Skipped - not selected", log
 
     if device.model_name in blacklist:
-        return "Skipped", log
+        return "Skipped - blacklisted", log
 
     error, log = install_dependencies(app_test_path)
     if error:
@@ -51,10 +57,10 @@ def test_device(device: Device, variant_param: str, app_build_path: Path, app_te
 
 
 def test_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir: Path):
-    repo_name = app_json.get("name")
+    repo_name = app_json["name"]
     variant_param = app_json.get("variant_param")
-    app_build_path = workdir / Path(app_json.get("name") + "/" + app_json.get("build_path", "."))
-    app_test_path = workdir / Path(app_json.get("name") + "/" + app_json.get("test_dir", "."))
+    app_build_path = workdir / Path(repo_name + "/" + app_json.get("build_path", "."))
+    app_test_path = workdir / Path(repo_name + "/" + app_json.get("test_dir", "."))
     extra_flags = app_json.get("extra_flags", "")
     blacklist = app_json.get("build_blacklist", "[]")
 

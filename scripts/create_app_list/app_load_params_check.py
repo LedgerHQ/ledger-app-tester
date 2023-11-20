@@ -99,8 +99,8 @@ def check_manifest(manifest: dict, database: dict) -> int:
 
         # Check that the params match with the one from the database
         for key in APP_LOAD_PARAMS_VALUE_CHECK:
-            app_params_ref_value = app_params_ref.get(key)
-            app_load_params_value = app_load_params.get(key)
+            app_params_ref_value = app_params_ref[key]
+            app_load_params_value = app_load_params[key]
             if key == "appName":
                 if len(app_load_params_value) != 1:
                     print("[ERROR] Expected a single value for 'appName' "

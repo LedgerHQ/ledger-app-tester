@@ -64,16 +64,14 @@ def main(args: Namespace) -> None:
 
     git_setup(SDK_NAME, args.sdk_ref, SDK_URL, abs_workdir)
 
-    output = {}
-    test_output = {}
     build_output = []
     logs = ""
 
     for app_json in input_json:
-        repo_name = app_json.get("name")
+        repo_name = app_json["name"]
         if not args.skip_setup:
-            repo_ref = app_json.get("ref")
-            repo_url = app_json.get("url")
+            repo_ref = app_json["ref"]
+            repo_url = app_json["url"]
             print(f"Setup {repo_name}")
             git_setup(repo_name, repo_ref, repo_url, abs_workdir)
 
@@ -95,7 +93,7 @@ def main(args: Namespace) -> None:
             build_output.append(scan_app)
             logs += log
 
-    output = merge_json(build_output, test_output, "name")
+    output = merge_json(build_output, {}, "name")
 
     with open(args.output_file, 'w') as json_file:
         json.dump(output, json_file, indent=1)

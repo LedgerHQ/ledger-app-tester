@@ -34,7 +34,7 @@ def main(args: Namespace) -> None:
         repo_name = repo.get("name")
         repo_ref = repo.get("ref")
         repo_url = repo.get("url")
-        repo_build_path = abs_workdir/Path(repo_name)/Path(repo.get("build_path", "."))
+        repo_build_path = abs_workdir / Path(repo_name) / Path(repo.get("build_path", "."))
 
         if not args.skip_setup:
             print("Cloning repo")

@@ -1,21 +1,26 @@
 import requests
-from typing import Dict, List, Union
+from dataclasses import dataclass, asdict
+from typing import Dict, List
 
 base_url = "https://api.github.com"
 org_name = "LedgerHQ"
 
 repos_endpoint = f"{base_url}/orgs/{org_name}/repos"
 
-params: Dict[str, Union[str, int]] = {
-    "type": "public",
-    "archived": "false",
-    "sort": "full_name",
-    "page": 1,
-    "per_page": 100
-}
+
+@dataclass
+class Params:
+    type: str
+    archived: str
+    sort: str
+    page: int
+    per_page: int
 
 
-def parse_github(access_token: str = "") -> List[Dict]:
+params = Params("public", "false", "full_name", 1, 100)
+
+
+def parse_github(access_token: str = "") -> List[Dict[str, str]]:
     repos = []
     headers = {
         "Authorization": f"Bearer {access_token}",
@@ -23,7 +28,7 @@ def parse_github(access_token: str = "") -> List[Dict]:
     }
 
     while True:
-        response = requests.get(repos_endpoint, params=params, headers=headers)
+        response = requests.get(repos_endpoint, params=asdict(params), headers=headers)
         repos_data = response.json()
         if not repos_data:  # No more repositories to fetch
             break
@@ -45,6 +50,6 @@ def parse_github(access_token: str = "") -> List[Dict]:
                         owner_name = parent_data["parent"]["owner"]["login"]
                 repos.append({"name": repo_name, "owner": owner_name, "ref": ref, "url": repo_url})
 
-        params["page"] += 1
+        params.page += 1
 
     return repos
