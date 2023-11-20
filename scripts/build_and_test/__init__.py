@@ -7,7 +7,7 @@ from build_and_test.build_app import build_all_devices
 from build_and_test.test_app import test_all_devices
 from build_and_test.scan_app import scan_all_devices
 from build_and_test.device import Devices
-from build_and_test.utils import git_setup, merge_json
+from utils import git_setup, merge_json
 
 SDK_NAME = "sdk"
 SDK_URL = "https://github.com/LedgerHQ/ledger-secure-sdk.git"

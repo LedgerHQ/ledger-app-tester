@@ -8,7 +8,7 @@ def run_cmd(cmd: str,
             cwd: Path,
             print_output: bool = True,
             no_throw: bool = False) -> Tuple[int, str]:
-    error_log = ""
+    stdout = ""
     print(f"[run_cmd] Running: {cmd} from {cwd}")
 
     ret = subprocess.run(cmd,
@@ -16,25 +16,23 @@ def run_cmd(cmd: str,
                          stdout=subprocess.PIPE,
                          stderr=subprocess.STDOUT,
                          universal_newlines=True,
-                         cwd=cwd)
-    if no_throw is False and ret.returncode:
-        print(f"[run_cmd] Error {ret.returncode} raised while running cmd: {cmd}")
-        print("[run_cmd] Output was:")
-        print(ret.stdout)
-        raise ValueError()
+                         cwd=cwd,
+                         check=not no_throw)
 
     if ret.returncode:
         print(f"[run_cmd] Output:\n{ret.stdout}")
-
-        error_log = f'''
+        stdout = f'''
 ###############################################################################
 [run_cmd] Running: {cmd} from {cwd}"
 ###############################################################################
         ''' + ret.stdout
-    return ret.returncode, error_log
+    else:
+        stdout = ret.stdout.strip()
+
+    return ret.returncode, stdout
 
 
-def git_setup(repo_name: str, repo_ref: str, repo_url: str, workdir: Path):
+def git_setup(repo_name: str, repo_ref: str, repo_url: str, workdir: Path) -> None:
     # Force clone in https over SSH
     GIT_CONFIG = ' -c  url."https://github.com/".insteadOf="git@github.com:" -c url."https://".insteadOf="git://"'
 

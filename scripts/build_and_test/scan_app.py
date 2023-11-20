@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from build_and_test.device import Devices, Device
-from build_and_test.utils import run_cmd
+from utils import run_cmd
 
 
 def scan_variant(target: str,

@@ -7,14 +7,14 @@ This is to allow easily generating the db from the apps code.
 from pathlib import Path
 from typing import Tuple, List
 
-from create_app_list.utils import run_cmd
+from utils import run_cmd
 
 
 def get_app_listvariants(app_build_path: Path,
                          sdk: str = "$NANOS_SDK",
                          allow_failure: bool = False) -> Tuple[str, List[str]]:
     # Using listvariants Makefile target
-    listvariants = run_cmd(f"make BOLOS_SDK={sdk} listvariants", cwd=app_build_path, no_throw=allow_failure)
+    _, listvariants = run_cmd(f"make BOLOS_SDK={sdk} listvariants", cwd=app_build_path, no_throw=allow_failure)
     if "VARIANTS" not in listvariants:
         raise ValueError(f"Invalid variants retrieved: {listvariants}")
 

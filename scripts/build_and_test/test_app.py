@@ -3,7 +3,7 @@ from typing import Tuple
 
 from build_and_test.device import Devices, Device
 from build_and_test.build_app import build_variant
-from build_and_test.utils import run_cmd
+from utils import run_cmd
 
 
 def test(model: str, app_test_path: Path, app_build_path: Path, test_params: str) -> Tuple[str, str]:

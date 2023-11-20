@@ -2,7 +2,7 @@ import sys
 from argparse import ArgumentParser, Namespace
 from pathlib import Path
 
-sys.path.insert(1, Path(__file__).resolve().parent)
+sys.path.insert(1, str(Path(__file__).resolve().parent))
 
 
 def parse_args() -> Namespace:
@@ -33,7 +33,7 @@ def parse_args() -> Namespace:
     subparser.add_argument("--input_file", required=False, type=Path, default=Path("input_files/test_input.json"))
     subparser.add_argument("--output_file", required=False, type=Path, default=Path("output_files/output.json"))
     subparser.add_argument("--logs_file", required=False, type=Path,
-                        default=Path("output_files/error_logs.txt"))
+                           default=Path("output_files/error_logs.txt"))
     subparser.add_argument("--workdir", required=False, type=str, default="workdir")
 
     subparser.add_argument("--use_sha1_from_live", required=False, action='store_true')

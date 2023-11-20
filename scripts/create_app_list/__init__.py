@@ -4,7 +4,7 @@ import json
 
 from create_app_list.parse_github import parse_github
 from create_app_list.gen_variant import gen_variant
-from create_app_list.utils import git_setup, merge_json
+from utils import git_setup, merge_json
 
 
 def main(args: Namespace) -> None:
