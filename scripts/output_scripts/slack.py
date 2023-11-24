@@ -89,10 +89,16 @@ def main(args: Namespace) -> None:
             if details:
                 fail_status += f"\t•  {app_name}\n"
                 if isinstance(details, dict):
+                    device_status = ""
                     for device, variant in details.items():
-                        fail_status += f"\t\t  - {device}: \n"
-                        for v in variant:
-                            fail_status += f"\t\t\t{v}\n"
+                        if not device_status:
+                            device_status = "\t\t"
+                        else:
+                            device_status += ", "
+                        device_status += device
+                    if device_status:
+                        fail_status += f"{device_status} \n"
+
                 else:
                     for device in details:
                         fail_status += f"\t\t- {device}\n"
