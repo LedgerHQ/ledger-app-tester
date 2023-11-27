@@ -87,13 +87,13 @@ def test_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir: 
     stax_output, stax_log = test_device(devices.stax, variant_param, app_build_path, app_test_path,
                                         sdk_path, extra_flags, blacklist, test_params)
 
-    if nanos_output:
+    if nanos_output and devices.nanos.selected:
         output["test"]["nanos"] = nanos_output
-    if nanosp_output:
+    if nanosp_output and devices.nanosp.selected:
         output["test"]["nanosp"] = nanosp_output
-    if nanox_output:
+    if nanox_output and devices.nanox.selected:
         output["test"]["nanox"] = nanox_output
-    if stax_output:
+    if stax_output and devices.stax.selected:
         output["test"]["stax"] = stax_output
     print(output)
 
