@@ -93,7 +93,7 @@ def main(args: Namespace) -> None:
             build_output.append(scan_app)
             logs += log
 
-    output = merge_json(build_output, {}, "name")
+    output = merge_json(build_output, [], "name")
 
     with open(args.output_file, 'w') as json_file:
         json.dump(output, json_file, indent=1)
