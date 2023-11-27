@@ -18,7 +18,7 @@ def build_variant(target: str,
         return True, f"Error: {app_build_path} does not exists\n"
 
     run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make clean", cwd=app_build_path, no_throw=True)
-    if variant_param is not None:
+    if variant_param:
         error, log = run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make {variant_param}={variant_value} {extra_flags}",
                              cwd=app_build_path, no_throw=True)
     else:
