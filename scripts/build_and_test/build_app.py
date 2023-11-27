@@ -94,13 +94,13 @@ def build_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir:
 
     stax_output, stax_log = build_device(devices.stax, variant_param, app_build_path, sdk_path, app_json)
 
-    if nanos_output:
+    if nanos_output and devices.nanos.selected:
         output["build"]["nanos"] = nanos_output
-    if nanosp_output:
+    if nanosp_output and devices.nanosp.selected:
         output["build"]["nanosp"] = nanosp_output
-    if nanox_output:
+    if nanox_output and devices.nanox.selected:
         output["build"]["nanox"] = nanox_output
-    if stax_output:
+    if stax_output and devices.stax.selected:
         output["build"]["stax"] = stax_output
 
     log = nanos_log + nanosp_log + nanox_log + stax_log

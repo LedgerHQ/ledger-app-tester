@@ -89,13 +89,13 @@ def scan_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir: 
 
     stax_output, stax_log = scan_device(devices.stax, variant_param, app_build_path, sdk_path, app_json)
 
-    if nanos_output:
+    if nanos_output and devices.nanos.selected:
         output["scan"]["nanos"] = nanos_output
-    if nanosp_output:
+    if nanosp_output and devices.nanosp.selected:
         output["scan"]["nanosp"] = nanosp_output
-    if nanox_output:
+    if nanox_output and devices.nanox.selected:
         output["scan"]["nanox"] = nanox_output
-    if stax_output:
+    if stax_output and devices.stax.selected:
         output["scan"]["stax"] = stax_output
 
     log = nanos_log + nanosp_log + nanox_log + stax_log
