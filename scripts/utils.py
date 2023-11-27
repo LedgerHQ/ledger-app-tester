@@ -56,7 +56,7 @@ def git_setup(repo_name: str, repo_ref: str, repo_url: str, workdir: Path) -> No
         return
 
 
-def merge_json(json1: dict, json2: dict, key: str) -> List:
+def merge_json(json1: list, json2: list, key: str) -> List:
     merged_data = []
 
     for obj1 in json1:
