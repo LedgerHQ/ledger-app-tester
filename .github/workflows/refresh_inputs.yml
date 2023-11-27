@@ -84,7 +84,7 @@ jobs:
         if: ${{ failure() && (github.event_name == 'schedule' || inputs.create_pr == true) }}
         run: |
           apk add github-cli
-          gh pr create --base "test-all-apps" --head "update-input" --title "[BOT] Update input file" --body "Input file has changed ! Please review changes !"
+          gh pr create --base "develop" --head "update-input" --title "[BOT] Update input file" --body "Input file has changed ! Please review changes !"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
 
