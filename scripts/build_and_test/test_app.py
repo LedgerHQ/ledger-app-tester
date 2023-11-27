@@ -36,10 +36,10 @@ def test_device(device: Device,
     log = ""
 
     if not device.selected:
-        return "Skipped - not selected", log
+        return "Unselected", log
 
     if device.model_name in blacklist:
-        return "Skipped - blacklisted", log
+        return "Blacklisted", log
 
     error, log = install_dependencies(app_test_path)
     if error:

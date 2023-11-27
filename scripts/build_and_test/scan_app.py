@@ -54,10 +54,10 @@ def scan_device(device: Device,
     error_log = ""
 
     if not device.selected:
-        return "Skipped - not selected", error_log
+        return "Unselected", error_log
 
     if device.model_name not in whitelist:
-        return "Skipped - blacklisted", error_log
+        return "Blacklisted", error_log
 
     variants = app_json.get(f"variants_{device.model_name}", [])
     variant_output: Dict[str, str] = {}

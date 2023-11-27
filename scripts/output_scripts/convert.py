@@ -22,12 +22,12 @@ def json_to_markdown(json_list, key):
             if isinstance(build_data, dict):  # nested structure
                 status_icon = (":red_circle:" if "Fail" in build_data.values()
                                else ":heavy_check_mark:" if "Success" in build_data.values()
-                               else ":fast_forward:" if "Skipped" in build_data.values()
+                               else ":fast_forward:" if "Blacklisted" in build_data.values()
                                else "")
             else:
                 status_icon = (":heavy_check_mark:" if build_data == "Success"
                                else ":red_circle:" if build_data == "Fail"
-                               else ":fast_forward:" if build_data == "Skipped"
+                               else ":fast_forward:" if build_data == "Blacklisted"
                                else "")
             row += " {} |".format(status_icon)
 
