@@ -100,8 +100,8 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Split input into 10 files
-        run: | 
-          python3 scripts/split_input/split_input.py --input_file input_files/input.json 
+        run: |
+          python3 scripts/entrypoint.py split_input --input_file input_files/input.json
 
       - name: Archive output file
         uses: actions/upload-artifact@v3
@@ -186,17 +186,17 @@ jobs:
 
       - name: Setup repos
         if: ${{ inputs.use_sha1_from_live }}
-        run: | 
-          python3 scripts/build_and_test/main.py --input_file input_${{ matrix.index }}.json --use_sha1_from_live --provider ${{ inputs.provider }} --device ${{ inputs.device }} --version ${{ inputs.version }} 
+        run: |
+          python3 scripts/entrypoint.py build_and_test --input_file input_${{ matrix.index }}.json --use_sha1_from_live --provider ${{ inputs.provider }} --device ${{ inputs.device }} --version ${{ inputs.version }}
 
       - name: Setup repos
         if: ${{ !inputs.use_sha1_from_live }}
-        run: | 
-          python3 scripts/build_and_test/main.py --input_file input_${{ matrix.index }}.json
+        run: |
+          python3 scripts/entrypoint.py build_and_test --input_file input_${{ matrix.index }}.json
 
       - name: Launch build
-        run: | 
-          python3 scripts/build_and_test/main.py --sdk_ref ${{ inputs.sdk_ref || 'master' }} --input_file input_${{ matrix.index }}.json --build --${{ matrix.device }} --skip_setup --output_file build_${{ matrix.device }}_${{ matrix.index }}.json --logs_file log_${{ matrix.device }}_${{ matrix.index }}.txt
+        run: |
+          python3 scripts/entrypoint.py build_and_test --sdk_ref ${{ inputs.sdk_ref || 'master' }} --input_file input_${{ matrix.index }}.json --build --${{ matrix.device }} --skip_setup --output_file build_${{ matrix.device }}_${{ matrix.index }}.json --logs_file log_${{ matrix.device }}_${{ matrix.index }}.txt
 
       #- name: Push info to DB
       #  run: | 
@@ -534,8 +534,8 @@ jobs:
           name: build_${{ matrix.device }}_10.json
 
       - name: Merge output files
-        run: | 
-          python3 scripts/output_scripts/merge.py --input_pattern "build_"${{ matrix.device }}"_*.json" --output_file merged_build_${{ matrix.device }}.json --key "build"
+        run: |
+          python3 scripts/entrypoint.py merge_output --input_pattern "build_"${{ matrix.device }}"_*.json" --output_file merged_build_${{ matrix.device }}.json --key "build"
 
       - name: Archive output file
         uses: actions/upload-artifact@v3
@@ -577,12 +577,12 @@ jobs:
           name: merged_build_stax.json
 
       - name: Merge output files
-        run: | 
-          python3 scripts/output_scripts/merge.py --input_pattern "merged_build_*.json" --output_file full_build_output.json --key "build"
+        run: |
+          python3 scripts/entrypoint.py merge_output --input_pattern "merged_build_*.json" --output_file full_build_output.json --key "build"
 
       - name: Convert to markdown
         run: |
-          python3 scripts/output_scripts/convert.py --input_file full_build_output.json --output_file out.md --key build
+          python3 scripts/entrypoint.py convert_output --input_file full_build_output.json --output_file out.md --key build
           cat out.md >> $GITHUB_STEP_SUMMARY
 
       - name: Echo GHA url 
@@ -590,7 +590,7 @@ jobs:
 
       - name: Convert to slack json
         run: |
-          python3 scripts/output_scripts/slack.py --input_file full_build_output.json --output_file slack.json --key build --devices ${{ needs.setup-devices.outputs.names }} --url ${{ env.url }}
+          python3 scripts/entrypoint.py slack_output --input_file full_build_output.json --output_file slack.json --key build --devices ${{ needs.setup-devices.outputs.names }} --url ${{ env.url }}
 
       - name: Send custom JSON data to Slack workflow
         if: ${{ github.event_name == 'schedule' || inputs.send_to_slack == true }}
@@ -603,7 +603,7 @@ jobs:
 
       - name: Set job status
         run: |
-          python3 scripts/output_scripts/status.py --input_file full_build_output.json --key build
+          python3 scripts/entrypoint.py status_output --input_file full_build_output.json --key build
 
       - name: Archive output file
         if: always()

@@ -1,16 +1,10 @@
 import json
 from pathlib import Path
-from argparse import ArgumentParser
+from argparse import Namespace
 
-if __name__ == "__main__":
-    parser = ArgumentParser()
+
+def main(args: Namespace) -> None:
     input_json = {}
-
-    parser.add_argument("--input_file", required=False, type=Path,
-            default=Path("input_files/input.json"))
-    parser.add_argument("--split_count", required=False, type=Path, default=10)
-
-    args = parser.parse_args()
 
     if Path(args.input_file).exists():
         with open(args.input_file) as json_file:
@@ -22,7 +16,6 @@ if __name__ == "__main__":
     num_files = args.split_count
 
     items_per_file = len(input_json) // num_files
-  
 
     for file_num in range(num_files):
         start_idx = file_num * items_per_file
@@ -32,5 +25,5 @@ if __name__ == "__main__":
         with open(file_name, 'w') as file:
             json.dump(input_json[start_idx:end_idx], file, indent=1)
     # Split data into ten JSON files
-    
+
     print(f"Data split into {args.split_count} JSON files.")

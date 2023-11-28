@@ -41,7 +41,7 @@ file generated previously.
 - `scan_all.yml`: Scans for selected devices
 - `refresh_inputs.yml`: Check whether the input list needs updating.
 
-To reduce CI run times, the input file is automatically splitted into 10 sub-inputs, and then all the inputs are run through a matrix strategy.
+To reduce CI run times, the input file is automatically split into 10 sub-inputs, and then all the inputs are run through a matrix strategy.
 ### 3. Planned Improvements
 
 - **Support for ZEMU Tests**
@@ -58,5 +58,5 @@ Alternatively you can run the script from the actions tab of the repo.
 You can view the result in the summary of the GH action: 
 :red_circle: means a fail.
 :heavy_check_mark: means success,
-:fast_forward: means the action was explicitely blacklisted in the input file.
+:fast_forward: means the action was explicitly blacklisted in the input file.
 nothing: means there was no variant associated to the device when running make listvariants.

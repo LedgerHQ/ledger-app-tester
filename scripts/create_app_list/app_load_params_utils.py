@@ -1,7 +1,6 @@
-#!/usr/bin/env python3
-
-from pathlib import Path
 import json
+from pathlib import Path
+from typing import Dict
 
 
 def format_database(database: dict) -> str:
@@ -20,7 +19,7 @@ def format_database(database: dict) -> str:
     return database_str
 
 
-def load_database(database_path: Path):
+def load_database(database_path: Path) -> Dict:
     database = {}
     if database_path.exists():
         with open(database_path, 'r') as f:
@@ -28,7 +27,6 @@ def load_database(database_path: Path):
     else:
         with open(database_path, 'w') as f:
             print("File created:", database_path)
-        database = []
     return database
 
 

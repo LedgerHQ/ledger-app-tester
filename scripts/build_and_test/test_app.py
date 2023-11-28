@@ -1,11 +1,15 @@
 from pathlib import Path
-from device import Devices, Device
-from build_app import build_variant
+from typing import Optional, Tuple
+
+from build_and_test.device import Devices, Device
+from build_and_test.build_app import build_variant
 from utils import run_cmd
 
-def test(model: str, app_test_path: Path, app_build_path: Path, test_params: str):
-    output = {}
-    error, log = run_cmd(f"pytest {app_test_path}/ --tb=short -v --device {model} {test_params}", cwd=app_build_path, no_throw=True)
+
+def test(model: str, app_test_path: Path, app_build_path: Path, test_params: str) -> Tuple[str, str]:
+    output: str
+    error, log = run_cmd(f"pytest {app_test_path}/ --tb=short -v --device {model} {test_params}",
+                         cwd=app_build_path, no_throw=True)
 
     if (error):
         output = "Fail"
@@ -15,20 +19,27 @@ def test(model: str, app_test_path: Path, app_build_path: Path, test_params: str
     return output, log
 
 
-def install_dependencies(app_test_path: Path):
+def install_dependencies(app_test_path: Path) -> Tuple[int, str]:
     error, log = run_cmd("pip install -r requirements.txt", cwd=app_test_path, no_throw=True)
     return error, log
 
-def test_device(device: Device, variant_param: str, app_build_path: Path, app_test_path: Path,
-        sdk_path: Path, extra_flags: str, blacklist: str, test_params: str):
-    test_output = {}
+
+def test_device(device: Device,
+                variant_param: Optional[str],
+                app_build_path: Path,
+                app_test_path: Path,
+                sdk_path: Path,
+                extra_flags: str,
+                blacklist: str,
+                test_params: str) -> Tuple[str, str]:
+    test_output: str
     log = ""
 
     if not device.selected:
-        return None, log
+        return "Unselected", log
 
     if device.model_name in blacklist:
-        return "Skipped", log
+        return "Blacklisted", log
 
     error, log = install_dependencies(app_test_path)
     if error:
@@ -46,10 +57,10 @@ def test_device(device: Device, variant_param: str, app_build_path: Path, app_te
 
 
 def test_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir: Path):
-    repo_name = app_json.get("name")
+    repo_name = app_json["name"]
     variant_param = app_json.get("variant_param")
-    app_build_path = workdir / Path(app_json.get("name") + "/" + app_json.get("build_path", "."))
-    app_test_path = workdir / Path(app_json.get("name") + "/" + app_json.get("test_dir", "."))
+    app_build_path = workdir / Path(repo_name + "/" + app_json.get("build_path", "."))
+    app_test_path = workdir / Path(repo_name + "/" + app_json.get("test_dir", "."))
     extra_flags = app_json.get("extra_flags", "")
     blacklist = app_json.get("build_blacklist", "[]")
 
@@ -58,32 +69,31 @@ def test_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir: 
     }
     output["test"] = {}
 
-    blacklist = app_json.get(f"test_blacklist", [])
+    blacklist = app_json.get("test_blacklist", [])
 
     test_params = app_json.get("test_param_nanos", "")
     nanos_output, nanos_log = test_device(devices.nanos, variant_param, app_build_path, app_test_path,
-            sdk_path, extra_flags, blacklist, test_params)
+                                          sdk_path, extra_flags, blacklist, test_params)
 
     test_params = app_json.get("test_param_nanosp", "")
     nanosp_output, nanosp_log = test_device(devices.nanosp, variant_param, app_build_path, app_test_path,
-            sdk_path, extra_flags, blacklist, test_params)
-
+                                            sdk_path, extra_flags, blacklist, test_params)
 
     test_params = app_json.get("test_param_nanox", "")
     nanox_output, nanox_log = test_device(devices.nanox, variant_param, app_build_path, app_test_path,
-            sdk_path, extra_flags, blacklist, test_params)
+                                          sdk_path, extra_flags, blacklist, test_params)
 
     test_params = app_json.get("test_param_stax", "")
     stax_output, stax_log = test_device(devices.stax, variant_param, app_build_path, app_test_path,
-                sdk_path, extra_flags, blacklist, test_params)
+                                        sdk_path, extra_flags, blacklist, test_params)
 
-    if nanos_output:
+    if nanos_output and devices.nanos.selected:
         output["test"]["nanos"] = nanos_output
-    if nanosp_output:
+    if nanosp_output and devices.nanosp.selected:
         output["test"]["nanosp"] = nanosp_output
-    if nanox_output:
+    if nanox_output and devices.nanox.selected:
         output["test"]["nanox"] = nanox_output
-    if stax_output:
+    if stax_output and devices.stax.selected:
         output["test"]["stax"] = stax_output
     print(output)
 

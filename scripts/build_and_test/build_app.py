@@ -1,20 +1,29 @@
-from pathlib import Path
-from device import Devices, Device
-from utils import run_cmd
 import os
+from pathlib import Path
+from typing import Dict, Optional, Tuple, Union
 
-def build_variant(target: str, sdk_path: str, variant_param: str, variant_value: str, app_build_path:
-        Path, extra_flags: str=""):
+from build_and_test.device import Devices, Device
+from utils import run_cmd
+
+
+def build_variant(target: str,
+                  sdk_path: Path,
+                  variant_param: Optional[str],
+                  variant_value: str,
+                  app_build_path: Path,
+                  extra_flags: str = "") -> Tuple[int, str]:
 
     if not os.path.exists(app_build_path):
         print("\t=> KO")
         return True, f"Error: {app_build_path} does not exists\n"
 
-    error = run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make clean", cwd=app_build_path, no_throw=True)
+    run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make clean", cwd=app_build_path, no_throw=True)
     if variant_param:
-        error, log = run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make {variant_param}={variant_value} {extra_flags}", cwd=app_build_path, no_throw=True)
+        error, log = run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make {variant_param}={variant_value} {extra_flags}",
+                             cwd=app_build_path, no_throw=True)
     else:
-        error, log = run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make -j {extra_flags}", cwd=app_build_path, no_throw=True)
+        error, log = run_cmd(f"TARGET={target} BOLOS_SDK={sdk_path} make -j {extra_flags}",
+                             cwd=app_build_path, no_throw=True)
 
     if error:
         print("\t=> KO")
@@ -22,7 +31,11 @@ def build_variant(target: str, sdk_path: str, variant_param: str, variant_value:
     return error, log
 
 
-def build_all_variants(target: str, sdk_path: str, variant_param: str, variant_list: list, app_build_path: Path):
+def build_all_variants(target: str,
+                       sdk_path: Path,
+                       variant_param: Optional[str],
+                       variant_list: list,
+                       app_build_path: Path) -> Tuple[Dict[str, str], str]:
     output = {}
     error_log = ""
     for variant in variant_list:
@@ -37,28 +50,36 @@ def build_all_variants(target: str, sdk_path: str, variant_param: str, variant_l
     return output, error_log
 
 
-def build_device(device: Device, variant_param: str, app_build_path: Path, sdk_path: Path, app_json: dict):
-    blacklist = app_json.get("build_blacklist", "[]")
+def build_device(device: Device,
+                 variant_param: Optional[str],
+                 app_build_path: Path,
+                 sdk_path: Path,
+                 app_json: dict) -> Tuple[Union[str, Dict[str, str]], str]:
+    blacklist = app_json.get("build_blacklist", [])
     error_log = ""
 
     if not device.selected:
-        return None, error_log
+        return "Unselected", error_log
 
     if device.model_name in blacklist:
-        return "Skipped", error_log
+        return "Blacklisted", error_log
 
     variants = app_json.get(f"variants_{device.model_name}", [])
-    variant_output = {}
+    variant_output: Dict[str, str] = {}
     if len(variants) > 0:
-        variant_output, error_log = build_all_variants(device.target_name, sdk_path, variant_param, variants, app_build_path)
+        variant_output, error_log = build_all_variants(device.target_name,
+                                                       sdk_path,
+                                                       variant_param,
+                                                       variants,
+                                                       app_build_path)
 
     return variant_output, error_log
 
 
 def build_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir: Path):
-    repo_name = app_json.get("name")
+    repo_name = app_json["name"]
     variant_param = app_json.get("variant_param")
-    app_build_path = workdir / Path(app_json.get("name") + "/" + app_json.get("build_path", "."))
+    app_build_path = workdir / Path(repo_name + "/" + app_json.get("build_path", "."))
 
     output = {
         "name": repo_name,
@@ -73,13 +94,13 @@ def build_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir:
 
     stax_output, stax_log = build_device(devices.stax, variant_param, app_build_path, sdk_path, app_json)
 
-    if nanos_output:
+    if nanos_output and devices.nanos.selected:
         output["build"]["nanos"] = nanos_output
-    if nanosp_output:
+    if nanosp_output and devices.nanosp.selected:
         output["build"]["nanosp"] = nanosp_output
-    if nanox_output:
+    if nanox_output and devices.nanox.selected:
         output["build"]["nanox"] = nanox_output
-    if stax_output:
+    if stax_output and devices.stax.selected:
         output["build"]["stax"] = stax_output
 
     log = nanos_log + nanosp_log + nanox_log + stax_log

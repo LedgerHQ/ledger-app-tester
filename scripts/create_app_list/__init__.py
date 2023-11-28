@@ -1,28 +1,13 @@
-from argparse import ArgumentParser
+from argparse import Namespace
 from pathlib import Path
 import json
 
-from parse_github import parse_github
-import sys
-sys.path.append('..')
-from gen_variant import gen_variant
+from create_app_list.parse_github import parse_github
+from create_app_list.gen_variant import gen_variant
 from utils import git_setup, merge_json
 
-if __name__ == "__main__":
-    parser = ArgumentParser()
 
-    parser.add_argument("--access_token", required=True, type=str)
-    parser.add_argument("--workdir", required=False, type=str, default="workdir")
-    parser.add_argument("--extra_info_file", required=False, type=Path, default=Path("input_files/extra_info.json"))
-    parser.add_argument("--repo_file", required=False, type=Path)
-    parser.add_argument("--skip_setup", required=False, action='store_true')
-
-    parser.add_argument("--full_output_file", required=False, type=Path, default=Path("output_files/full_out.json"))
-    parser.add_argument("--repo_output_file", required=False, type=Path, default=Path("output_files/repo.json"))
-    parser.add_argument("--variant_output_file", required=False, type=Path, default=Path("output_files/variant.json"))
-
-    args = parser.parse_args()
-
+def main(args: Namespace) -> None:
     abs_workdir = Path.cwd()/args.workdir
 
     if not abs_workdir.exists():
@@ -49,7 +34,7 @@ if __name__ == "__main__":
         repo_name = repo.get("name")
         repo_ref = repo.get("ref")
         repo_url = repo.get("url")
-        repo_build_path = abs_workdir/Path(repo_name)/Path(repo.get("build_path", "."))
+        repo_build_path = abs_workdir / Path(repo_name) / Path(repo.get("build_path", "."))
 
         if not args.skip_setup:
             print("Cloning repo")
@@ -69,4 +54,3 @@ if __name__ == "__main__":
 
     with open(args.full_output_file, 'w') as json_file:
         json.dump(full_output, json_file, indent=1)
-

@@ -1,51 +1,23 @@
 import json
 from pathlib import Path
-from argparse import ArgumentParser
-from build_app import build_all_devices
-from test_app import test_all_devices
-from scan_app import scan_all_devices
-from device import Devices
+from argparse import Namespace
+
+from build_and_test.sha1 import override_sha1
+from build_and_test.build_app import build_all_devices
+from build_and_test.test_app import test_all_devices
+from build_and_test.scan_app import scan_all_devices
+from build_and_test.device import Devices
 from utils import git_setup, merge_json
-from sha1 import override_sha1
 
 SDK_NAME = "sdk"
 SDK_URL = "https://github.com/LedgerHQ/ledger-secure-sdk.git"
 SDK_BRANCH = "origin/master"
 
 
-if __name__ == "__main__":
-    parser = ArgumentParser()
+def main(args: Namespace) -> None:
     input_json = {}
 
-    parser.add_argument("--skip_setup", action='store_true')
-
-    # Devices
-    parser.add_argument("--all", action='store_true')
-    parser.add_argument("--nanos", action='store_true')
-    parser.add_argument("--nanosp", action='store_true')
-    parser.add_argument("--nanox", action='store_true')
-    parser.add_argument("--stax", action='store_true')
-
-    parser.add_argument("--test", action='store_true')
-    parser.add_argument("--build", action='store_true')
-    parser.add_argument("--scan_build", action='store_true')
-
-    parser.add_argument("--sdk_ref", required=False, type=Path, default="origin/master")
-
-    parser.add_argument("--input_file", required=False, type=Path, default=Path("input_files/test_input.json"))
-    parser.add_argument("--output_file", required=False, type=Path, default=Path("output_files/output.json"))
-    parser.add_argument("--logs_file", required=False, type=Path,
-            default=Path("output_files/error_logs.txt"))
-    parser.add_argument("--workdir", required=False, type=str, default="workdir")
-
-    parser.add_argument("--use_sha1_from_live", required=False, action='store_true')
-    parser.add_argument("--provider", required=False, type=str)
-    parser.add_argument("--device", required=False, type=str)
-    parser.add_argument("--version", required=False, type=str)
-
-    args = parser.parse_args()
-
-    abs_workdir = Path.cwd()/args.workdir
+    abs_workdir = Path.cwd() / args.workdir
 
     if not abs_workdir.exists():
         abs_workdir.mkdir()
@@ -90,19 +62,16 @@ if __name__ == "__main__":
 
         input_json = override_sha1(input_json, args.provider, args.device, args.version)
 
-
     git_setup(SDK_NAME, args.sdk_ref, SDK_URL, abs_workdir)
 
-    output = {}
-    test_output = []
     build_output = []
     logs = ""
 
     for app_json in input_json:
-        repo_name = app_json.get("name")
+        repo_name = app_json["name"]
         if not args.skip_setup:
-            repo_ref = app_json.get("ref")
-            repo_url = app_json.get("url")
+            repo_ref = app_json["ref"]
+            repo_url = app_json["url"]
             print(f"Setup {repo_name}")
             git_setup(repo_name, repo_ref, repo_url, abs_workdir)
 
@@ -124,7 +93,7 @@ if __name__ == "__main__":
             build_output.append(scan_app)
             logs += log
 
-    output = merge_json(build_output, test_output, "name")
+    output = merge_json(build_output, [], "name")
 
     with open(args.output_file, 'w') as json_file:
         json.dump(output, json_file, indent=1)

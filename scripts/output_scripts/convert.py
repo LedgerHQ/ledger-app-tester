@@ -1,6 +1,6 @@
 import json
-from argparse import ArgumentParser
-from pathlib import Path
+from argparse import Namespace
+
 
 def json_to_markdown(json_list, key):
     # Set up the markdown table headers
@@ -20,9 +20,15 @@ def json_to_markdown(json_list, key):
         for d in ["nanos", "nanosp", "nanox", "stax"]:
             build_data = app_data.get(d, {})
             if isinstance(build_data, dict):  # nested structure
-                status_icon = ":red_circle:" if "Fail" in build_data.values() else ":heavy_check_mark:" if "Success" in build_data.values() else ":fast_forward:" if "Skipped" in build_data.values() else ""
-            else: 
-                status_icon = ":heavy_check_mark:" if build_data == "Success" else ":red_circle:" if build_data == "Fail" else ":fast_forward:" if build_data == "Skipped" else ""
+                status_icon = (":red_circle:" if "Fail" in build_data.values()
+                               else ":heavy_check_mark:" if "Success" in build_data.values()
+                               else ":fast_forward:" if "Blacklisted" in build_data.values()
+                               else "")
+            else:
+                status_icon = (":heavy_check_mark:" if build_data == "Success"
+                               else ":red_circle:" if build_data == "Fail"
+                               else ":fast_forward:" if build_data == "Blacklisted"
+                               else "")
             row += " {} |".format(status_icon)
 
         markdown_table += row + "\n"
@@ -62,15 +68,7 @@ Total: {counts['Total']}
 """
 
 
-if __name__ == "__main__":
-    parser = ArgumentParser()
-
-    parser.add_argument("--input_file", required=True, type=Path)
-    parser.add_argument("--output_file", required=False, type=Path)
-    parser.add_argument("--key", required=False, type=str, default="build")
-
-    args = parser.parse_args()
-
+def main(args: Namespace) -> None:
     with open(args.input_file) as json_file:
         json_list = json.load(json_file)
 
