@@ -357,6 +357,9 @@
   ],
   "variants_nanosp": [
    "AVAX"
+  ],
+  "variants_stax": [
+   "AVAX"
   ]
  },
  {
@@ -3318,6 +3321,25 @@
   ]
  },
  {
+  "name": "app-plugin-lens",
+  "owner": "Zondax",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-lens",
+  "variant_param": "NONE",
+  "variants_nanos": [
+   "lens"
+  ],
+  "variants_nanox": [
+   "lens"
+  ],
+  "variants_nanosp": [
+   "lens"
+  ],
+  "variants_stax": [
+   "lens"
+  ]
+ },
+ {
   "name": "app-plugin-libertify",
   "owner": "LibertyFi",
   "ref": "develop",
@@ -3768,6 +3790,31 @@
   ]
  },
  {
+  "name": "app-plugin-uniswap",
+  "owner": "LedgerHQ",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-uniswap",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "pbol"
+  ],
+  "variants_nanox": [
+   "pbol"
+  ],
+  "variants_nanosp": [
+   "pbol"
+  ],
+  "variants_stax": [
+   "pbol"
+  ]
+ },
+ {
   "name": "app-plugin-yearn",
   "owner": "LedgerHQ",
   "ref": "develop",
@@ -4205,6 +4252,9 @@
    "SecurityKey"
   ],
   "variants_nanosp": [
+   "SecurityKey"
+  ],
+  "variants_stax": [
    "SecurityKey"
   ]
  },
