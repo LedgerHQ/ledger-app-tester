@@ -128,6 +128,7 @@
   {
     "name": "app-btec",
     "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "stax"],
     "test_dir": "tests"
   },
   {
@@ -385,6 +386,10 @@
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
+    "name": "app-lisk-new",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
     "name": "app-lto",
     "build_blacklist": ["stax"],
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
@@ -417,6 +422,11 @@
   {
     "name": "app-multiversx",
     "test_dir": "tests"
+  },
+  {
+    "name": "app-namada",
+    "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
     "name": "app-nano",
@@ -565,12 +575,20 @@
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
+    "name": "app-plugin-figment",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
     "name": "app-plugin-harvest",
     "build_blacklist": ["stax"],
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
     "name": "app-plugin-kiln",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-plugin-lens",
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
@@ -607,6 +625,10 @@
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
+    "name": "app-plugin-p2p",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
     "name": "app-plugin-quickswap",
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
@@ -639,6 +661,10 @@
   {
     "name": "app-plugin-stakedao",
     "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-plugin-stakekit",
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
@@ -693,11 +719,6 @@
   },
   {
     "name": "app-radix-babylon",
-    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
-  },
-  {
-    "name": "app-ravencoin",
-    "build_blacklist": ["stax"],
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
@@ -815,11 +836,6 @@
   {
     "name": "app-terra",
     "build_path": "app",
-    "build_blacklist": ["stax"],
-    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
-  },
-  {
-    "name": "app-tess-train",
     "build_blacklist": ["stax"],
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
