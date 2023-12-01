@@ -4,6 +4,8 @@ on:
   schedule:
     - cron: '32 5 * * 1,2,3,4,5'
 
+  pull_request:
+
   workflow_dispatch:
     inputs:
       sdk_ref:
@@ -47,8 +49,8 @@ jobs:
             echo "scan_nanosp=${{inputs.scan_nanosp}}" >> $GITHUB_ENV
             echo "sdk_ref=${{inputs.sdk_ref}}" >> $GITHUB_ENV
 
-      - name: Override for schedule event
-        if: ${{ github.event_name == 'schedule' }}
+      - name: Override for schedule event and PR
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'pull_request' }}
         run: | 
             echo "scan_stax=true" >> $GITHUB_ENV
             echo "scan_nanos=true" >> $GITHUB_ENV
