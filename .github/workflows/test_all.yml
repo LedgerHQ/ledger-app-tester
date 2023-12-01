@@ -340,18 +340,18 @@ jobs:
 
       - name: Merge output files
         run: |
-          python scripts/entrypoint.py merge_output --input_pattern "test_output_*.json" --output_file test_output.json --key "test"
+          python scripts/entrypoint.py merge_output --input_pattern "test_output_*.json" --output_file full_test_output.json --key "test"
 
       - name: Archive output file
         uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: report.json
-          path: test_output.json
+          name: full_test_output.json
+          path: full_test_output.json
 
       - name: Convert to markdown
         run: |
-          python scripts/entrypoint.py convert_output --input_file test_output.json --output_file out.md --key test
+          python scripts/entrypoint.py convert_output --input_file full_test_output.json --output_file out.md --key test
           cat out.md >> $GITHUB_STEP_SUMMARY
 
       - name: Echo GHA url 
@@ -359,7 +359,7 @@ jobs:
 
       - name: Convert to slack json
         run: |
-          python scripts/entrypoint.py slack_output --input_file test_output.json --output_file slack.json --key test --url ${{ env.url }}
+          python scripts/entrypoint.py slack_output --input_file full_test_output.json --output_file slack.json --key test --url ${{ env.url }}
 
       - name: Send custom JSON data to Slack workflow
         if: ${{ github.event_name == 'schedule' || inputs.send_to_slack == true }}
@@ -372,4 +372,4 @@ jobs:
 
       - name: Set job status
         run: |
-          python scripts/entrypoint.py status_output --input_file test_output.json --key test
+          python scripts/entrypoint.py status_output --input_file full_test_output.json --key test
