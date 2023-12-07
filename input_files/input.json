@@ -2202,6 +2202,7 @@
   "owner": "coderofstuff",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-kaspa",
+  "test_dir": "tests",
   "variant_param": "COIN",
   "variants_nanos": [
    "KAS"
