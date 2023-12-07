@@ -365,6 +365,10 @@
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
+    "name": "app-kaspa",
+    "test_dir": "tests"
+  },
+  {
     "name": "app-keepass",
     "build_blacklist": ["nanos", "nanosp", "nanox", "stax"],
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
