@@ -228,7 +228,7 @@
   {
     "name": "app-ethereum",
     "test_dir": "tests/ragger",
-    "extra_flags": "DEBUG=1 CAL_CI_KEY=1 DOMAIN_NAME_TEST_KEY=1",
+    "extra_flags": "DEBUG=1 CAL_TEST_KEY=1 DOMAIN_NAME_TEST_KEY=1 SET_PLUGIN_TEST_KEY=1 NFT_TEST_KEY=1",
     "scan_whitelist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
