@@ -570,12 +570,20 @@
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
+    "name": "app-plugin-cian",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
     "name": "app-plugin-cometh",
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
     "name": "app-plugin-compound",
     "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-plugin-ens",
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
@@ -618,6 +626,10 @@
   {
     "name": "app-plugin-opensea-new",
     "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-plugin-okx",
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {

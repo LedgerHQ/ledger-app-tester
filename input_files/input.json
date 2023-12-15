@@ -2805,6 +2805,9 @@
   ],
   "variants_nanosp": [
    "oasis"
+  ],
+  "variants_stax": [
+   "oasis"
   ]
  },
  {
@@ -3237,6 +3240,31 @@
   ]
  },
  {
+  "name": "app-plugin-cian",
+  "owner": "cian-ai",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-cian",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "CIAN"
+  ],
+  "variants_nanox": [
+   "CIAN"
+  ],
+  "variants_nanosp": [
+   "CIAN"
+  ],
+  "variants_stax": [
+   "CIAN"
+  ]
+ },
+ {
   "name": "app-plugin-cometh",
   "owner": "cometh-game",
   "ref": "develop",
@@ -3287,6 +3315,31 @@
   ],
   "variants_stax": [
    "compound"
+  ]
+ },
+ {
+  "name": "app-plugin-ens",
+  "owner": "Zondax",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-ens",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "variant_param": "NONE",
+  "variants_nanos": [
+   "ENS"
+  ],
+  "variants_nanox": [
+   "ENS"
+  ],
+  "variants_nanosp": [
+   "ENS"
+  ],
+  "variants_stax": [
+   "ENS"
   ]
  },
  {
@@ -3515,6 +3568,31 @@
   ],
   "variants_stax": [
    "nft"
+  ]
+ },
+ {
+  "name": "app-plugin-okx",
+  "owner": "okx",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-okx",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "okx_web3"
+  ],
+  "variants_nanox": [
+   "okx_web3"
+  ],
+  "variants_nanosp": [
+   "okx_web3"
+  ],
+  "variants_stax": [
+   "okx_web3"
   ]
  },
  {
