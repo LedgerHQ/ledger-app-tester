@@ -2789,6 +2789,9 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-oasis",
   "build_path": "app",
+  "build_blacklist": [
+   "stax"
+  ],
   "test_blacklist": [
    "nanos",
    "nanosp",
