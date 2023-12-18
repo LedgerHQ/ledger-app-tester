@@ -479,6 +479,7 @@
   {
     "name": "app-oasis",
     "build_path": "app",
+    "build_blacklist": ["stax"],
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
