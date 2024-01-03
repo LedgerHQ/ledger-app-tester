@@ -2290,34 +2290,6 @@
   ]
  },
  {
-  "name": "app-lisk",
-  "owner": "vekexasia",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-lisk",
-  "build_blacklist": [
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "lisk"
-  ],
-  "variants_nanox": [
-   "lisk"
-  ],
-  "variants_nanosp": [
-   "lisk"
-  ],
-  "variants_stax": [
-   "lisk"
-  ]
- },
- {
   "name": "app-lisk-new",
   "owner": "Zondax",
   "ref": "develop",
@@ -3269,7 +3241,7 @@
  },
  {
   "name": "app-plugin-cometh",
-  "owner": "cometh-game",
+  "owner": "cometh-hq",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-cometh",
   "test_blacklist": [
@@ -4365,6 +4337,9 @@
    "stax"
   ],
   "variant_param": "APP",
+  "variants_nanos": [
+   "SecurityKey"
+  ],
   "variants_nanox": [
    "SecurityKey"
   ],
@@ -4885,6 +4860,25 @@
   ],
   "variants_stax": [
    "tron"
+  ]
+ },
+ {
+  "name": "app-trustchain",
+  "owner": "LedgerHQ",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-trustchain",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "BOL"
+  ],
+  "variants_nanox": [
+   "BOL"
+  ],
+  "variants_nanosp": [
+   "BOL"
+  ],
+  "variants_stax": [
+   "BOL"
   ]
  },
  {
