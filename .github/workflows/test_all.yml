@@ -40,6 +40,11 @@ on:
         required: false
         default: false
 
+      golden_run:
+        type: boolean
+        required: false
+        default: false
+
 jobs:
   split-input-file: 
     name: Split input file
@@ -170,17 +175,29 @@ jobs:
       - name: Launch test nanosp
         if: ${{ env.test_nanosp }}
         run: |
-          python scripts/entrypoint.py build_and_test --sdk_ref ${{ env.api_level_nanosp }} --input_file input_${{ matrix.index }}.json --test --nanosp --skip_setup --output_file test_nanosp_${{ matrix.index }}.json --logs_file log_nanosp.txt
+          if [ "${{ inputs.golden_run }}" == true ]; then
+            python scripts/entrypoint.py build_and_test --sdk_ref ${{ env.api_level_nanosp }} --input_file input_${{ matrix.index }}.json --test --nanosp --skip_setup --output_file test_nanosp_${{ matrix.index }}.json --logs_file log_nanosp.txt --golden_run --github_username ${{ secrets.CI_BOT_USERNAME }} --github_access_token ${{ secrets.CI_BOT_TOKEN }}
+          else
+            python scripts/entrypoint.py build_and_test --sdk_ref ${{ env.api_level_nanosp }} --input_file input_${{ matrix.index }}.json --test --nanosp --skip_setup --output_file test_nanosp_${{ matrix.index }}.json --logs_file log_nanosp.txt 
+          fi
 
       - name: Launch test nanox
         if: ${{ env.test_nanox }}
         run: |
-          python scripts/entrypoint.py build_and_test --sdk_ref ${{ env.api_level_nanox }} --input_file input_${{ matrix.index }}.json --test --nanox --skip_setup --output_file test_nanox_${{ matrix.index }}.json --logs_file log_nanox.txt
+          if [ "${{ inputs.golden_run }}" == true ]; then
+            python scripts/entrypoint.py build_and_test --sdk_ref ${{ env.api_level_nanox }} --input_file input_${{ matrix.index }}.json --test --nanox --skip_setup --output_file test_nanox_${{ matrix.index }}.json --logs_file log_nanox.txt --golden_run --github_username ${{ secrets.CI_BOT_USERNAME }} --github_access_token ${{ secrets.CI_BOT_TOKEN }}
+          else
+            python scripts/entrypoint.py build_and_test --sdk_ref ${{ env.api_level_nanox }} --input_file input_${{ matrix.index }}.json --test --nanox --skip_setup --output_file test_nanox_${{ matrix.index }}.json --logs_file log_nanox.txt 
+          fi
 
       - name: Launch test stax
         if: ${{ env.test_stax }}
         run: |
-          python scripts/entrypoint.py build_and_test --sdk_ref ${{ env.api_level_stax }} --input_file input_${{ matrix.index }}.json --test --stax --skip_setup --output_file test_stax_${{ matrix.index }}.json --logs_file log_stax.txt
+          if [ "${{ inputs.golden_run }}" == true ]; then
+            python scripts/entrypoint.py build_and_test --sdk_ref ${{ env.api_level_stax }} --input_file input_${{ matrix.index }}.json --test --stax --skip_setup --output_file test_stax_${{ matrix.index }}.json --logs_file log_stax.txt --golden_run --github_username ${{ secrets.CI_BOT_USERNAME }} --github_access_token ${{ secrets.CI_BOT_TOKEN }}
+          else
+            python scripts/entrypoint.py build_and_test --sdk_ref ${{ env.api_level_stax }} --input_file input_${{ matrix.index }}.json --test --stax --skip_setup --output_file test_stax_${{ matrix.index }}.json --logs_file log_stax.txt 
+          fi
 
       - name: Merge output files
         run: |
@@ -363,6 +380,10 @@ jobs:
         run: |
           python scripts/entrypoint.py slack_output --input_file full_test_output.json --output_file slack.json --key test --url ${{ env.url }}
 
+      - name: Open Issue to summarize opened PRs
+        if: ${{ inputs.golden_run == true }}
+        run: |
+          python scripts/entrypoint.py create_issue --input_file full_test_output.json --access_token ${{ secrets.CI_BOT_TOKEN }}
       - name: Send custom JSON data to Slack workflow
         if: ${{ github.event_name == 'schedule' || inputs.send_to_slack == true }}
         id: slack

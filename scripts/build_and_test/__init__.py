@@ -7,6 +7,7 @@ from build_and_test.build_app import build_all_devices
 from build_and_test.test_app import test_all_devices
 from build_and_test.scan_app import scan_all_devices
 from build_and_test.device import Devices
+from build_and_test.create_prs import create_prs
 from utils import git_setup, merge_json
 
 SDK_NAME = "sdk"
@@ -83,7 +84,13 @@ def main(args: Namespace) -> None:
 
         if args.test:
             print(f"Test {repo_name}")
-            test_app, log = test_all_devices(devices, abs_workdir/Path(SDK_NAME), app_json, abs_workdir)
+            test_app, log = test_all_devices(devices, abs_workdir/Path(SDK_NAME), app_json, abs_workdir,
+                                             args.golden_run)
+            if args.golden_run:
+                print(f"Creating PR {repo_name}")
+                pr_link = create_prs(args.github_username, args.github_access_token, app_json, abs_workdir)
+                if pr_link:
+                    test_app["test"]["screenshot_pr_link"] = pr_link
             build_output.append(test_app)
             logs += log
 

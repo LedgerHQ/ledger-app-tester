@@ -41,6 +41,10 @@ def parse_args() -> Namespace:
     subparser.add_argument("--device", required=False, type=str)
     subparser.add_argument("--version", required=False, type=str)
 
+    subparser.add_argument("--github_username", required=False, type=str)
+    subparser.add_argument("--github_access_token", required=False, type=str)
+    subparser.add_argument("--golden_run", action='store_true')
+
     # output_scripts
     # # convert
     subparser = subparsers.add_parser('convert_output')
@@ -63,6 +67,10 @@ def parse_args() -> Namespace:
     subparser.add_argument("--key", required=False, type=str, default="build")
     subparser.add_argument("--devices", required=False, type=str)
     subparser.add_argument("--url", required=False, type=str)
+    # # create_issue
+    subparser = subparsers.add_parser('create_issue')
+    subparser.add_argument("--access_token", required=True, type=str)
+    subparser.add_argument("--input_file", required=True, type=Path)
 
     # create_app_list
     subparser = subparsers.add_parser('create_app_list')
@@ -101,6 +109,9 @@ if __name__ == '__main__':
     elif args.operation == 'slack_output':
         import output_scripts.slack
         output_scripts.slack.main(args)
+    elif args.operation == 'create_issue':
+        import output_scripts.create_issue
+        output_scripts.create_issue.main(args)
     elif args.operation == 'create_app_list':
         import create_app_list
         create_app_list.main(args)

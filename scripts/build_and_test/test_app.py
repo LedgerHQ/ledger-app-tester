@@ -6,9 +6,16 @@ from build_and_test.build_app import build_variant
 from utils import run_cmd
 
 
-def test(model: str, app_test_path: Path, app_build_path: Path, test_params: str) -> Tuple[str, str]:
+def test(model: str, app_test_path: Path, app_build_path: Path, test_params: str, golden_run: bool) -> Tuple[str, str]:
+
     output: str
-    error, log = run_cmd(f"pytest {app_test_path}/ --tb=short -v --device {model} {test_params}",
+
+    if golden_run:
+        golden_run_param = "--golden_run"
+    else:
+        golden_run_param = ""
+
+    error, log = run_cmd(f"pytest {app_test_path}/ --tb=short -v --device {model} {test_params} {golden_run_param}",
                          cwd=app_build_path, no_throw=True)
 
     if (error):
@@ -31,7 +38,8 @@ def test_device(device: Device,
                 sdk_path: Path,
                 extra_flags: str,
                 blacklist: str,
-                test_params: str) -> Tuple[str, str]:
+                test_params: str,
+                golden_run: bool) -> Tuple[str, str]:
     test_output: str
     log = ""
 
@@ -50,13 +58,13 @@ def test_device(device: Device,
     if error:
         return "Fail", log
 
-    test_output, log = test(device.model_name, app_test_path, app_build_path, test_params)
+    test_output, log = test(device.model_name, app_test_path, app_build_path, test_params, golden_run)
 
     print(test_output)
     return test_output, log
 
 
-def test_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir: Path):
+def test_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir: Path, golden_run: bool):
     repo_name = app_json["name"]
     variant_param = app_json.get("variant_param")
     app_build_path = workdir / Path(repo_name + "/" + app_json.get("build_path", "."))
@@ -73,19 +81,20 @@ def test_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir: 
 
     test_params = app_json.get("test_param_nanos", "")
     nanos_output, nanos_log = test_device(devices.nanos, variant_param, app_build_path, app_test_path,
-                                          sdk_path, extra_flags, blacklist, test_params)
+                                          sdk_path, extra_flags, blacklist, test_params, golden_run)
 
     test_params = app_json.get("test_param_nanosp", "")
     nanosp_output, nanosp_log = test_device(devices.nanosp, variant_param, app_build_path, app_test_path,
-                                            sdk_path, extra_flags, blacklist, test_params)
+                                            sdk_path, extra_flags, blacklist, test_params,
+                                            golden_run)
 
     test_params = app_json.get("test_param_nanox", "")
     nanox_output, nanox_log = test_device(devices.nanox, variant_param, app_build_path, app_test_path,
-                                          sdk_path, extra_flags, blacklist, test_params)
+                                          sdk_path, extra_flags, blacklist, test_params, golden_run)
 
     test_params = app_json.get("test_param_stax", "")
     stax_output, stax_log = test_device(devices.stax, variant_param, app_build_path, app_test_path,
-                                        sdk_path, extra_flags, blacklist, test_params)
+                                        sdk_path, extra_flags, blacklist, test_params, golden_run)
 
     if nanos_output and devices.nanos.selected:
         output["test"]["nanos"] = nanos_output
