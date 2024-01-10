@@ -11,7 +11,7 @@ on:
       sdk_ref_nanosp:
         type: string
         required: false
-        default: 'API_LEVEL_1'
+        default: 'API_LEVEL_5'
       run_nanosp: 
         type: boolean
         required: false
@@ -129,7 +129,7 @@ jobs:
         index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]  
 
     env:
-        API_LEVEL_NANOSP: 'API_LEVEL_1'
+        API_LEVEL_NANOSP: 'API_LEVEL_5'
         API_LEVEL_NANOX: 'API_LEVEL_5'
         API_LEVEL_STAX: 'API_LEVEL_14'
 
