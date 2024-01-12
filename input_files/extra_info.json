@@ -562,7 +562,6 @@
   },
   {
     "name": "app-plugin-boilerplate",
-    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"],
     "scan_whitelist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
