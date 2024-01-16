@@ -506,7 +506,8 @@
     "name": "app-passwords",
     "test_dir": "tests/functional",
     "extra_flags": "TESTING=1 POPULATE=1",
-    "scan_whitelist": ["nanos", "nanosp", "nanox", "stax"]
+    "scan_whitelist": ["nanos", "nanosp", "nanox", "stax"],
+    "test_blacklist": ["stax"]
   },
   {
     "name": "app-pendulum",

@@ -2934,6 +2934,9 @@
    "nanox",
    "stax"
   ],
+  "test_blacklist": [
+   "stax"
+  ],
   "variant_param": "NONE",
   "variants_nanos": [
    "pwmgr"
