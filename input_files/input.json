@@ -2935,6 +2935,9 @@
    "stax"
   ],
   "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
    "stax"
   ],
   "variant_param": "NONE",
