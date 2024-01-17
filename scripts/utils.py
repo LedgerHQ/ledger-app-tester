@@ -18,6 +18,7 @@ def run_cmd(cmd: str,
                          universal_newlines=True,
                          cwd=cwd,
                          check=not no_throw)
+    print(f"[run_cmd] Output:\n{ret.stdout}")
 
     if ret.returncode:
         print(f"[run_cmd] Output:\n{ret.stdout}")

@@ -27,6 +27,7 @@ def test(model: str, app_test_path: Path, app_build_path: Path, test_params: str
 
 
 def install_dependencies(app_test_path: Path) -> Tuple[int, str]:
+    print(f"[{app_test_path}] Install deps")
     error, log = run_cmd("pip install -r requirements.txt", cwd=app_test_path, no_throw=True)
     return error, log
 
@@ -49,15 +50,18 @@ def test_device(device: Device,
     if device.model_name in blacklist:
         return "Blacklisted", log
 
+    print(f"[{app_build_path}] deps")
     error, log = install_dependencies(app_test_path)
     if error:
         print("Error installing dependencies")
         return "Fail", log
 
+    print(f"Build")
     error, log = build_variant(device.target_name, sdk_path, "", "", app_build_path, extra_flags)
     if error:
         return "Fail", log
 
+    print(f"Test")
     test_output, log = test(device.model_name, app_test_path, app_build_path, test_params, golden_run)
 
     print(test_output)
