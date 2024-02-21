@@ -247,12 +247,6 @@
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
-    "name": "app-fantom",
-    "test_dir": "tests",
-    "build_blacklist": ["stax"],
-    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
-  },
-  {
     "name": "app-fio",
     "build_blacklist": ["stax"],
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
@@ -381,11 +375,6 @@
   {
     "name": "app-kusama",
     "build_path": "app",
-    "build_blacklist": ["stax"],
-    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
-  },
-  {
-    "name": "app-lisk",
     "build_blacklist": ["stax"],
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
@@ -563,7 +552,6 @@
   },
   {
     "name": "app-plugin-boilerplate",
-    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"],
     "scan_whitelist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
@@ -668,6 +656,10 @@
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
+    "name": "app-plugin-spool",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
     "name": "app-plugin-squid",
     "build_blacklist": ["stax"],
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
@@ -683,6 +675,10 @@
   },
   {
     "name": "app-plugin-stakekit",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-plugin-swell",
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
@@ -715,10 +711,6 @@
   {
     "name": "app-pro",
     "build_path": "app",
-    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
-  },
-  {
-    "name": "app-provenance",
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
@@ -808,12 +800,6 @@
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
-    "name": "app-starknet-zondax",
-    "build_path": "app",
-    "build_blacklist": ["nanos", "nanosp", "nanox", "stax"],
-    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
-  },
-  {
     "name": "app-statemine",
     "build_path": "app",
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
@@ -863,6 +849,10 @@
     "extra_flags": "APP=tezos_wallet"
   },
   {
+    "name": "app-tezos-new",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
     "name": "app-theta",
     "build_blacklist": ["stax"],
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
@@ -887,8 +877,10 @@
     "test_dir": "tests/speculos"
   },
   {
-    "name": "app-trustchain-poc",
-    "build_path": "tests"
+    "name": "app-trustchain",
+    "build_path": "tests",
+    "build_blacklist": ["nanos", "nanosp", "nanox", "stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
     "name": "app-vechain",
@@ -936,6 +928,10 @@
   },
   {
     "name": "app-zcash",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-zcash-new",
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
