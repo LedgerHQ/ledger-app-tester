@@ -29,7 +29,7 @@ on:
       sdk_ref_stax:
         type: string
         required: false
-        default: 'API_LEVEL_14'
+        default: 'API_LEVEL_15'
       run_stax: 
         type: boolean
         required: false
@@ -131,7 +131,7 @@ jobs:
     env:
         API_LEVEL_NANOSP: 'API_LEVEL_5'
         API_LEVEL_NANOX: 'API_LEVEL_5'
-        API_LEVEL_STAX: 'API_LEVEL_14'
+        API_LEVEL_STAX: 'API_LEVEL_15'
 
     steps:
       - name: Clone Repo
