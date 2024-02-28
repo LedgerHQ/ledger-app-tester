@@ -2789,6 +2789,7 @@
   "owner": "LedgerHQ",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-openpgp",
+  "test_dir": "tests",
   "variant_param": "APPNAME",
   "variants_nanos": [
    "OpenPGP"

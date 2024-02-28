@@ -477,6 +477,10 @@
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
+    "name": "app-openpgp",
+    "test_dir": "tests"
+  },
+  {
     "name": "app-oxen",
     "build_blacklist": ["stax"],
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
