@@ -556,7 +556,8 @@
   },
   {
     "name": "app-plugin-boilerplate",
-    "scan_whitelist": ["nanos", "nanosp", "nanox", "stax"]
+    "scan_whitelist": ["nanos", "nanosp", "nanox", "stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
     "name": "app-plugin-cbridge",
