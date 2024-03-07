@@ -92,8 +92,7 @@
   {
     "name": "app-binance",
     "build_blacklist": ["stax"],
-    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"],
-    "scan_whitelist": ["nanos", "nanosp", "nanox"]
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
     "name": "app-bitcoin",
@@ -182,8 +181,7 @@
     "name": "app-cryptocom",
     "build_path": "app",
     "build_blacklist": ["stax"],
-    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"],
-    "scan_whitelist": ["nanos", "nanosp", "nanox"]
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
     "name": "app-decimal",
@@ -443,8 +441,7 @@
   {
     "name": "app-neo3",
     "test_dir": "./tests",
-    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"],
-    "scan_whitelist": ["nanos", "nanosp", "nanox", "stax"]
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
     "name": "app-nem",
