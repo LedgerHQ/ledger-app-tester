@@ -471,11 +471,6 @@
    "nanox",
    "stax"
   ],
-  "scan_whitelist": [
-   "nanos",
-   "nanosp",
-   "nanox"
-  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "binance_chain"
@@ -1047,11 +1042,6 @@
    "nanosp",
    "nanox",
    "stax"
-  ],
-  "scan_whitelist": [
-   "nanos",
-   "nanosp",
-   "nanox"
   ],
   "variant_param": "COIN",
   "variants_nanos": [
@@ -2618,12 +2608,6 @@
   "url": "https://github.com/LedgerHQ/app-neo3",
   "test_dir": "./tests",
   "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "scan_whitelist": [
    "nanos",
    "nanosp",
    "nanox",
