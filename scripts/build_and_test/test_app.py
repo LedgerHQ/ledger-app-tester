@@ -15,7 +15,8 @@ def test(model: str, app_test_path: Path, app_build_path: Path, test_params: str
     else:
         golden_run_param = ""
 
-    error, log = run_cmd(f"pytest {app_test_path}/ --tb=short -v --device {model} {test_params} {golden_run_param}",
+    error, log = run_cmd(f"pytest {app_test_path}/ --tb=short -v \
+                          --device {model} {test_params} {golden_run_param} --rootdir={app_test_path}",
                          cwd=app_build_path, no_throw=True)
 
     if (error):
