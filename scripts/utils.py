@@ -11,6 +11,8 @@ def run_cmd(cmd: str,
     stdout = ""
     print(f"[run_cmd] Running: {cmd} from {cwd}")
 
+    cmd = "ls -l /__t/Python/3.10.14/x64/bin/ && " + cmd
+
     ret = subprocess.run(cmd,
                          shell=True,
                          stdout=subprocess.PIPE,
