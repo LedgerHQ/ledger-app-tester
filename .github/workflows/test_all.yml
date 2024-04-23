@@ -46,16 +46,17 @@ on:
         default: false
 
 jobs:
+
   split-input-file: 
     name: Split input file
     runs-on: ubuntu-latest
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Split input into 10 files
         run: |
-          python3 scripts/entrypoint.py split_input --input_file input_files/input.json
+          python scripts/entrypoint.py split_input --input_file input_files/input.json
 
       - name: Archive output file
         uses: actions/upload-artifact@v3
@@ -135,7 +136,12 @@ jobs:
 
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
       - name: Download split input file
         uses: actions/download-artifact@v3
@@ -144,7 +150,7 @@ jobs:
 
       - name: Setup repos
         run: |
-          python3 scripts/entrypoint.py build_and_test --input_file input_${{ matrix.index }}.json
+          python scripts/entrypoint.py build_and_test --input_file input_${{ matrix.index }}.json
 
       - name: Install tests dependencies
         run: |
@@ -305,7 +311,7 @@ jobs:
 
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Download files
         uses: actions/download-artifact@v3
