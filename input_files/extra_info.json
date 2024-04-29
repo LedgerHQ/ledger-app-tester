@@ -115,6 +115,10 @@
     "scan_whitelist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
+    "name": "app-boilerplate-nvram",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
     "name": "app-boilerplate-rust",
     "build_blacklist": ["nanos", "nanosp", "nanox", "stax"],
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"],
@@ -493,6 +497,10 @@
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
+    "name": "app-partisiablockchain",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
     "name": "app-passwords",
     "test_dir": "tests/functional",
     "extra_flags": "TESTING=1 POPULATE=1",
@@ -563,10 +571,6 @@
   },
   {
     "name": "app-plugin-cian",
-    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
-  },
-  {
-    "name": "app-plugin-cometh",
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
@@ -647,10 +651,6 @@
   {
     "name": "app-plugin-ribbon",
     "build_blacklist": ["stax"],
-    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
-  },
-  {
-    "name": "app-plugin-ricochet",
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
@@ -762,6 +762,10 @@
   {
     "name": "app-secret",
     "build_path": "app",
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-seed-tool",
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
