@@ -706,6 +706,31 @@
   ]
  },
  {
+  "name": "app-boilerplate-nvram",
+  "owner": "LedgerHQ",
+  "ref": "master",
+  "url": "https://github.com/LedgerHQ/app-boilerplate-nvram",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "BOL"
+  ],
+  "variants_nanox": [
+   "BOL"
+  ],
+  "variants_nanosp": [
+   "BOL"
+  ],
+  "variants_stax": [
+   "BOL"
+  ]
+ },
+ {
   "name": "app-boilerplate-rust",
   "owner": "LedgerHQ",
   "ref": "main",
@@ -2853,6 +2878,31 @@
   ]
  },
  {
+  "name": "app-partisiablockchain",
+  "owner": "partisiablockchain",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-partisiablockchain",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "MPC"
+  ],
+  "variants_nanox": [
+   "MPC"
+  ],
+  "variants_nanosp": [
+   "MPC"
+  ],
+  "variants_stax": [
+   "MPC"
+  ]
+ },
+ {
   "name": "app-passwords",
   "owner": "LedgerHQ",
   "ref": "develop",
@@ -3199,31 +3249,6 @@
   ],
   "variants_stax": [
    "CIAN"
-  ]
- },
- {
-  "name": "app-plugin-cometh",
-  "owner": "cometh-hq",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-plugin-cometh",
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "NONE",
-  "variants_nanos": [
-   "cometh"
-  ],
-  "variants_nanox": [
-   "cometh"
-  ],
-  "variants_nanosp": [
-   "cometh"
-  ],
-  "variants_stax": [
-   "cometh"
   ]
  },
  {
@@ -3714,31 +3739,6 @@
   ]
  },
  {
-  "name": "app-plugin-ricochet",
-  "owner": "blooo-io",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-plugin-ricochet",
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "NONE",
-  "variants_nanos": [
-   "ricochet"
-  ],
-  "variants_nanox": [
-   "ricochet"
-  ],
-  "variants_nanosp": [
-   "ricochet"
-  ],
-  "variants_stax": [
-   "ricochet"
-  ]
- },
- {
   "name": "app-plugin-rocketpool",
   "owner": "rocket-pool",
   "ref": "develop",
@@ -3932,16 +3932,16 @@
   ],
   "variant_param": "COIN",
   "variants_nanos": [
-   "plugin_uniswap"
+   "pbol"
   ],
   "variants_nanox": [
-   "plugin_uniswap"
+   "pbol"
   ],
   "variants_nanosp": [
-   "plugin_uniswap"
+   "pbol"
   ],
   "variants_stax": [
-   "plugin_uniswap"
+   "pbol"
   ]
  },
  {
@@ -4348,6 +4348,31 @@
   ],
   "variants_stax": [
    "SecurityKey"
+  ]
+ },
+ {
+  "name": "app-seed-tool",
+  "owner": "aido",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-seed-tool",
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "variant_param": "APP",
+  "variants_nanos": [
+   "seed_tool"
+  ],
+  "variants_nanox": [
+   "seed_tool"
+  ],
+  "variants_nanosp": [
+   "seed_tool"
+  ],
+  "variants_stax": [
+   "seed_tool"
   ]
  },
  {
