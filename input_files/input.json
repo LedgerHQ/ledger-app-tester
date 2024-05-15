@@ -528,7 +528,6 @@
    "nix",
    "lbry",
    "ravencoin",
-   "resistance",
    "hydra",
    "hydra_testnet",
    "xrhodium"
@@ -619,6 +618,25 @@
    "hydra",
    "hydra_testnet",
    "xrhodium"
+  ]
+ },
+ {
+  "name": "app-bitcoin-clone-boilerplate",
+  "owner": "LedgerHQ",
+  "ref": "main",
+  "url": "https://github.com/LedgerHQ/app-bitcoin-clone-boilerplate",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "bitcoin_clone_boilerplate"
+  ],
+  "variants_nanox": [
+   "bitcoin_clone_boilerplate"
+  ],
+  "variants_nanosp": [
+   "bitcoin_clone_boilerplate"
+  ],
+  "variants_stax": [
+   "bitcoin_clone_boilerplate"
   ]
  },
  {
