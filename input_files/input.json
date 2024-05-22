@@ -331,6 +331,26 @@
   ]
  },
  {
+  "name": "app-avail",
+  "owner": "Zondax",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-avail",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "AVAIL",
+   "AVAIL_XL"
+  ],
+  "variants_nanox": [
+   "AVAIL"
+  ],
+  "variants_nanosp": [
+   "AVAIL"
+  ],
+  "variants_stax": [
+   "AVAIL"
+  ]
+ },
+ {
   "name": "app-avalanche",
   "owner": "ava-labs",
   "ref": "develop",
@@ -1704,6 +1724,25 @@
   ],
   "variants_nanosp": [
    "FCT"
+  ]
+ },
+ {
+  "name": "app-flare",
+  "owner": "Zondax",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-flare",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "FLR"
+  ],
+  "variants_nanox": [
+   "FLR"
+  ],
+  "variants_nanosp": [
+   "FLR"
+  ],
+  "variants_stax": [
+   "FLR"
   ]
  },
  {
@@ -3526,31 +3565,6 @@
   ]
  },
  {
-  "name": "app-plugin-nft",
-  "owner": "blooo-io",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-plugin-nft",
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "NONE",
-  "variants_nanos": [
-   "nft"
-  ],
-  "variants_nanox": [
-   "nft"
-  ],
-  "variants_nanosp": [
-   "nft"
-  ],
-  "variants_stax": [
-   "nft"
-  ]
- },
- {
   "name": "app-plugin-okx",
   "owner": "okx",
   "ref": "develop",
@@ -3950,16 +3964,16 @@
   ],
   "variant_param": "COIN",
   "variants_nanos": [
-   "pbol"
+   "pluginboilerplate"
   ],
   "variants_nanox": [
-   "pbol"
+   "pluginboilerplate"
   ],
   "variants_nanosp": [
-   "pbol"
+   "pluginboilerplate"
   ],
   "variants_stax": [
-   "pbol"
+   "pluginboilerplate"
   ]
  },
  {
