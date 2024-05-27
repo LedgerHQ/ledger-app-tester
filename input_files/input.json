@@ -2329,16 +2329,16 @@
   ],
   "variant_param": "COIN",
   "variants_nanos": [
-   "LSK"
+   "LSK_LEGACY"
   ],
   "variants_nanox": [
-   "LSK"
+   "LSK_LEGACY"
   ],
   "variants_nanosp": [
-   "LSK"
+   "LSK_LEGACY"
   ],
   "variants_stax": [
-   "LSK"
+   "LSK_LEGACY"
   ]
  },
  {
