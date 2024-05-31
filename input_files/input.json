@@ -4895,25 +4895,6 @@
   ]
  },
  {
-  "name": "app-trustchain",
-  "owner": "LedgerHQ",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-trustchain",
-  "build_path": "tests",
-  "build_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ]
- },
- {
   "name": "app-u2f",
   "owner": "LedgerHQ",
   "ref": "develop",
