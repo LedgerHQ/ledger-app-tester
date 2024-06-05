@@ -4754,39 +4754,29 @@
  },
  {
   "name": "app-tezos",
-  "owner": "obsidiansystems",
+  "owner": "trilitech",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-tezos",
   "test_dir": "test/python/tests_wallet",
-  "extra_flags": "APP=tezos_wallet",
+  "extra_flags": "APP=tezos_wallet"
+ },
+ {
+  "name": "app-tezos-baking",
+  "owner": "trilitech",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-tezos-baking",
   "variant_param": "APP",
   "variants_nanos": [
-   "tezos_wallet",
    "tezos_baking"
   ],
   "variants_nanox": [
-   "tezos_wallet",
    "tezos_baking"
   ],
   "variants_nanosp": [
-   "tezos_wallet",
    "tezos_baking"
   ],
   "variants_stax": [
-   "tezos_wallet",
    "tezos_baking"
-  ]
- },
- {
-  "name": "app-tezos-new",
-  "owner": "trilitech",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-tezos-new",
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
   ]
  },
  {
