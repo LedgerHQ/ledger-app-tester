@@ -736,31 +736,6 @@
   ]
  },
  {
-  "name": "app-boilerplate-nvram",
-  "owner": "LedgerHQ",
-  "ref": "master",
-  "url": "https://github.com/LedgerHQ/app-boilerplate-nvram",
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "BOL"
-  ],
-  "variants_nanox": [
-   "BOL"
-  ],
-  "variants_nanosp": [
-   "BOL"
-  ],
-  "variants_stax": [
-   "BOL"
-  ]
- },
- {
   "name": "app-boilerplate-rust",
   "owner": "LedgerHQ",
   "ref": "main",
