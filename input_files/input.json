@@ -2595,6 +2595,12 @@
   ]
  },
  {
+  "name": "app-near-new",
+  "owner": "dj8yfo",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-near-new"
+ },
+ {
   "name": "app-nem",
   "owner": "LedgerHQ",
   "ref": "develop",
@@ -3582,6 +3588,25 @@
   ],
   "variants_stax": [
    "opensea"
+  ]
+ },
+ {
+  "name": "app-plugin-origin",
+  "owner": "OriginProtocol",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-origin",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "origin"
+  ],
+  "variants_nanox": [
+   "origin"
+  ],
+  "variants_nanosp": [
+   "origin"
+  ],
+  "variants_stax": [
+   "origin"
   ]
  },
  {
