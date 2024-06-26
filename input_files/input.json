@@ -2284,16 +2284,10 @@
   ]
  },
  {
-  "name": "app-lisk-new",
+  "name": "app-lisk-legacy",
   "owner": "Zondax",
   "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-lisk-new",
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
+  "url": "https://github.com/LedgerHQ/app-lisk-legacy",
   "variant_param": "COIN",
   "variants_nanos": [
    "LSK_LEGACY"
