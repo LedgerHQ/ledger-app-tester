@@ -669,10 +669,6 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "bitcoin_testnet",
-   "bitcoin"
-  ],
   "variants_nanox": [
    "bitcoin_testnet",
    "bitcoin"
