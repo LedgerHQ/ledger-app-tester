@@ -2366,27 +2366,19 @@
   "variant_param": "CURRENCY",
   "variants_nanos": [
    "mimblewimble_coin",
-   "mimblewimble_coin_floonet",
-   "grin",
-   "grin_testnet"
+   "mimblewimble_coin_floonet"
   ],
   "variants_nanox": [
    "mimblewimble_coin",
-   "mimblewimble_coin_floonet",
-   "grin",
-   "grin_testnet"
+   "mimblewimble_coin_floonet"
   ],
   "variants_nanosp": [
    "mimblewimble_coin",
-   "mimblewimble_coin_floonet",
-   "grin",
-   "grin_testnet"
+   "mimblewimble_coin_floonet"
   ],
   "variants_stax": [
    "mimblewimble_coin",
-   "mimblewimble_coin_floonet",
-   "grin",
-   "grin_testnet"
+   "mimblewimble_coin_floonet"
   ]
  },
  {
