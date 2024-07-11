@@ -3919,7 +3919,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "NONE",
+  "variant_param": "COIN",
   "variants_nanos": [
    "swell"
   ],
@@ -4034,16 +4034,19 @@
   "variant_param": "COIN",
   "variants_nanos": [
    "DOT",
-   "DOT_XL"
+   "DOT_MIGRATION"
   ],
   "variants_nanox": [
-   "DOT"
+   "DOT",
+   "DOT_MIGRATION"
   ],
   "variants_nanosp": [
-   "DOT"
+   "DOT",
+   "DOT_MIGRATION"
   ],
   "variants_stax": [
-   "DOT"
+   "DOT",
+   "DOT_MIGRATION"
   ]
  },
  {
