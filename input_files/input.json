@@ -3059,7 +3059,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "NONE",
+  "variant_param": "COIN",
   "variants_nanos": [
    "1inch"
   ],
@@ -3084,7 +3084,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "NONE",
+  "variant_param": "COIN",
   "variants_nanos": [
    "alkemi"
   ],
@@ -3112,7 +3112,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "NONE",
+  "variant_param": "COIN",
   "variants_nanos": [
    "angle"
   ],
@@ -3137,7 +3137,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "NONE",
+  "variant_param": "COIN",
   "variants_nanos": [
    "apwine"
   ],
@@ -3165,7 +3165,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "NONE",
+  "variant_param": "COIN",
   "variants_nanos": [
    "artblocks"
   ],
@@ -3224,7 +3224,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "NONE",
+  "variant_param": "COIN",
   "variants_nanos": [
    "cbridge"
   ],
@@ -3277,7 +3277,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "NONE",
+  "variant_param": "COIN",
   "variants_nanos": [
    "compound"
   ],
@@ -3302,18 +3302,18 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "NONE",
+  "variant_param": "COIN",
   "variants_nanos": [
-   "ENS"
+   "ens"
   ],
   "variants_nanox": [
-   "ENS"
+   "ens"
   ],
   "variants_nanosp": [
-   "ENS"
+   "ens"
   ],
   "variants_stax": [
-   "ENS"
+   "ens"
   ]
  },
  {
@@ -3405,7 +3405,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "NONE",
+  "variant_param": "COIN",
   "variants_nanos": [
    "lens"
   ],
@@ -3430,7 +3430,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "NONE",
+  "variant_param": "COIN",
   "variants_nanos": [
    "libertify"
   ],
@@ -3455,7 +3455,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "NONE",
+  "variant_param": "COIN",
   "variants_nanos": [
    "lido"
   ],
@@ -3505,7 +3505,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "NONE",
+  "variant_param": "COIN",
   "variants_nanos": [
    "nested"
   ],
@@ -3542,34 +3542,6 @@
   ],
   "variants_stax": [
    "okx_web3"
-  ]
- },
- {
-  "name": "app-plugin-opensea-new",
-  "owner": "Benjyskan",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-plugin-opensea-new",
-  "build_blacklist": [
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "NONE",
-  "variants_nanos": [
-   "opensea"
-  ],
-  "variants_nanox": [
-   "opensea"
-  ],
-  "variants_nanosp": [
-   "opensea"
-  ],
-  "variants_stax": [
-   "opensea"
   ]
  },
  {
@@ -3627,7 +3599,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "NONE",
+  "variant_param": "COIN",
   "variants_nanos": [
    "paraswap"
   ],
@@ -3652,7 +3624,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "NONE",
+  "variant_param": "COIN",
   "variants_nanos": [
    "poap"
   ],
@@ -3677,7 +3649,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "NONE",
+  "variant_param": "COIN",
   "variants_nanos": [
    "quickswap"
   ],
@@ -3702,7 +3674,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "NONE",
+  "variant_param": "COIN",
   "variants_nanos": [
    "rarible"
   ],
@@ -3730,7 +3702,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "NONE",
+  "variant_param": "COIN",
   "variants_nanos": [
    "ribbon"
   ],
@@ -3808,7 +3780,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "NONE",
+  "variant_param": "COIN",
   "variants_nanos": [
    "squid"
   ],
@@ -3861,7 +3833,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "NONE",
+  "variant_param": "COIN",
   "variants_nanos": [
    "stakedao"
   ],
@@ -3961,7 +3933,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "NONE",
+  "variant_param": "COIN",
   "variants_nanos": [
    "yearn"
   ],
