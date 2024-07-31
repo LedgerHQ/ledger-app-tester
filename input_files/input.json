@@ -2578,7 +2578,7 @@
  },
  {
   "name": "app-near-new",
-  "owner": "dj8yfo",
+  "owner": "LedgerHQ",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-near-new"
  },
@@ -4177,7 +4177,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "APP",
+  "variant_param": "NONE",
   "variants_nanos": [
    "recovery_check"
   ],
@@ -4784,6 +4784,25 @@
    "RUNE"
   ],
   "variants_nanosp": [
+   "RUNE"
+  ]
+ },
+ {
+  "name": "app-thorchain-new",
+  "owner": "the-eridanus",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-thorchain-new",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "RUNE"
+  ],
+  "variants_nanox": [
+   "RUNE"
+  ],
+  "variants_nanosp": [
+   "RUNE"
+  ],
+  "variants_stax": [
    "RUNE"
   ]
  },
