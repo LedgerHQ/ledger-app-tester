@@ -2945,6 +2945,25 @@
   ]
  },
  {
+  "name": "app-peaq",
+  "owner": "Zondax",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-peaq",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "PEAQ"
+  ],
+  "variants_nanox": [
+   "PEAQ"
+  ],
+  "variants_nanosp": [
+   "PEAQ"
+  ],
+  "variants_stax": [
+   "PEAQ"
+  ]
+ },
+ {
   "name": "app-pendulum",
   "owner": "Zondax",
   "ref": "develop",
@@ -4461,6 +4480,25 @@
   ],
   "variants_stax": [
    "SXP"
+  ]
+ },
+ {
+  "name": "app-spacemesh",
+  "owner": "Zondax",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-spacemesh",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "SMESH"
+  ],
+  "variants_nanox": [
+   "SMESH"
+  ],
+  "variants_nanosp": [
+   "SMESH"
+  ],
+  "variants_stax": [
+   "SMESH"
   ]
  },
  {
