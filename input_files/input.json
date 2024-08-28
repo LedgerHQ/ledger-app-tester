@@ -2556,6 +2556,25 @@
   ]
  },
  {
+  "name": "app-nbgl-tests",
+  "owner": "LedgerHQ",
+  "ref": "master",
+  "url": "https://github.com/LedgerHQ/app-nbgl-tests",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "BOL"
+  ],
+  "variants_nanox": [
+   "BOL"
+  ],
+  "variants_nanosp": [
+   "BOL"
+  ],
+  "variants_stax": [
+   "BOL"
+  ]
+ },
+ {
   "name": "app-near",
   "owner": "LedgerHQ",
   "ref": "develop",
