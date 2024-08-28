@@ -16,6 +16,10 @@ on:
         type: boolean
         required: false
         default: true
+      scan_flex:
+        type: boolean
+        required: false
+        default: true
       scan_nanos:
         type: boolean
         required: false
@@ -47,12 +51,14 @@ jobs:
             echo "scan_nanos=${{inputs.scan_nanos}}" >> $GITHUB_ENV
             echo "scan_nanox=${{inputs.scan_nanox}}" >> $GITHUB_ENV
             echo "scan_nanosp=${{inputs.scan_nanosp}}" >> $GITHUB_ENV
+            echo "scan_flex=${{inputs.scan_flex}}" >> $GITHUB_ENV
             echo "sdk_ref=${{inputs.sdk_ref}}" >> $GITHUB_ENV
 
       - name: Override for schedule event and PR
         if: ${{ github.event_name == 'schedule' || github.event_name == 'pull_request' }}
         run: | 
             echo "scan_stax=true" >> $GITHUB_ENV
+            echo "scan_flex=true" >> $GITHUB_ENV
             echo "scan_nanos=true" >> $GITHUB_ENV
             echo "scan_nanox=true" >> $GITHUB_ENV
             echo "scan_nanosp=true" >> $GITHUB_ENV
@@ -72,6 +78,9 @@ jobs:
           fi
           if [[ ${{ env.scan_stax }} == "true" ]]; then
             NAMES+=("stax")
+          fi
+          if [[ ${{ env.scan_flex }} == "true" ]]; then
+            NAMES+=("flex")
           fi
           devices="[\"$(echo ${NAMES[@]} | sed 's/ /","/g')\"]"
           echo "names=$devices" >> $GITHUB_OUTPUT
@@ -510,6 +519,126 @@ jobs:
         with:
           name: log_stax_10.txt
 
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_1.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_2.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_3.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_4.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_5.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_6.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_7.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_8.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_9.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_stax_10.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_flex_1.txt
+  
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_flex_2.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_flex_3.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_flex_4.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_flex_5.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_flex_6.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_flex_7.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_flex_8.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_flex_9.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_flex_10.txt
+
       - name: Merge all
         continue-on-error: true
         run: |
@@ -554,6 +683,12 @@ jobs:
         continue-on-error: true
         with:
           name: merged_scan_stax.json
+
+      - name: Download flex
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: merged_scan_flex.json
 
       - name: Merge output files
         run: |

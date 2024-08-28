@@ -97,6 +97,10 @@ def test_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir: 
     stax_output, stax_log = test_device(devices.stax, variant_param, app_build_path, app_test_path,
                                         sdk_path, extra_flags, blacklist, test_params, golden_run)
 
+    test_params = app_json.get("test_param_flex", "")
+    flex_output, flex_log = test_device(devices.flex, variant_param, app_build_path, app_test_path,
+                                        sdk_path, extra_flags, blacklist, test_params, golden_run)
+
     if nanos_output and devices.nanos.selected:
         output["test"]["nanos"] = nanos_output
     if nanosp_output and devices.nanosp.selected:
@@ -105,8 +109,10 @@ def test_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir: 
         output["test"]["nanox"] = nanox_output
     if stax_output and devices.stax.selected:
         output["test"]["stax"] = stax_output
+    if flex_output and devices.flex.selected:
+        output["test"]["flex"] = flex_output
     print(output)
 
-    log = nanos_log + nanosp_log + nanox_log + stax_log
+    log = nanos_log + nanosp_log + nanox_log + stax_log + flex_log
 
     return output, log

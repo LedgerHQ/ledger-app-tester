@@ -4,8 +4,8 @@ from argparse import Namespace
 
 def json_to_markdown(json_list, key):
     # Set up the markdown table headers
-    markdown_table = "| App Name | nanos | nanosp | nanox | stax |\n"
-    markdown_table += "|----------|-------|--------|-------|------|\n"
+    markdown_table = "| App Name | nanos | nanosp | nanox | stax | flex |\n"
+    markdown_table += "|----------|-------|--------|-------|------|------|\n"
 
     # Iterate over each dictionary in the list
     for json_data in json_list:
@@ -17,7 +17,7 @@ def json_to_markdown(json_list, key):
         row = "| {} |".format(app_name)
 
         # Iterate over each device and append the status
-        for d in ["nanos", "nanosp", "nanox", "stax"]:
+        for d in ["nanos", "nanosp", "nanox", "stax", "flex"]:
             build_data = app_data.get(d, {})
             if isinstance(build_data, dict):  # nested structure
                 status_icon = (":red_circle:" if "Fail" in build_data.values()

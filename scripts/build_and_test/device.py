@@ -2,11 +2,13 @@ TARGET_NANOS = "nanos"
 TARGET_NANOSP = "nanos2"
 TARGET_NANOX = "nanox"
 TARGET_STAX = "stax"
+TARGET_FLEX = "flex"
 
 NANOS_API_LEVEL = 1
 NANOSP_API_LEVEL = 5
 NANOX_API_LEVEL = 5
-STAX_API_LEVEL = 15
+STAX_API_LEVEL = 21
+FLEX_API_LEVEL = 21
 
 
 class Device:
@@ -19,8 +21,14 @@ class Device:
 
 
 class Devices:
-    def __init__(self, nanos_enable: bool, nanosp_enable: bool, nanox_enable: bool, stax_enable: bool):
+    def __init__(self,
+                 nanos_enable: bool,
+                 nanosp_enable: bool,
+                 nanox_enable: bool,
+                 stax_enable: bool,
+                 flex_enable: bool):
         self.nanos = Device("nanos", "nanos", "$NANOS_SDK", NANOS_API_LEVEL, nanos_enable)
         self.nanosp = Device("nanos2", "nanosp", "$NANOSP_SDK", NANOSP_API_LEVEL, nanosp_enable)
         self.nanox = Device("nanox", "nanox", "$NANOX_SDK", NANOX_API_LEVEL, nanox_enable)
         self.stax = Device("stax", "stax", "$STAX_SDK", STAX_API_LEVEL, stax_enable)
+        self.flex = Device("flex", "flex", "$FLEX_SDK", FLEX_API_LEVEL, flex_enable)

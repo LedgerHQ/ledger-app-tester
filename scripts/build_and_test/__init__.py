@@ -27,6 +27,7 @@ def main(args: Namespace) -> None:
     nanosp_enable = False
     nanox_enable = False
     stax_enable = False
+    flex_enable = False
 
     if args.all or args.nanos:
         print("Nanos enabled")
@@ -40,8 +41,11 @@ def main(args: Namespace) -> None:
     if args.all or args.stax:
         print("Stax enabled")
         stax_enable = True
+    if args.all or args.flex:
+        print("Flex enabled")
+        flex_enable = True
 
-    devices = Devices(nanos_enable, nanosp_enable, nanox_enable, stax_enable)
+    devices = Devices(nanos_enable, nanosp_enable, nanox_enable, stax_enable, flex_enable)
 
     if Path(args.input_file).exists():
         with open(args.input_file) as json_file:
