@@ -8,7 +8,7 @@ def check_status(json_data, key):
         app_data = json_data.get(key, {})
         app_name = json_data.get("name", {})
 
-        for d in ["nanos", "nanosp", "nanox", "stax"]:
+        for d in ["nanos", "nanosp", "nanox", "stax", "flex"]:
             data = app_data.get(d, {})
             if isinstance(data, dict):  # nested structure
                 if "Fail" in data.values():

@@ -9,6 +9,7 @@ Models = namedtuple('Models', ['sdk_value', 'device_name'])
 MODELS = [Models("$NANOS_SDK", "nanos"),
           Models("$NANOX_SDK", "nanox"),
           Models("$NANOSP_SDK", "nanosp"),
+          Models("$FLEX_SDK", "flex"),
           Models("$STAX_SDK", "stax")]
 
 
