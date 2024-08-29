@@ -50,6 +50,9 @@
   "variants_nanosp": [
    "AERGO"
   ],
+  "variants_flex": [
+   "AERGO"
+  ],
   "variants_stax": [
    "AERGO"
   ]
@@ -76,6 +79,9 @@
    "aeternity"
   ],
   "variants_nanosp": [
+   "aeternity"
+  ],
+  "variants_flex": [
    "aeternity"
   ],
   "variants_stax": [
@@ -122,6 +128,9 @@
    "aion"
   ],
   "variants_nanosp": [
+   "aion"
+  ],
+  "variants_flex": [
    "aion"
   ],
   "variants_stax": [
@@ -183,6 +192,9 @@
   "variants_nanosp": [
    "ALGO"
   ],
+  "variants_flex": [
+   "ALGO"
+  ],
   "variants_stax": [
    "ALGO"
   ]
@@ -209,6 +221,9 @@
    "APTOS"
   ],
   "variants_nanosp": [
+   "APTOS"
+  ],
+  "variants_flex": [
    "APTOS"
   ],
   "variants_stax": [
@@ -239,6 +254,9 @@
   "variants_nanosp": [
    "ardor"
   ],
+  "variants_flex": [
+   "ardor"
+  ],
   "variants_stax": [
    "ardor"
   ]
@@ -265,6 +283,9 @@
    "ark"
   ],
   "variants_nanosp": [
+   "ark"
+  ],
+  "variants_flex": [
    "ark"
   ],
   "variants_stax": [
@@ -376,6 +397,9 @@
    "AVAX"
   ],
   "variants_nanosp": [
+   "AVAX"
+  ],
+  "variants_flex": [
    "AVAX"
   ],
   "variants_stax": [
@@ -501,6 +525,9 @@
   "variants_nanosp": [
    "binance_chain"
   ],
+  "variants_flex": [
+   "binance_chain"
+  ],
   "variants_stax": [
    "binance_chain"
   ]
@@ -604,6 +631,33 @@
    "hydra_testnet",
    "xrhodium"
   ],
+  "variants_flex": [
+   "bitcoin_testnet_legacy",
+   "bitcoin_legacy",
+   "bitcoin_cash",
+   "bitcoin_gold",
+   "litecoin",
+   "dogecoin",
+   "dash",
+   "horizen",
+   "komodo",
+   "stratis",
+   "peercoin",
+   "pivx",
+   "viacoin",
+   "vertcoin",
+   "digibyte",
+   "bitcoin_private",
+   "firo",
+   "gamecredits",
+   "zclassic",
+   "nix",
+   "lbry",
+   "ravencoin",
+   "hydra",
+   "hydra_testnet",
+   "xrhodium"
+  ],
   "variants_stax": [
    "bitcoin_testnet_legacy",
    "bitcoin_legacy",
@@ -647,6 +701,9 @@
   "variants_nanosp": [
    "bitcoin_clone_boilerplate"
   ],
+  "variants_flex": [
+   "bitcoin_clone_boilerplate"
+  ],
   "variants_stax": [
    "bitcoin_clone_boilerplate"
   ]
@@ -677,6 +734,10 @@
    "bitcoin_testnet",
    "bitcoin"
   ],
+  "variants_flex": [
+   "bitcoin_testnet",
+   "bitcoin"
+  ],
   "variants_stax": [
    "bitcoin_testnet",
    "bitcoin"
@@ -703,6 +764,12 @@
   ],
   "variants_nanosp": [
    "STX"
+  ],
+  "variants_flex": [
+   "STX"
+  ],
+  "variants_stax": [
+   "STX"
   ]
  },
  {
@@ -725,6 +792,9 @@
    "BOL"
   ],
   "variants_nanosp": [
+   "BOL"
+  ],
+  "variants_flex": [
    "BOL"
   ],
   "variants_stax": [
@@ -776,6 +846,9 @@
   "variants_nanosp": [
    "BOL"
   ],
+  "variants_flex": [
+   "BOL"
+  ],
   "variants_stax": [
    "BOL"
   ]
@@ -802,6 +875,9 @@
    "btec"
   ],
   "variants_nanosp": [
+   "btec"
+  ],
+  "variants_flex": [
    "btec"
   ],
   "variants_stax": [
@@ -833,6 +909,9 @@
    "cardano_ada"
   ],
   "variants_nanosp": [
+   "cardano_ada"
+  ],
+  "variants_flex": [
    "cardano_ada"
   ],
   "variants_stax": [
@@ -882,6 +961,9 @@
    "celo"
   ],
   "variants_nanosp": [
+   "celo"
+  ],
+  "variants_flex": [
    "celo"
   ],
   "variants_stax": [
@@ -936,6 +1018,9 @@
   "variants_nanosp": [
    "concordium"
   ],
+  "variants_flex": [
+   "concordium"
+  ],
   "variants_stax": [
    "concordium"
   ]
@@ -964,6 +1049,9 @@
   "variants_nanosp": [
    "conflux"
   ],
+  "variants_flex": [
+   "conflux"
+  ],
   "variants_stax": [
    "conflux"
   ]
@@ -990,6 +1078,9 @@
    "constellation"
   ],
   "variants_nanosp": [
+   "constellation"
+  ],
+  "variants_flex": [
    "constellation"
   ],
   "variants_stax": [
@@ -1021,6 +1112,9 @@
   "variants_nanosp": [
    "ATOM"
   ],
+  "variants_flex": [
+   "ATOM"
+  ],
   "variants_stax": [
    "ATOM"
   ]
@@ -1050,6 +1144,9 @@
   "variants_nanosp": [
    "coti"
   ],
+  "variants_flex": [
+   "coti"
+  ],
   "variants_stax": [
    "coti"
   ]
@@ -1077,6 +1174,9 @@
    "cro_org"
   ],
   "variants_nanosp": [
+   "cro_org"
+  ],
+  "variants_flex": [
    "cro_org"
   ],
   "variants_stax": [
@@ -1133,6 +1233,10 @@
    "decred",
    "decred_testnet"
   ],
+  "variants_flex": [
+   "decred",
+   "decred_testnet"
+  ],
   "variants_stax": [
    "decred",
    "decred_testnet"
@@ -1161,6 +1265,9 @@
    "desmos"
   ],
   "variants_nanosp": [
+   "desmos"
+  ],
+  "variants_flex": [
    "desmos"
   ],
   "variants_stax": [
@@ -1239,6 +1346,9 @@
   "variants_nanosp": [
    "elastos"
   ],
+  "variants_flex": [
+   "elastos"
+  ],
   "variants_stax": [
    "elastos"
   ]
@@ -1257,6 +1367,9 @@
    "eos"
   ],
   "variants_nanosp": [
+   "eos"
+  ],
+  "variants_flex": [
    "eos"
   ],
   "variants_stax": [
@@ -1285,6 +1398,9 @@
    "ergo"
   ],
   "variants_nanosp": [
+   "ergo"
+  ],
+  "variants_flex": [
    "ergo"
   ],
   "variants_stax": [
@@ -1464,6 +1580,59 @@
    "wethio",
    "xdcnetwork"
   ],
+  "variants_flex": [
+   "akroma",
+   "apothemnetwork",
+   "artis_sigma1",
+   "artis_tau1",
+   "astar",
+   "atheios",
+   "bsc",
+   "bttc",
+   "callisto",
+   "conflux_espace",
+   "cube",
+   "dexon",
+   "ellaism",
+   "energywebchain",
+   "ether1",
+   "ethereum",
+   "ethereum_classic",
+   "ethergem",
+   "ethersocial",
+   "expanse",
+   "gochain",
+   "hpb",
+   "id4good",
+   "kardiachain",
+   "meter",
+   "mix",
+   "moonbeam",
+   "moonriver",
+   "multivac",
+   "musicoin",
+   "oasys",
+   "okc",
+   "pirl",
+   "poa",
+   "polygon",
+   "reosc",
+   "rsk",
+   "rsk_testnet",
+   "shiden",
+   "shyft",
+   "songbird",
+   "tecracoin",
+   "tecratestnet",
+   "thundercore",
+   "tomochain",
+   "ubiq",
+   "volta",
+   "wanchain",
+   "webchain",
+   "wethio",
+   "xdcnetwork"
+  ],
   "variants_stax": [
    "akroma",
    "apothemnetwork",
@@ -1545,6 +1714,10 @@
    "everscale",
    "venom"
   ],
+  "variants_flex": [
+   "everscale",
+   "venom"
+  ],
   "variants_stax": [
    "everscale",
    "venom"
@@ -1577,6 +1750,9 @@
   "variants_nanosp": [
    "exchange"
   ],
+  "variants_flex": [
+   "exchange"
+  ],
   "variants_stax": [
    "exchange"
   ]
@@ -1603,6 +1779,9 @@
    "factom"
   ],
   "variants_nanosp": [
+   "factom"
+  ],
+  "variants_flex": [
    "factom"
   ],
   "variants_stax": [
@@ -1634,6 +1813,9 @@
   "variants_nanosp": [
    "FIL"
   ],
+  "variants_flex": [
+   "FIL"
+  ],
   "variants_stax": [
    "FIL"
   ]
@@ -1660,6 +1842,9 @@
    "FIO"
   ],
   "variants_nanosp": [
+   "FIO"
+  ],
+  "variants_flex": [
    "FIO"
   ],
   "variants_stax": [
@@ -1774,6 +1959,10 @@
    "groestlcoin",
    "groestlcoin_testnet"
   ],
+  "variants_flex": [
+   "groestlcoin",
+   "groestlcoin_testnet"
+  ],
   "variants_stax": [
    "groestlcoin",
    "groestlcoin_testnet"
@@ -1801,6 +1990,9 @@
    "hns"
   ],
   "variants_nanosp": [
+   "hns"
+  ],
+  "variants_flex": [
    "hns"
   ],
   "variants_stax": [
@@ -1831,6 +2023,9 @@
   "variants_nanosp": [
    "harmony_one"
   ],
+  "variants_flex": [
+   "harmony_one"
+  ],
   "variants_stax": [
    "harmony_one"
   ]
@@ -1859,6 +2054,9 @@
   "variants_nanosp": [
    "hathor"
   ],
+  "variants_flex": [
+   "hathor"
+  ],
   "variants_stax": [
    "hathor"
   ]
@@ -1877,6 +2075,9 @@
    "hedera"
   ],
   "variants_nanosp": [
+   "hedera"
+  ],
+  "variants_flex": [
    "hedera"
   ],
   "variants_stax": [
@@ -1907,6 +2108,9 @@
   "variants_nanosp": [
    "helium-solana"
   ],
+  "variants_flex": [
+   "helium-solana"
+  ],
   "variants_stax": [
    "helium-solana"
   ]
@@ -1933,6 +2137,9 @@
    "HIVE"
   ],
   "variants_nanosp": [
+   "HIVE"
+  ],
+  "variants_flex": [
    "HIVE"
   ],
   "variants_stax": [
@@ -1966,6 +2173,9 @@
   "variants_nanosp": [
    "hodl"
   ],
+  "variants_flex": [
+   "hodl"
+  ],
   "variants_stax": [
    "hodl"
   ]
@@ -1990,6 +2200,9 @@
    "ICP"
   ],
   "variants_nanosp": [
+   "ICP"
+  ],
+  "variants_flex": [
    "ICP"
   ],
   "variants_stax": [
@@ -2020,6 +2233,10 @@
    "icon_testnet"
   ],
   "variants_nanosp": [
+   "icon",
+   "icon_testnet"
+  ],
+  "variants_flex": [
    "icon",
    "icon_testnet"
   ],
@@ -2055,6 +2272,10 @@
    "iota",
    "shimmer"
   ],
+  "variants_flex": [
+   "iota",
+   "shimmer"
+  ],
   "variants_stax": [
    "iota",
    "shimmer"
@@ -2082,6 +2303,9 @@
    "iota_legacy"
   ],
   "variants_nanosp": [
+   "iota_legacy"
+  ],
+  "variants_flex": [
    "iota_legacy"
   ],
   "variants_stax": [
@@ -2112,6 +2336,9 @@
   "variants_nanosp": [
    "IoTeX"
   ],
+  "variants_flex": [
+   "IoTeX"
+  ],
   "variants_stax": [
    "IoTeX"
   ]
@@ -2139,6 +2366,9 @@
    "IOV"
   ],
   "variants_nanosp": [
+   "IOV"
+  ],
+  "variants_flex": [
    "IOV"
   ],
   "variants_stax": [
@@ -2201,6 +2431,9 @@
    "KAS"
   ],
   "variants_nanosp": [
+   "KAS"
+  ],
+  "variants_flex": [
    "KAS"
   ],
   "variants_stax": [
@@ -2322,6 +2555,9 @@
   "variants_nanosp": [
    "lto"
   ],
+  "variants_flex": [
+   "lto"
+  ],
   "variants_stax": [
    "lto"
   ]
@@ -2376,6 +2612,10 @@
    "mimblewimble_coin",
    "mimblewimble_coin_floonet"
   ],
+  "variants_flex": [
+   "mimblewimble_coin",
+   "mimblewimble_coin_floonet"
+  ],
   "variants_stax": [
    "mimblewimble_coin",
    "mimblewimble_coin_floonet"
@@ -2396,6 +2636,9 @@
    "mina"
   ],
   "variants_nanosp": [
+   "mina"
+  ],
+  "variants_flex": [
    "mina"
   ],
   "variants_stax": [
@@ -2437,6 +2680,9 @@
   "variants_nanosp": [
    "monero"
   ],
+  "variants_flex": [
+   "monero"
+  ],
   "variants_stax": [
    "monero"
   ]
@@ -2455,6 +2701,9 @@
    "eGLD"
   ],
   "variants_nanosp": [
+   "eGLD"
+  ],
+  "variants_flex": [
    "eGLD"
   ],
   "variants_stax": [
@@ -2517,6 +2766,11 @@
    "banano",
    "nos"
   ],
+  "variants_flex": [
+   "nano",
+   "banano",
+   "nos"
+  ],
   "variants_stax": [
    "nano",
    "banano",
@@ -2550,6 +2804,10 @@
    "navcoin_testnet",
    "navcoin"
   ],
+  "variants_flex": [
+   "navcoin_testnet",
+   "navcoin"
+  ],
   "variants_stax": [
    "navcoin_testnet",
    "navcoin"
@@ -2568,6 +2826,9 @@
    "BOL"
   ],
   "variants_nanosp": [
+   "BOL"
+  ],
+  "variants_flex": [
    "BOL"
   ],
   "variants_stax": [
@@ -2589,6 +2850,9 @@
    "near"
   ],
   "variants_nanosp": [
+   "near"
+  ],
+  "variants_flex": [
    "near"
   ],
   "variants_stax": [
@@ -2617,6 +2881,9 @@
   "variants_nanosp": [
    "nem"
   ],
+  "variants_flex": [
+   "nem"
+  ],
   "variants_stax": [
    "nem"
   ]
@@ -2635,6 +2902,9 @@
    "neo"
   ],
   "variants_nanosp": [
+   "neo"
+  ],
+  "variants_flex": [
    "neo"
   ],
   "variants_stax": [
@@ -2663,6 +2933,9 @@
   "variants_nanosp": [
    "NEO3"
   ],
+  "variants_flex": [
+   "NEO3"
+  ],
   "variants_stax": [
    "NEO3"
   ]
@@ -2686,6 +2959,9 @@
    "CKB"
   ],
   "variants_nanosp": [
+   "CKB"
+  ],
+  "variants_flex": [
    "CKB"
   ],
   "variants_stax": [
@@ -2714,6 +2990,9 @@
    "nimiq"
   ],
   "variants_nanosp": [
+   "nimiq"
+  ],
+  "variants_flex": [
    "nimiq"
   ],
   "variants_stax": [
@@ -2804,6 +3083,9 @@
   "variants_nanosp": [
    "ontology"
   ],
+  "variants_flex": [
+   "ontology"
+  ],
   "variants_stax": [
    "ontology"
   ]
@@ -2822,6 +3104,9 @@
    "OpenPGP"
   ],
   "variants_nanosp": [
+   "OpenPGP"
+  ],
+  "variants_flex": [
    "OpenPGP"
   ],
   "variants_stax": [
@@ -2850,6 +3135,9 @@
    "oxen"
   ],
   "variants_nanosp": [
+   "oxen"
+  ],
+  "variants_flex": [
    "oxen"
   ],
   "variants_stax": [
@@ -2904,6 +3192,9 @@
   "variants_nanosp": [
    "particl"
   ],
+  "variants_flex": [
+   "particl"
+  ],
   "variants_stax": [
    "particl"
   ]
@@ -2927,6 +3218,9 @@
    "MPC"
   ],
   "variants_nanosp": [
+   "MPC"
+  ],
+  "variants_flex": [
    "MPC"
   ],
   "variants_stax": [
@@ -2959,6 +3253,9 @@
   "variants_nanosp": [
    "pwmgr"
   ],
+  "variants_flex": [
+   "pwmgr"
+  ],
   "variants_stax": [
    "pwmgr"
   ]
@@ -2976,6 +3273,9 @@
    "PEAQ"
   ],
   "variants_nanosp": [
+   "PEAQ"
+  ],
+  "variants_flex": [
    "PEAQ"
   ],
   "variants_stax": [
@@ -3082,6 +3382,9 @@
   "variants_nanosp": [
    "platon"
   ],
+  "variants_flex": [
+   "platon"
+  ],
   "variants_stax": [
    "platon"
   ]
@@ -3107,6 +3410,9 @@
   "variants_nanosp": [
    "1inch"
   ],
+  "variants_flex": [
+   "1inch"
+  ],
   "variants_stax": [
    "1inch"
   ]
@@ -3130,6 +3436,9 @@
    "alkemi"
   ],
   "variants_nanosp": [
+   "alkemi"
+  ],
+  "variants_flex": [
    "alkemi"
   ],
   "variants_stax": [
@@ -3160,6 +3469,9 @@
   "variants_nanosp": [
    "angle"
   ],
+  "variants_flex": [
+   "angle"
+  ],
   "variants_stax": [
    "angle"
   ]
@@ -3183,6 +3495,9 @@
    "apwine"
   ],
   "variants_nanosp": [
+   "apwine"
+  ],
+  "variants_flex": [
    "apwine"
   ],
   "variants_stax": [
@@ -3211,6 +3526,9 @@
    "artblocks"
   ],
   "variants_nanosp": [
+   "artblocks"
+  ],
+  "variants_flex": [
    "artblocks"
   ],
   "variants_stax": [
@@ -3244,8 +3562,33 @@
   "variants_nanosp": [
    "pluginboilerplate"
   ],
+  "variants_flex": [
+   "pluginboilerplate"
+  ],
   "variants_stax": [
    "pluginboilerplate"
+  ]
+ },
+ {
+  "name": "app-plugin-bricktowers",
+  "owner": "skisel-bt",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-bricktowers",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "brick_towers"
+  ],
+  "variants_nanox": [
+   "brick_towers"
+  ],
+  "variants_nanosp": [
+   "brick_towers"
+  ],
+  "variants_flex": [
+   "brick_towers"
+  ],
+  "variants_stax": [
+   "brick_towers"
   ]
  },
  {
@@ -3272,6 +3615,9 @@
   "variants_nanosp": [
    "cbridge"
   ],
+  "variants_flex": [
+   "cbridge"
+  ],
   "variants_stax": [
    "cbridge"
   ]
@@ -3295,6 +3641,9 @@
    "CIAN"
   ],
   "variants_nanosp": [
+   "CIAN"
+  ],
+  "variants_flex": [
    "CIAN"
   ],
   "variants_stax": [
@@ -3325,8 +3674,33 @@
   "variants_nanosp": [
    "compound"
   ],
+  "variants_flex": [
+   "compound"
+  ],
   "variants_stax": [
    "compound"
+  ]
+ },
+ {
+  "name": "app-plugin-eigenlayer",
+  "owner": "Zondax",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-eigenlayer",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "eigenlayer"
+  ],
+  "variants_nanox": [
+   "eigenlayer"
+  ],
+  "variants_nanosp": [
+   "eigenlayer"
+  ],
+  "variants_flex": [
+   "eigenlayer"
+  ],
+  "variants_stax": [
+   "eigenlayer"
   ]
  },
  {
@@ -3348,6 +3722,9 @@
    "ens"
   ],
   "variants_nanosp": [
+   "ens"
+  ],
+  "variants_flex": [
    "ens"
   ],
   "variants_stax": [
@@ -3373,6 +3750,9 @@
    "figment"
   ],
   "variants_nanosp": [
+   "figment"
+  ],
+  "variants_flex": [
    "figment"
   ],
   "variants_stax": [
@@ -3403,6 +3783,9 @@
   "variants_nanosp": [
    "harvest"
   ],
+  "variants_flex": [
+   "harvest"
+  ],
   "variants_stax": [
    "harvest"
   ]
@@ -3426,6 +3809,9 @@
    "kiln"
   ],
   "variants_nanosp": [
+   "kiln"
+  ],
+  "variants_flex": [
    "kiln"
   ],
   "variants_stax": [
@@ -3453,6 +3839,9 @@
   "variants_nanosp": [
    "lens"
   ],
+  "variants_flex": [
+   "lens"
+  ],
   "variants_stax": [
    "lens"
   ]
@@ -3476,6 +3865,9 @@
    "libertify"
   ],
   "variants_nanosp": [
+   "libertify"
+  ],
+  "variants_flex": [
    "libertify"
   ],
   "variants_stax": [
@@ -3503,6 +3895,9 @@
   "variants_nanosp": [
    "lido"
   ],
+  "variants_flex": [
+   "lido"
+  ],
   "variants_stax": [
    "lido"
   ]
@@ -3526,6 +3921,9 @@
    "morpho"
   ],
   "variants_nanosp": [
+   "morpho"
+  ],
+  "variants_flex": [
    "morpho"
   ],
   "variants_stax": [
@@ -3553,6 +3951,9 @@
   "variants_nanosp": [
    "nested"
   ],
+  "variants_flex": [
+   "nested"
+  ],
   "variants_stax": [
    "nested"
   ]
@@ -3578,6 +3979,9 @@
   "variants_nanosp": [
    "okx_web3"
   ],
+  "variants_flex": [
+   "okx_web3"
+  ],
   "variants_stax": [
    "okx_web3"
   ]
@@ -3595,6 +3999,9 @@
    "origin"
   ],
   "variants_nanosp": [
+   "origin"
+  ],
+  "variants_flex": [
    "origin"
   ],
   "variants_stax": [
@@ -3622,6 +4029,9 @@
   "variants_nanosp": [
    "p2p"
   ],
+  "variants_flex": [
+   "p2p"
+  ],
   "variants_stax": [
    "p2p"
   ]
@@ -3645,6 +4055,9 @@
    "paraswap"
   ],
   "variants_nanosp": [
+   "paraswap"
+  ],
+  "variants_flex": [
    "paraswap"
   ],
   "variants_stax": [
@@ -3672,6 +4085,9 @@
   "variants_nanosp": [
    "poap"
   ],
+  "variants_flex": [
+   "poap"
+  ],
   "variants_stax": [
    "poap"
   ]
@@ -3697,6 +4113,9 @@
   "variants_nanosp": [
    "quickswap"
   ],
+  "variants_flex": [
+   "quickswap"
+  ],
   "variants_stax": [
    "quickswap"
   ]
@@ -3720,6 +4139,9 @@
    "rarible"
   ],
   "variants_nanosp": [
+   "rarible"
+  ],
+  "variants_flex": [
    "rarible"
   ],
   "variants_stax": [
@@ -3750,6 +4172,9 @@
   "variants_nanosp": [
    "ribbon"
   ],
+  "variants_flex": [
+   "ribbon"
+  ],
   "variants_stax": [
    "ribbon"
   ]
@@ -3775,6 +4200,9 @@
   "variants_nanosp": [
    "rocketpool"
   ],
+  "variants_flex": [
+   "rocketpool"
+  ],
   "variants_stax": [
    "rocketpool"
   ]
@@ -3798,6 +4226,9 @@
    "spool"
   ],
   "variants_nanosp": [
+   "spool"
+  ],
+  "variants_flex": [
    "spool"
   ],
   "variants_stax": [
@@ -3828,6 +4259,9 @@
   "variants_nanosp": [
    "squid"
   ],
+  "variants_flex": [
+   "squid"
+  ],
   "variants_stax": [
    "squid"
   ]
@@ -3851,6 +4285,9 @@
    "staderlabs"
   ],
   "variants_nanosp": [
+   "staderlabs"
+  ],
+  "variants_flex": [
    "staderlabs"
   ],
   "variants_stax": [
@@ -3881,6 +4318,9 @@
   "variants_nanosp": [
    "stakedao"
   ],
+  "variants_flex": [
+   "stakedao"
+  ],
   "variants_stax": [
    "stakedao"
   ]
@@ -3904,6 +4344,9 @@
    "stakekit"
   ],
   "variants_nanosp": [
+   "stakekit"
+  ],
+  "variants_flex": [
    "stakekit"
   ],
   "variants_stax": [
@@ -3931,6 +4374,9 @@
   "variants_nanosp": [
    "swell"
   ],
+  "variants_flex": [
+   "swell"
+  ],
   "variants_stax": [
    "swell"
   ]
@@ -3956,6 +4402,9 @@
   "variants_nanosp": [
    "pluginboilerplate"
   ],
+  "variants_flex": [
+   "pluginboilerplate"
+  ],
   "variants_stax": [
    "pluginboilerplate"
   ]
@@ -3979,6 +4428,9 @@
    "yearn"
   ],
   "variants_nanosp": [
+   "yearn"
+  ],
+  "variants_flex": [
    "yearn"
   ],
   "variants_stax": [
@@ -4046,6 +4498,10 @@
    "DOT",
    "DOT_MIGRATION"
   ],
+  "variants_flex": [
+   "DOT",
+   "DOT_MIGRATION"
+  ],
   "variants_stax": [
    "DOT",
    "DOT_MIGRATION"
@@ -4072,6 +4528,9 @@
    "POLYX"
   ],
   "variants_nanosp": [
+   "POLYX"
+  ],
+  "variants_flex": [
    "POLYX"
   ],
   "variants_stax": [
@@ -4125,6 +4584,9 @@
   "variants_nanosp": [
    "qrl"
   ],
+  "variants_flex": [
+   "qrl"
+  ],
   "variants_stax": [
    "qrl"
   ]
@@ -4150,6 +4612,10 @@
    "qtum"
   ],
   "variants_nanosp": [
+   "qtum_testnet",
+   "qtum"
+  ],
+  "variants_flex": [
    "qtum_testnet",
    "qtum"
   ],
@@ -4180,6 +4646,9 @@
    "XRD"
   ],
   "variants_nanosp": [
+   "XRD"
+  ],
+  "variants_flex": [
    "XRD"
   ],
   "variants_stax": [
@@ -4223,6 +4692,9 @@
    "recovery_check"
   ],
   "variants_nanosp": [
+   "recovery_check"
+  ],
+  "variants_flex": [
    "recovery_check"
   ],
   "variants_stax": [
@@ -4280,6 +4752,9 @@
   "variants_nanosp": [
    "rise"
   ],
+  "variants_flex": [
+   "rise"
+  ],
   "variants_stax": [
    "rise"
   ]
@@ -4306,6 +4781,9 @@
    "safecoin"
   ],
   "variants_nanosp": [
+   "safecoin"
+  ],
+  "variants_flex": [
    "safecoin"
   ],
   "variants_stax": [
@@ -4365,6 +4843,9 @@
   "variants_nanosp": [
    "SecurityKey"
   ],
+  "variants_flex": [
+   "SecurityKey"
+  ],
   "variants_stax": [
    "SecurityKey"
   ]
@@ -4388,6 +4869,9 @@
    "seed_tool"
   ],
   "variants_nanosp": [
+   "seed_tool"
+  ],
+  "variants_flex": [
    "seed_tool"
   ],
   "variants_stax": [
@@ -4421,6 +4905,9 @@
   "variants_nanosp": [
    "sia"
   ],
+  "variants_flex": [
+   "sia"
+  ],
   "variants_stax": [
    "sia"
   ]
@@ -4449,6 +4936,9 @@
   "variants_nanosp": [
    "sia"
   ],
+  "variants_flex": [
+   "sia"
+  ],
   "variants_stax": [
    "sia"
   ]
@@ -4467,6 +4957,9 @@
    "solana"
   ],
   "variants_nanosp": [
+   "solana"
+  ],
+  "variants_flex": [
    "solana"
   ],
   "variants_stax": [
@@ -4497,6 +4990,9 @@
   "variants_nanosp": [
    "SXP"
   ],
+  "variants_flex": [
+   "SXP"
+  ],
   "variants_stax": [
    "SXP"
   ]
@@ -4514,6 +5010,9 @@
    "SMESH"
   ],
   "variants_nanosp": [
+   "SMESH"
+  ],
+  "variants_flex": [
    "SMESH"
   ],
   "variants_stax": [
@@ -4539,6 +5038,9 @@
    "ssh"
   ],
   "variants_nanosp": [
+   "ssh"
+  ],
+  "variants_flex": [
    "ssh"
   ],
   "variants_stax": [
@@ -4655,6 +5157,9 @@
   "variants_nanosp": [
    "stellar"
   ],
+  "variants_flex": [
+   "stellar"
+  ],
   "variants_stax": [
    "stellar"
   ]
@@ -4705,6 +5210,9 @@
   "variants_nanosp": [
    "xym"
   ],
+  "variants_flex": [
+   "xym"
+  ],
   "variants_stax": [
    "xym"
   ]
@@ -4731,6 +5239,9 @@
    "tendermint"
   ],
   "variants_nanosp": [
+   "tendermint"
+  ],
+  "variants_flex": [
    "tendermint"
   ],
   "variants_stax": [
@@ -4762,6 +5273,9 @@
   "variants_nanosp": [
    "terra"
   ],
+  "variants_flex": [
+   "terra"
+  ],
   "variants_stax": [
    "terra"
   ]
@@ -4787,6 +5301,9 @@
    "tezos_baking"
   ],
   "variants_nanosp": [
+   "tezos_baking"
+  ],
+  "variants_flex": [
    "tezos_baking"
   ],
   "variants_stax": [
@@ -4815,6 +5332,9 @@
    "theta"
   ],
   "variants_nanosp": [
+   "theta"
+  ],
+  "variants_flex": [
    "theta"
   ],
   "variants_stax": [
@@ -4887,6 +5407,9 @@
   "variants_nanosp": [
    "TON"
   ],
+  "variants_flex": [
+   "TON"
+  ],
   "variants_stax": [
    "TON"
   ]
@@ -4911,6 +5434,9 @@
    "tron"
   ],
   "variants_nanosp": [
+   "tron"
+  ],
+  "variants_flex": [
    "tron"
   ],
   "variants_stax": [
@@ -4953,6 +5479,9 @@
   "variants_nanosp": [
    "vechain"
   ],
+  "variants_flex": [
+   "vechain"
+  ],
   "variants_stax": [
    "vechain"
   ]
@@ -4979,6 +5508,9 @@
    "velas"
   ],
   "variants_nanosp": [
+   "velas"
+  ],
+  "variants_flex": [
    "velas"
   ],
   "variants_stax": [
@@ -5009,6 +5541,9 @@
   "variants_nanosp": [
    "waves"
   ],
+  "variants_flex": [
+   "waves"
+  ],
   "variants_stax": [
    "waves"
   ]
@@ -5035,6 +5570,9 @@
    "WEST"
   ],
   "variants_nanosp": [
+   "WEST"
+  ],
+  "variants_flex": [
    "WEST"
   ],
   "variants_stax": [
@@ -5065,6 +5603,9 @@
   "variants_nanosp": [
    "hello"
   ],
+  "variants_flex": [
+   "hello"
+  ],
   "variants_stax": [
    "hello"
   ]
@@ -5093,6 +5634,9 @@
    "woleet"
   ],
   "variants_nanosp": [
+   "woleet"
+  ],
+  "variants_flex": [
    "woleet"
   ],
   "variants_stax": [
@@ -5132,6 +5676,9 @@
    "xrp"
   ],
   "variants_nanosp": [
+   "xrp"
+  ],
+  "variants_flex": [
    "xrp"
   ],
   "variants_stax": [
@@ -5183,6 +5730,9 @@
   "variants_nanosp": [
    "zcash"
   ],
+  "variants_flex": [
+   "zcash"
+  ],
   "variants_stax": [
    "zcash"
   ]
@@ -5208,6 +5758,9 @@
   "variants_nanosp": [
    "ZEC"
   ],
+  "variants_flex": [
+   "ZEC"
+  ],
   "variants_stax": [
    "ZEC"
   ]
@@ -5226,6 +5779,9 @@
    "zilliqa"
   ],
   "variants_nanosp": [
+   "zilliqa"
+  ],
+  "variants_flex": [
    "zilliqa"
   ],
   "variants_stax": [
