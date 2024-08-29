@@ -94,6 +94,8 @@ def build_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir:
 
     stax_output, stax_log = build_device(devices.stax, variant_param, app_build_path, sdk_path, app_json)
 
+    flex_output, flex_log = build_device(devices.flex, variant_param, app_build_path, sdk_path, app_json)
+
     if nanos_output and devices.nanos.selected:
         output["build"]["nanos"] = nanos_output
     if nanosp_output and devices.nanosp.selected:
@@ -102,6 +104,8 @@ def build_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir:
         output["build"]["nanox"] = nanox_output
     if stax_output and devices.stax.selected:
         output["build"]["stax"] = stax_output
+    if flex_output and devices.flex.selected:
+        output["build"]["flex"] = flex_output
 
-    log = nanos_log + nanosp_log + nanox_log + stax_log
+    log = nanos_log + nanosp_log + nanox_log + stax_log + flex_log
     return output, log

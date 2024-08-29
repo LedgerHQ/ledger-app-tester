@@ -23,6 +23,7 @@ def parse_args() -> Namespace:
     subparser.add_argument("--nanosp", action='store_true')
     subparser.add_argument("--nanox", action='store_true')
     subparser.add_argument("--stax", action='store_true')
+    subparser.add_argument("--flex", action='store_true')
 
     subparser.add_argument("--test", action='store_true')
     subparser.add_argument("--build", action='store_true')

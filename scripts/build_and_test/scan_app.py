@@ -89,6 +89,8 @@ def scan_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir: 
 
     stax_output, stax_log = scan_device(devices.stax, variant_param, app_build_path, sdk_path, app_json)
 
+    flex_output, flex_log = scan_device(devices.flex, variant_param, app_build_path, sdk_path, app_json)
+
     if nanos_output and devices.nanos.selected:
         output["scan"]["nanos"] = nanos_output
     if nanosp_output and devices.nanosp.selected:
@@ -97,6 +99,8 @@ def scan_all_devices(devices: Devices, sdk_path: Path, app_json: dict, workdir: 
         output["scan"]["nanox"] = nanox_output
     if stax_output and devices.stax.selected:
         output["scan"]["stax"] = stax_output
+    if flex_output and devices.flex.selected:
+        output["scan"]["flex"] = flex_output
 
-    log = nanos_log + nanosp_log + nanox_log + stax_log
+    log = nanos_log + nanosp_log + nanox_log + stax_log + flex_log
     return output, log

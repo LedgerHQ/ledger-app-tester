@@ -16,7 +16,7 @@ on:
         type: boolean
         required: false
         default: true
-      build_nanos:
+      build_flex:
         type: boolean
         required: false
         default: true
@@ -32,7 +32,6 @@ on:
         type: boolean
         required: false
         default: false
-
       use_sha1_from_live:
         type: boolean
         required: false
@@ -61,7 +60,8 @@ jobs:
       - name: Setup inputs
         run: | 
             echo "build_stax=${{inputs.build_stax}}" >> $GITHUB_ENV
-            echo "build_nanos=${{inputs.build_nanos}}" >> $GITHUB_ENV
+            echo "build_flex=${{inputs.build_flex}}" >> $GITHUB_ENV
+            echo "build_nanos=false" >> $GITHUB_ENV
             echo "build_nanox=${{inputs.build_nanox}}" >> $GITHUB_ENV
             echo "build_nanosp=${{inputs.build_nanosp}}" >> $GITHUB_ENV
             echo "sdk_ref=${{inputs.sdk_ref}}" >> $GITHUB_ENV
@@ -70,6 +70,7 @@ jobs:
         if: ${{ github.event_name == 'schedule' || github.event_name == 'pull_request' }}
         run: | 
             echo "build_stax=true" >> $GITHUB_ENV
+            echo "build_flex=true" >> $GITHUB_ENV
             echo "build_nanos=true" >> $GITHUB_ENV
             echo "build_nanox=true" >> $GITHUB_ENV
             echo "build_nanosp=true" >> $GITHUB_ENV
@@ -89,6 +90,9 @@ jobs:
           fi
           if [[ ${{ env.build_stax }} == "true" ]]; then
             NAMES+=("stax")
+          fi
+          if [[ ${{ env.build_flex }} == "true" ]]; then
+            NAMES+=("flex")
           fi
           devices="[\"$(echo ${NAMES[@]} | sed 's/ /","/g')\"]"
           echo "names=$devices" >> $GITHUB_OUTPUT
@@ -462,6 +466,66 @@ jobs:
         with:
           name: log_stax_10.txt
 
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_flex_1.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_flex_2.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_flex_3.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_flex_4.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_flex_5.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_flex_6.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_flex_7.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_flex_8.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_flex_9.txt
+
+      - name: Download files
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: log_flex_10.txt          
+
       - name: Merge all
         continue-on-error: true
         run: |
@@ -577,6 +641,12 @@ jobs:
         continue-on-error: true
         with:
           name: merged_build_stax.json
+
+      - name: Download flex
+        uses: actions/download-artifact@v3
+        continue-on-error: true
+        with:
+          name: merged_build_flex.json
 
       - name: Merge output files
         run: |
