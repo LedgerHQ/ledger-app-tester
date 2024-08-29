@@ -703,6 +703,9 @@
   ],
   "variants_nanosp": [
    "STX"
+  ],
+  "variants_stax": [
+   "STX"
   ]
  },
  {
@@ -3249,6 +3252,25 @@
   ]
  },
  {
+  "name": "app-plugin-bricktowers",
+  "owner": "skisel-bt",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-bricktowers",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "brick_towers"
+  ],
+  "variants_nanox": [
+   "brick_towers"
+  ],
+  "variants_nanosp": [
+   "brick_towers"
+  ],
+  "variants_stax": [
+   "brick_towers"
+  ]
+ },
+ {
   "name": "app-plugin-cbridge",
   "owner": "celer-network",
   "ref": "develop",
@@ -3327,6 +3349,25 @@
   ],
   "variants_stax": [
    "compound"
+  ]
+ },
+ {
+  "name": "app-plugin-eigenlayer",
+  "owner": "Zondax",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-eigenlayer",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "eigenlayer"
+  ],
+  "variants_nanox": [
+   "eigenlayer"
+  ],
+  "variants_nanosp": [
+   "eigenlayer"
+  ],
+  "variants_stax": [
+   "eigenlayer"
   ]
  },
  {
