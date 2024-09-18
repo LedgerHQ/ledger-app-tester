@@ -3458,7 +3458,7 @@
  },
  {
   "name": "app-plugin-morpho",
-  "owner": "morpho-org",
+  "owner": "Zondax",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-morpho",
   "test_blacklist": [
@@ -3897,16 +3897,16 @@
   ],
   "variant_param": "COIN",
   "variants_nanos": [
-   "pluginboilerplate"
+   "uniswap"
   ],
   "variants_nanox": [
-   "pluginboilerplate"
+   "uniswap"
   ],
   "variants_nanosp": [
-   "pluginboilerplate"
+   "uniswap"
   ],
   "variants_stax": [
-   "pluginboilerplate"
+   "uniswap"
   ]
  },
  {
