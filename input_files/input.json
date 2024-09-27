@@ -2854,8 +2854,7 @@
   "scan_whitelist": [
    "nanos",
    "nanosp",
-   "nanox",
-   "stax"
+   "nanox"
   ],
   "test_blacklist": [
    "stax"
