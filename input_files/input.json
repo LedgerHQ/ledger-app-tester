@@ -2522,7 +2522,8 @@
   "scan_whitelist": [
    "nanos",
    "nanosp",
-   "nanox"
+   "nanox",
+   "stax"
   ],
   "test_blacklist": [
    "stax"
@@ -2844,6 +2845,25 @@
   ],
   "variants_stax": [
    "CIAN"
+  ]
+ },
+ {
+  "name": "app-plugin-coinbase",
+  "owner": "coinbase",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-coinbase",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "coinbase"
+  ],
+  "variants_nanox": [
+   "coinbase"
+  ],
+  "variants_nanosp": [
+   "coinbase"
+  ],
+  "variants_stax": [
+   "coinbase"
   ]
  },
  {
