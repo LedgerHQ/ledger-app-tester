@@ -669,10 +669,10 @@
   "url": "https://github.com/LedgerHQ/app-boilerplate",
   "test_dir": "tests",
   "scan_whitelist": [
-   "nanos",
    "nanosp",
    "nanox",
-   "stax"
+   "stax",
+   "flex"
   ],
   "variant_param": "COIN",
   "variants_nanos": [
@@ -693,23 +693,12 @@
   "owner": "LedgerHQ",
   "ref": "main",
   "url": "https://github.com/LedgerHQ/app-boilerplate-rust",
-  "build_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
+  "test_dir": "tests",
   "scan_whitelist": [
-   "nanos",
    "nanosp",
    "nanox",
-   "stax"
+   "stax",
+   "flex"
   ]
  },
  {
@@ -2748,17 +2737,12 @@
   "owner": "LedgerHQ",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-boilerplate",
+  "test_dir": "tests",
   "scan_whitelist": [
-   "nanos",
    "nanosp",
    "nanox",
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
+   "stax",
+   "flex"
   ],
   "variant_param": "COIN",
   "variants_nanos": [
@@ -2844,6 +2828,25 @@
   ],
   "variants_stax": [
    "CIAN"
+  ]
+ },
+ {
+  "name": "app-plugin-coinbase",
+  "owner": "coinbase",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-coinbase",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "coinbase"
+  ],
+  "variants_nanox": [
+   "coinbase"
+  ],
+  "variants_nanosp": [
+   "coinbase"
+  ],
+  "variants_stax": [
+   "coinbase"
   ]
  },
  {
@@ -3904,6 +3907,25 @@
   ],
   "variants_stax": [
    "seed_tool"
+  ]
+ },
+ {
+  "name": "app-sei",
+  "owner": "Zondax",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-sei",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "SEI"
+  ],
+  "variants_nanox": [
+   "SEI"
+  ],
+  "variants_nanosp": [
+   "SEI"
+  ],
+  "variants_stax": [
+   "SEI"
   ]
  },
  {
