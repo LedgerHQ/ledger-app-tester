@@ -1972,6 +1972,25 @@
   ]
  },
  {
+  "name": "app-ledger-sync",
+  "owner": "LedgerHQ",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-ledger-sync",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "Ledger-Sync"
+  ],
+  "variants_nanox": [
+   "Ledger-Sync"
+  ],
+  "variants_nanosp": [
+   "Ledger-Sync"
+  ],
+  "variants_stax": [
+   "Ledger-Sync"
+  ]
+ },
+ {
   "name": "app-lisk-legacy",
   "owner": "Zondax",
   "ref": "develop",
@@ -3723,34 +3742,6 @@
   "variants_stax": [
    "qtum_testnet",
    "qtum"
-  ]
- },
- {
-  "name": "app-radix",
-  "owner": "radixdlt",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-radix",
-  "build_blacklist": [
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "XRD"
-  ],
-  "variants_nanox": [
-   "XRD"
-  ],
-  "variants_nanosp": [
-   "XRD"
-  ],
-  "variants_stax": [
-   "XRD"
   ]
  },
  {
