@@ -1977,9 +1977,6 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-ledger-sync",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "Ledger-Sync"
-  ],
   "variants_nanox": [
    "Ledger-Sync"
   ],
