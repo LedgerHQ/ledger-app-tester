@@ -385,7 +385,7 @@
  },
  {
   "name": "app-bifrost-kusama",
-  "owner": "bifrost-finance",
+  "owner": "bifrost-io",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-bifrost-kusama",
   "build_path": "app",
@@ -409,7 +409,7 @@
  },
  {
   "name": "app-bifrost-new",
-  "owner": "bifrost-finance",
+  "owner": "bifrost-io",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-bifrost-new",
   "build_path": "app",
@@ -1079,7 +1079,7 @@
  },
  {
   "name": "app-ergo",
-  "owner": "tesseract-one",
+  "owner": "ergoplatform",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-ergo",
   "build_blacklist": [
@@ -1977,6 +1977,9 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-ledger-sync",
   "variant_param": "COIN",
+  "variants_nanos": [
+   "Ledger-Sync"
+  ],
   "variants_nanox": [
    "Ledger-Sync"
   ],
