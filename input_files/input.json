@@ -12,10 +12,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "ACA",
-   "ACA_XL"
-  ],
+  
   "variants_nanox": [
    "ACA"
   ],
@@ -118,10 +115,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "AZERO",
-   "AZERO_XL"
-  ],
+  
   "variants_nanox": [
    "AZERO"
   ],
@@ -280,10 +274,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "ASTR",
-   "ASTR_XL"
-  ],
+  
   "variants_nanox": [
    "ASTR"
   ],
@@ -300,10 +291,7 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-avail",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "AVAIL",
-   "AVAIL_XL"
-  ],
+  
   "variants_nanox": [
    "AVAIL"
   ],
@@ -378,10 +366,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "BNC",
-   "BNC_XL"
-  ],
+  
   "variants_nanox": [
    "BNC"
   ],
@@ -402,10 +387,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "BNC",
-   "BNC_XL"
-  ],
+  
   "variants_nanox": [
    "BNC"
   ],
@@ -457,33 +439,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "bitcoin_testnet_legacy",
-   "bitcoin_legacy",
-   "bitcoin_cash",
-   "bitcoin_gold",
-   "litecoin",
-   "dogecoin",
-   "dash",
-   "horizen",
-   "komodo",
-   "stratis",
-   "peercoin",
-   "pivx",
-   "viacoin",
-   "vertcoin",
-   "digibyte",
-   "bitcoin_private",
-   "firo",
-   "gamecredits",
-   "zclassic",
-   "nix",
-   "lbry",
-   "ravencoin",
-   "hydra",
-   "hydra_testnet",
-   "xrhodium"
-  ],
+  
   "variants_nanox": [
    "bitcoin_testnet_legacy",
    "bitcoin_legacy",
@@ -788,10 +744,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "CFG",
-   "CFG_XL"
-  ],
+  
   "variants_nanox": [
    "CFG"
   ],
@@ -895,10 +848,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "decred",
-   "decred_testnet"
-  ],
+  
   "variants_nanox": [
    "decred",
    "decred_testnet"
@@ -952,10 +902,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "DOCK",
-   "DOCK_XL"
-  ],
+  
   "variants_nanox": [
    "DOCK"
   ],
@@ -976,10 +923,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "EDG",
-   "EDG_XL"
-  ],
+  
   "variants_nanox": [
    "EDG"
   ],
@@ -1071,47 +1015,7 @@
    "stax"
   ],
   "variant_param": "CHAIN",
-  "variants_nanos": [
-   "akroma",
-   "artis_sigma1",
-   "artis_tau1",
-   "astar",
-   "atheios",
-   "callisto",
-   "dexon",
-   "ellaism",
-   "energywebchain",
-   "ether1",
-   "ethereum",
-   "ethereum_classic",
-   "ethergem",
-   "ethersocial",
-   "expanse",
-   "gochain",
-   "hpb",
-   "id4good",
-   "mix",
-   "moonbeam",
-   "moonriver",
-   "musicoin",
-   "oasys",
-   "pirl",
-   "reosc",
-   "rsk",
-   "rsk_testnet",
-   "shiden",
-   "songbird",
-   "tecracoin",
-   "tecratestnet",
-   "thundercore",
-   "tomochain",
-   "ubiq",
-   "volta",
-   "wanchain",
-   "webchain",
-   "wethio",
-   "xdcnetwork"
-  ],
+  
   "variants_nanox": [
    "akroma",
    "artis_sigma1",
@@ -1251,10 +1155,7 @@
    "stax"
   ],
   "variant_param": "CHAIN",
-  "variants_nanos": [
-   "everscale",
-   "venom"
-  ],
+  
   "variants_nanox": [
    "everscale",
    "venom"
@@ -1424,10 +1325,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "groestlcoin",
-   "groestlcoin_testnet"
-  ],
+  
   "variants_nanox": [
    "groestlcoin",
    "groestlcoin_testnet"
@@ -1631,10 +1529,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "icon",
-   "icon_testnet"
-  ],
+  
   "variants_nanox": [
    "icon",
    "icon_testnet"
@@ -1663,10 +1558,7 @@
    "stax"
   ],
   "variant_param": "CHAIN",
-  "variants_nanos": [
-   "iota",
-   "shimmer"
-  ],
+  
   "variants_nanox": [
    "iota",
    "shimmer"
@@ -1790,10 +1682,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "KAR",
-   "KAR_XL"
-  ],
+  
   "variants_nanox": [
    "KAR"
   ],
@@ -1850,10 +1739,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "KHALA",
-   "KHALA_XL"
-  ],
+  
   "variants_nanox": [
    "KHALA"
   ],
@@ -1877,10 +1763,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "KSM",
-   "KSM_XL"
-  ],
+  
   "variants_nanox": [
    "KSM"
   ],
@@ -1966,10 +1849,7 @@
    "stax"
   ],
   "variant_param": "CURRENCY",
-  "variants_nanos": [
-   "mimblewimble_coin",
-   "mimblewimble_coin_floonet"
-  ],
+  
   "variants_nanox": [
    "mimblewimble_coin",
    "mimblewimble_coin_floonet"
@@ -2096,11 +1976,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "nano",
-   "banano",
-   "nos"
-  ],
+  
   "variants_nanox": [
    "nano",
    "banano",
@@ -2132,10 +2008,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "navcoin_testnet",
-   "navcoin"
-  ],
+  
   "variants_nanox": [
    "navcoin_testnet",
    "navcoin"
@@ -2299,10 +2172,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "oasis",
-   "oasis_validator"
-  ],
+  
   "variants_nanox": [
    "oasis"
   ],
@@ -2465,10 +2335,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "PEN",
-   "PEN_XL"
-  ],
+  
   "variants_nanox": [
    "PEN"
   ],
@@ -3400,10 +3267,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "PDEX",
-   "PDEX_XL"
-  ],
+  
   "variants_nanox": [
    "PDEX"
   ],
@@ -3424,10 +3288,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "DOT",
-   "DOT_MIGRATION"
-  ],
+  
   "variants_nanox": [
    "DOT",
    "DOT_MIGRATION"
@@ -3454,10 +3315,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "POLYX",
-   "POLYX_XL"
-  ],
+  
   "variants_nanox": [
    "POLYX"
   ],
@@ -3527,10 +3385,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "qtum_testnet",
-   "qtum"
-  ],
+  
   "variants_nanox": [
    "qtum_testnet",
    "qtum"
@@ -3878,10 +3733,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "STATEMINE",
-   "STATEMINE_XL"
-  ],
+  
   "variants_nanox": [
    "STATEMINE"
   ],
@@ -3908,10 +3760,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "STATEMINT",
-   "STATEMINT_XL"
-  ],
+  
   "variants_nanox": [
    "STATEMINT"
   ],
@@ -4364,10 +4213,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "XX",
-   "XX_XL"
-  ],
+  
   "variants_nanox": [
    "XX"
   ],
