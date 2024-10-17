@@ -41,9 +41,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "aeternity"
-  ],
+  
   "variants_nanox": [
    "aeternity"
   ],
@@ -87,9 +85,7 @@
    "stax"
   ],
   "variant_param": "CHAIN",
-  "variants_nanos": [
-   "aion"
-  ],
+  
   "variants_nanox": [
    "aion"
   ],
@@ -152,9 +148,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "ALGO"
-  ],
+  
   "variants_nanox": [
    "ALGO"
   ],
@@ -180,9 +174,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "APTOS"
-  ],
+  
   "variants_nanox": [
    "APTOS"
   ],
@@ -208,9 +200,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "ardor"
-  ],
+  
   "variants_nanox": [
    "ardor"
   ],
@@ -236,9 +226,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "ark"
-  ],
+  
   "variants_nanox": [
    "ark"
   ],
@@ -265,9 +253,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "ARWEAVE"
-  ],
+  
   "variants_nanox": [
    "ARWEAVE"
   ],
@@ -347,9 +333,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "AVAX"
-  ],
+  
   "variants_nanox": [
    "AVAX"
   ],
@@ -373,9 +357,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "AXL"
-  ],
+  
   "variants_nanox": [
    "AXL"
   ],
@@ -446,9 +428,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "binance_chain"
-  ],
+  
   "variants_nanox": [
    "binance_chain"
   ],
@@ -592,9 +572,7 @@
   "ref": "main",
   "url": "https://github.com/LedgerHQ/app-bitcoin-clone-boilerplate",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "bitcoin_clone_boilerplate"
-  ],
+  
   "variants_nanox": [
    "bitcoin_clone_boilerplate"
   ],
@@ -649,9 +627,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "STX"
-  ],
+  
   "variants_nanox": [
    "STX"
   ],
@@ -675,9 +651,7 @@
    "flex"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "BOL"
-  ],
+  
   "variants_nanox": [
    "BOL"
   ],
@@ -716,9 +690,7 @@
   ],
   "test_dir": "tests",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "btec"
-  ],
+  
   "variants_nanox": [
    "btec"
   ],
@@ -747,9 +719,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "cardano_ada"
-  ],
+  
   "variants_nanox": [
    "cardano_ada"
   ],
@@ -776,9 +746,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "CSPR"
-  ],
+  
   "variants_nanox": [
    "CSPR"
   ],
@@ -796,9 +764,7 @@
   "url": "https://github.com/LedgerHQ/app-celo-spender",
   "test_dir": "tests/python",
   "variant_param": "CHAIN",
-  "variants_nanos": [
-   "celo"
-  ],
+  
   "variants_nanox": [
    "celo"
   ],
@@ -849,9 +815,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "ATOM"
-  ],
+  
   "variants_nanox": [
    "ATOM"
   ],
@@ -878,9 +842,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "coti"
-  ],
+  
   "variants_nanox": [
    "coti"
   ],
@@ -907,9 +869,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "cro_org"
-  ],
+  
   "variants_nanox": [
    "cro_org"
   ],
@@ -968,9 +928,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "desmos"
-  ],
+  
   "variants_nanox": [
    "desmos"
   ],
@@ -1044,9 +1002,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "elastos"
-  ],
+  
   "variants_nanox": [
    "elastos"
   ],
@@ -1064,9 +1020,7 @@
   "url": "https://github.com/LedgerHQ/app-eos",
   "test_dir": "tests/functional",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "eos"
-  ],
+  
   "variants_nanox": [
    "eos"
   ],
@@ -1092,9 +1046,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "ergo"
-  ],
+  
   "variants_nanox": [
    "ergo"
   ],
@@ -1334,9 +1286,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "exchange"
-  ],
+  
   "variants_nanox": [
    "exchange"
   ],
@@ -1362,9 +1312,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "factom"
-  ],
+  
   "variants_nanox": [
    "factom"
   ],
@@ -1391,9 +1339,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "FIL"
-  ],
+  
   "variants_nanox": [
    "FIL"
   ],
@@ -1419,9 +1365,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "FIO"
-  ],
+  
   "variants_nanox": [
    "FIO"
   ],
@@ -1438,9 +1382,7 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-flare",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "FLR"
-  ],
+  
   "variants_nanox": [
    "FLR"
   ],
@@ -1514,9 +1456,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "harmony_one"
-  ],
+  
   "variants_nanox": [
    "harmony_one"
   ],
@@ -1542,9 +1482,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "hathor"
-  ],
+  
   "variants_nanox": [
    "hathor"
   ],
@@ -1562,9 +1500,7 @@
   "url": "https://github.com/LedgerHQ/app-hedera",
   "test_dir": "tests",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "hedera"
-  ],
+  
   "variants_nanox": [
    "hedera"
   ],
@@ -1590,9 +1526,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "helium-solana"
-  ],
+  
   "variants_nanox": [
    "helium-solana"
   ],
@@ -1618,9 +1552,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "HIVE"
-  ],
+  
   "variants_nanox": [
    "HIVE"
   ],
@@ -1649,9 +1581,7 @@
    "stax"
   ],
   "variant_param": "APP",
-  "variants_nanos": [
-   "hodl"
-  ],
+  
   "variants_nanox": [
    "hodl"
   ],
@@ -1675,9 +1605,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "ICP"
-  ],
+  
   "variants_nanox": [
    "ICP"
   ],
@@ -1767,9 +1695,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "iota_legacy"
-  ],
+  
   "variants_nanox": [
    "iota_legacy"
   ],
@@ -1795,9 +1721,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "IoTeX"
-  ],
+  
   "variants_nanox": [
    "IoTeX"
   ],
@@ -1824,9 +1748,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "IOV"
-  ],
+  
   "variants_nanox": [
    "IOV"
   ],
@@ -1886,9 +1808,7 @@
   "url": "https://github.com/LedgerHQ/app-kaspa",
   "test_dir": "tests",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "KAS"
-  ],
+  
   "variants_nanox": [
    "KAS"
   ],
@@ -1977,9 +1897,7 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-ledger-sync",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "Ledger-Sync"
-  ],
+  
   "variants_nanox": [
    "Ledger-Sync"
   ],
@@ -1996,9 +1914,7 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-lisk-legacy",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "LSK_LEGACY"
-  ],
+  
   "variants_nanox": [
    "LSK_LEGACY"
   ],
@@ -2024,9 +1940,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "lto"
-  ],
+  
   "variants_nanox": [
    "lto"
   ],
@@ -2077,9 +1991,7 @@
   "test_dir": "tests",
   "extra_flags": "RELEASE_BUILD=0",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "mina"
-  ],
+  
   "variants_nanox": [
    "mina"
   ],
@@ -2116,9 +2028,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "monero"
-  ],
+  
   "variants_nanox": [
    "monero"
   ],
@@ -2136,9 +2046,7 @@
   "url": "https://github.com/LedgerHQ/app-multiversx",
   "test_dir": "tests",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "eGLD"
-  ],
+  
   "variants_nanox": [
    "eGLD"
   ],
@@ -2162,9 +2070,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "NAM"
-  ],
+  
   "variants_nanox": [
    "NAM"
   ],
@@ -2251,9 +2157,7 @@
   "build_path": "workdir/app-near",
   "test_dir": "./workdir/app-near/tests",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "near"
-  ],
+  
   "variants_nanox": [
    "near"
   ],
@@ -2277,9 +2181,7 @@
   "url": "https://github.com/LedgerHQ/app-nem",
   "test_dir": "tests/functional",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "nem"
-  ],
+  
   "variants_nanox": [
    "nem"
   ],
@@ -2297,9 +2199,7 @@
   "url": "https://github.com/LedgerHQ/app-neo",
   "test_dir": "./test",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "neo"
-  ],
+  
   "variants_nanox": [
    "neo"
   ],
@@ -2323,9 +2223,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "NEO3"
-  ],
+  
   "variants_nanox": [
    "NEO3"
   ],
@@ -2348,9 +2246,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "CKB"
-  ],
+  
   "variants_nanox": [
    "CKB"
   ],
@@ -2376,9 +2272,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "nimiq"
-  ],
+  
   "variants_nanox": [
    "nimiq"
   ],
@@ -2434,9 +2328,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "ontology"
-  ],
+  
   "variants_nanox": [
    "ontology"
   ],
@@ -2454,9 +2346,7 @@
   "url": "https://github.com/LedgerHQ/app-openpgp",
   "test_dir": "tests",
   "variant_param": "APPNAME",
-  "variants_nanos": [
-   "OpenPGP"
-  ],
+  
   "variants_nanox": [
    "OpenPGP"
   ],
@@ -2482,9 +2372,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "particl"
-  ],
+  
   "variants_nanox": [
    "particl"
   ],
@@ -2507,9 +2395,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "MPC"
-  ],
+  
   "variants_nanox": [
    "MPC"
   ],
@@ -2536,9 +2422,7 @@
    "stax"
   ],
   "variant_param": "NONE",
-  "variants_nanos": [
-   "pwmgr"
-  ],
+  
   "variants_nanox": [
    "pwmgr"
   ],
@@ -2555,9 +2439,7 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-peaq",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "PEAQ"
-  ],
+  
   "variants_nanox": [
    "PEAQ"
   ],
@@ -2610,9 +2492,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "XPRT"
-  ],
+  
   "variants_nanox": [
    "XPRT"
   ],
@@ -2632,9 +2512,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "1inch"
-  ],
+  
   "variants_nanox": [
    "1inch"
   ],
@@ -2657,9 +2535,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "alkemi"
-  ],
+  
   "variants_nanox": [
    "alkemi"
   ],
@@ -2685,9 +2561,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "angle"
-  ],
+  
   "variants_nanox": [
    "angle"
   ],
@@ -2710,9 +2584,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "apwine"
-  ],
+  
   "variants_nanox": [
    "apwine"
   ],
@@ -2738,9 +2610,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "artblocks"
-  ],
+  
   "variants_nanox": [
    "artblocks"
   ],
@@ -2764,9 +2634,7 @@
    "flex"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "pluginboilerplate"
-  ],
+  
   "variants_nanox": [
    "pluginboilerplate"
   ],
@@ -2783,9 +2651,7 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-bricktowers",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "brick_towers"
-  ],
+  
   "variants_nanox": [
    "brick_towers"
   ],
@@ -2811,9 +2677,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "cbridge"
-  ],
+  
   "variants_nanox": [
    "cbridge"
   ],
@@ -2836,9 +2700,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "CIAN"
-  ],
+  
   "variants_nanox": [
    "CIAN"
   ],
@@ -2855,9 +2717,7 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-coinbase",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "coinbase"
-  ],
+  
   "variants_nanox": [
    "coinbase"
   ],
@@ -2883,9 +2743,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "compound"
-  ],
+  
   "variants_nanox": [
    "compound"
   ],
@@ -2902,9 +2760,7 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-eigenlayer",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "eigenlayer"
-  ],
+  
   "variants_nanox": [
    "eigenlayer"
   ],
@@ -2927,9 +2783,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "ens"
-  ],
+  
   "variants_nanox": [
    "ens"
   ],
@@ -2952,9 +2806,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "figment"
-  ],
+  
   "variants_nanox": [
    "figment"
   ],
@@ -2980,9 +2832,7 @@
    "stax"
   ],
   "variant_param": "NONE",
-  "variants_nanos": [
-   "harvest"
-  ],
+  
   "variants_nanox": [
    "harvest"
   ],
@@ -3005,9 +2855,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "kiln"
-  ],
+  
   "variants_nanox": [
    "kiln"
   ],
@@ -3030,9 +2878,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "lens"
-  ],
+  
   "variants_nanox": [
    "lens"
   ],
@@ -3055,9 +2901,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "libertify"
-  ],
+  
   "variants_nanox": [
    "libertify"
   ],
@@ -3080,9 +2924,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "lido"
-  ],
+  
   "variants_nanox": [
    "lido"
   ],
@@ -3105,9 +2947,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "morpho"
-  ],
+  
   "variants_nanox": [
    "morpho"
   ],
@@ -3130,9 +2970,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "nested"
-  ],
+  
   "variants_nanox": [
    "nested"
   ],
@@ -3155,9 +2993,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "okx_web3"
-  ],
+  
   "variants_nanox": [
    "okx_web3"
   ],
@@ -3174,9 +3010,7 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-plugin-origin",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "origin"
-  ],
+  
   "variants_nanox": [
    "origin"
   ],
@@ -3199,9 +3033,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "p2p"
-  ],
+  
   "variants_nanox": [
    "p2p"
   ],
@@ -3224,9 +3056,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "paraswap"
-  ],
+  
   "variants_nanox": [
    "paraswap"
   ],
@@ -3249,9 +3079,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "poap"
-  ],
+  
   "variants_nanox": [
    "poap"
   ],
@@ -3274,9 +3102,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "quickswap"
-  ],
+  
   "variants_nanox": [
    "quickswap"
   ],
@@ -3299,9 +3125,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "rarible"
-  ],
+  
   "variants_nanox": [
    "rarible"
   ],
@@ -3327,9 +3151,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "ribbon"
-  ],
+  
   "variants_nanox": [
    "ribbon"
   ],
@@ -3352,9 +3174,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "rocketpool"
-  ],
+  
   "variants_nanox": [
    "rocketpool"
   ],
@@ -3377,9 +3197,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "spool"
-  ],
+  
   "variants_nanox": [
    "spool"
   ],
@@ -3405,9 +3223,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "squid"
-  ],
+  
   "variants_nanox": [
    "squid"
   ],
@@ -3430,9 +3246,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "staderlabs"
-  ],
+  
   "variants_nanox": [
    "staderlabs"
   ],
@@ -3458,9 +3272,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "stakedao"
-  ],
+  
   "variants_nanox": [
    "stakedao"
   ],
@@ -3483,9 +3295,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "stakekit"
-  ],
+  
   "variants_nanox": [
    "stakekit"
   ],
@@ -3508,9 +3318,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "swell"
-  ],
+  
   "variants_nanox": [
    "swell"
   ],
@@ -3533,9 +3341,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "uniswap"
-  ],
+  
   "variants_nanox": [
    "uniswap"
   ],
@@ -3558,9 +3364,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "yearn"
-  ],
+  
   "variants_nanox": [
    "yearn"
   ],
@@ -3677,9 +3481,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "ATOM"
-  ],
+  
   "variants_nanox": [
    "ATOM"
   ],
@@ -3702,9 +3504,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "qrl"
-  ],
+  
   "variants_nanox": [
    "qrl"
   ],
@@ -3774,9 +3574,7 @@
    "stax"
   ],
   "variant_param": "NONE",
-  "variants_nanos": [
-   "recovery_check"
-  ],
+  
   "variants_nanox": [
    "recovery_check"
   ],
@@ -3805,9 +3603,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "rise"
-  ],
+  
   "variants_nanox": [
    "rise"
   ],
@@ -3831,9 +3627,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "SCRT"
-  ],
+  
   "variants_nanox": [
    "SCRT"
   ],
@@ -3862,9 +3656,7 @@
    "stax"
   ],
   "variant_param": "APP",
-  "variants_nanos": [
-   "SecurityKey"
-  ],
+  
   "variants_nanox": [
    "SecurityKey"
   ],
@@ -3887,9 +3679,7 @@
    "stax"
   ],
   "variant_param": "APP",
-  "variants_nanos": [
-   "seed_tool"
-  ],
+  
   "variants_nanox": [
    "seed_tool"
   ],
@@ -3906,9 +3696,7 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-sei",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "SEI"
-  ],
+  
   "variants_nanox": [
    "SEI"
   ],
@@ -3937,9 +3725,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "sia"
-  ],
+  
   "variants_nanox": [
    "sia"
   ],
@@ -3965,9 +3751,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "sia"
-  ],
+  
   "variants_nanox": [
    "sia"
   ],
@@ -3985,9 +3769,7 @@
   "url": "https://github.com/LedgerHQ/app-solana",
   "test_dir": "tests/python",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "solana"
-  ],
+  
   "variants_nanox": [
    "solana"
   ],
@@ -4013,9 +3795,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "SXP"
-  ],
+  
   "variants_nanox": [
    "SXP"
   ],
@@ -4032,9 +3812,7 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-spacemesh",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "SMESH"
-  ],
+  
   "variants_nanox": [
    "SMESH"
   ],
@@ -4057,9 +3835,7 @@
    "stax"
   ],
   "variant_param": "APP",
-  "variants_nanos": [
-   "ssh"
-  ],
+  
   "variants_nanox": [
    "ssh"
   ],
@@ -4171,9 +3947,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "stellar"
-  ],
+  
   "variants_nanox": [
    "stellar"
   ],
@@ -4221,9 +3995,7 @@
   "url": "https://github.com/LedgerHQ/app-symbol",
   "test_dir": "tests/functional",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "xym"
-  ],
+  
   "variants_nanox": [
    "xym"
   ],
@@ -4249,9 +4021,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "tendermint"
-  ],
+  
   "variants_nanox": [
    "tendermint"
   ],
@@ -4278,9 +4048,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "terra"
-  ],
+  
   "variants_nanox": [
    "terra"
   ],
@@ -4305,9 +4073,7 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-tezos-baking",
   "variant_param": "APP",
-  "variants_nanos": [
-   "tezos_baking"
-  ],
+  
   "variants_nanox": [
    "tezos_baking"
   ],
@@ -4333,9 +4099,7 @@
    "stax"
   ],
   "variant_param": "CHAIN",
-  "variants_nanos": [
-   "theta"
-  ],
+  
   "variants_nanox": [
    "theta"
   ],
@@ -4359,9 +4123,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "RUNE"
-  ],
+  
   "variants_nanox": [
    "RUNE"
   ],
@@ -4375,9 +4137,7 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-thorchain-new",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "RUNE"
-  ],
+  
   "variants_nanox": [
    "RUNE"
   ],
@@ -4403,9 +4163,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "TON"
-  ],
+  
   "variants_nanox": [
    "TON"
   ],
@@ -4429,9 +4187,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "tron"
-  ],
+  
   "variants_nanox": [
    "tron"
   ],
@@ -4449,9 +4205,7 @@
   "url": "https://github.com/LedgerHQ/app-u2f",
   "test_dir": "tests/speculos",
   "variant_param": "NONE",
-  "variants_nanos": [
-   "fido_u2f"
-  ],
+  
   "variants_nanox": [
    "fido_u2f"
   ],
@@ -4469,9 +4223,7 @@
   "url": "https://github.com/LedgerHQ/app-vechain",
   "test_dir": "tests",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "vechain"
-  ],
+  
   "variants_nanox": [
    "vechain"
   ],
@@ -4497,9 +4249,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "waves"
-  ],
+  
   "variants_nanox": [
    "waves"
   ],
@@ -4525,9 +4275,7 @@
    "stax"
   ],
   "variant_param": "APP",
-  "variants_nanos": [
-   "hello"
-  ],
+  
   "variants_nanox": [
    "hello"
   ],
@@ -4555,9 +4303,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "woleet"
-  ],
+  
   "variants_nanox": [
    "woleet"
   ],
@@ -4594,9 +4340,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "xrp"
-  ],
+  
   "variants_nanox": [
    "xrp"
   ],
@@ -4643,9 +4387,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "zcash"
-  ],
+  
   "variants_nanox": [
    "zcash"
   ],
@@ -4668,9 +4410,7 @@
    "stax"
   ],
   "variant_param": "COIN",
-  "variants_nanos": [
-   "ZEC"
-  ],
+  
   "variants_nanox": [
    "ZEC"
   ],
@@ -4688,9 +4428,7 @@
   "url": "https://github.com/LedgerHQ/app-zilliqa",
   "test_dir": "./tests/functional",
   "variant_param": "COIN",
-  "variants_nanos": [
-   "zilliqa"
-  ],
+  
   "variants_nanox": [
    "zilliqa"
   ],
