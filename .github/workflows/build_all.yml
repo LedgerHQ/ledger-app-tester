@@ -198,7 +198,11 @@ jobs:
 
       - name: Launch build
         run: |
-          python3 scripts/entrypoint.py build_and_test --sdk_ref ${{ inputs.sdk_ref || 'master' }} --input_file input_${{ matrix.index }}.json --build --${{ matrix.device }} --skip_setup --output_file build_${{ matrix.device }}_${{ matrix.index }}.json --logs_file log_${{ matrix.device }}_${{ matrix.index }}.txt
+          if [ "${{ matrix.device }}" == "nanos" ]; then
+            python3 scripts/entrypoint.py build_and_test --sdk_ref ${{ inputs.sdk_ref || 'API_LEVEL_LNS' }} --input_file input_${{ matrix.index }}.json --build --${{ matrix.device }} --skip_setup --output_file build_${{ matrix.device }}_${{ matrix.index }}.json --logs_file log_${{ matrix.device }}_${{ matrix.index }}.txt
+          else
+            python3 scripts/entrypoint.py build_and_test --sdk_ref ${{ inputs.sdk_ref || 'master' }} --input_file input_${{ matrix.index }}.json --build --${{ matrix.device }} --skip_setup --output_file build_${{ matrix.device }}_${{ matrix.index }}.json --logs_file log_${{ matrix.device }}_${{ matrix.index }}.txt
+          fi
 
       #- name: Push info to DB
       #  run: | 
