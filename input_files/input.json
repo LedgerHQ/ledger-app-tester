@@ -726,8 +726,7 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-btec",
   "build_blacklist": [
-   "stax",
-   "nanos"
+   "stax"
   ],
   "test_blacklist": [
    "nanos",
@@ -1996,9 +1995,6 @@
   "owner": "LedgerHQ",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-ledger-sync",
-  "build_blacklist": [
-   "nanos"
-  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "Ledger-Sync"
