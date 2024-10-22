@@ -175,8 +175,11 @@ jobs:
 
       - name: Launch scan
         run: |
-          python3 scripts/entrypoint.py build_and_test --sdk_ref ${{ inputs.sdk_ref || 'master' }} --input_file input_${{ matrix.index }}.json --scan --${{ matrix.device }} --skip_setup --output_file scan_${{ matrix.device }}_${{ matrix.index }}.json --logs_file log_${{ matrix.device }}_${{ matrix.index }}.txt
-
+          if [ "${{ matrix.device }}" == "nanos" ]; then
+            python3 scripts/entrypoint.py build_and_test --sdk_ref API_LEVEL_LNS --input_file input_${{ matrix.index }}.json --scan --${{ matrix.device }} --skip_setup --output_file scan_${{ matrix.device }}_${{ matrix.index }}.json --logs_file log_${{ matrix.device }}_${{ matrix.index }}.txt
+          else
+            python3 scripts/entrypoint.py build_and_test --sdk_ref ${{ inputs.sdk_ref || 'master' }} --input_file input_${{ matrix.index }}.json --scan --${{ matrix.device }} --skip_setup --output_file scan_${{ matrix.device }}_${{ matrix.index }}.json --logs_file log_${{ matrix.device }}_${{ matrix.index }}.txt
+          fi
       #- name: Push info to DB
       #  run: | 
       #    python3 scripts/push_db.py --input_file scan_output.json
