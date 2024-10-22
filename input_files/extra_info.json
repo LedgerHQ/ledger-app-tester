@@ -129,7 +129,7 @@
   },
   {
     "name": "app-btec",
-    "build_blacklist": ["stax"],
+    "build_blacklist": ["stax", "nanos"],
     "test_blacklist": ["nanos", "nanosp", "stax"],
     "test_dir": "tests"
   },
@@ -377,6 +377,11 @@
     "name": "app-kusama",
     "build_path": "app",
     "build_blacklist": ["stax"],
+    "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
+  },
+  {
+    "name": "app-ledger-sync",
+    "build_blacklist": ["nanos"],
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
