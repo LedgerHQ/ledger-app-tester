@@ -1999,6 +1999,12 @@
   "build_blacklist": [
    "nanos"
   ],
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "Ledger-Sync"
