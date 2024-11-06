@@ -3004,6 +3004,25 @@
   ]
  },
  {
+  "name": "app-plugin-kelp",
+  "owner": "Kelp-DAO",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-kelp",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "kelp"
+  ],
+  "variants_nanox": [
+   "kelp"
+  ],
+  "variants_nanosp": [
+   "kelp"
+  ],
+  "variants_stax": [
+   "kelp"
+  ]
+ },
+ {
   "name": "app-plugin-kiln",
   "owner": "kilnfi",
   "ref": "develop",
