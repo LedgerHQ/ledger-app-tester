@@ -298,36 +298,6 @@
   ]
  },
  {
-  "name": "app-astar",
-  "owner": "Zondax",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-astar",
-  "build_path": "app",
-  "build_blacklist": [
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "ASTR",
-   "ASTR_XL"
-  ],
-  "variants_nanox": [
-   "ASTR"
-  ],
-  "variants_nanosp": [
-   "ASTR"
-  ],
-  "variants_stax": [
-   "ASTR"
-  ]
- },
- {
   "name": "app-avail",
   "owner": "Zondax",
   "ref": "develop",
@@ -1858,8 +1828,33 @@
   ]
  },
  {
+  "name": "app-ironfish",
+  "owner": "Zondax",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-ironfish",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "IRON"
+  ],
+  "variants_nanox": [
+   "IRON"
+  ],
+  "variants_nanosp": [
+   "IRON"
+  ],
+  "variants_stax": [
+   "IRON"
+  ]
+ },
+ {
+  "name": "app-ironfish-dkg",
+  "owner": "Zondax",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-ironfish-dkg"
+ },
+ {
   "name": "app-kadena",
-  "owner": "obsidiansystems",
+  "owner": "Zondax",
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-kadena",
   "build_blacklist": [
@@ -1873,7 +1868,26 @@
    "nanosp",
    "nanox",
    "stax"
+  ],
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "kadena"
+  ],
+  "variants_nanox": [
+   "kadena"
+  ],
+  "variants_nanosp": [
+   "kadena"
+  ],
+  "variants_stax": [
+   "kadena"
   ]
+ },
+ {
+  "name": "app-kadena-legacy",
+  "owner": "obsidiansystems",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-kadena-legacy"
  },
  {
   "name": "app-karura",
@@ -2270,6 +2284,29 @@
   "variants_stax": [
    "navcoin_testnet",
    "navcoin"
+  ]
+ },
+ {
+  "name": "app-nbgl-tests",
+  "owner": "LedgerHQ",
+  "ref": "master",
+  "url": "https://github.com/LedgerHQ/app-nbgl-tests",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "nbgl_test",
+   "demo"
+  ],
+  "variants_nanox": [
+   "nbgl_test",
+   "demo"
+  ],
+  "variants_nanosp": [
+   "nbgl_test",
+   "demo"
+  ],
+  "variants_stax": [
+   "nbgl_test",
+   "demo"
   ]
  },
  {
@@ -2832,6 +2869,25 @@
   ],
   "variants_stax": [
    "cbridge"
+  ]
+ },
+ {
+  "name": "app-plugin-chorus-one",
+  "owner": "ChorusOne",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-chorus-one",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "chorusone"
+  ],
+  "variants_nanox": [
+   "chorusone"
+  ],
+  "variants_nanosp": [
+   "chorusone"
+  ],
+  "variants_stax": [
+   "chorusone"
   ]
  },
  {
