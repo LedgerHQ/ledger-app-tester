@@ -2291,6 +2291,16 @@
   "owner": "LedgerHQ",
   "ref": "master",
   "url": "https://github.com/LedgerHQ/app-nbgl-tests",
+  "build_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox"
+  ],
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "nbgl_test",
@@ -3176,6 +3186,25 @@
   ],
   "variants_stax": [
    "lido"
+  ]
+ },
+ {
+  "name": "app-plugin-midas",
+  "owner": "midas-apps",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-midas",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "midas"
+  ],
+  "variants_nanox": [
+   "midas"
+  ],
+  "variants_nanosp": [
+   "midas"
+  ],
+  "variants_stax": [
+   "midas"
   ]
  },
  {
