@@ -438,6 +438,11 @@
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
+    "name": "app-nbgl-tests",
+    "build_blacklist": ["nanos", "nanosp", "nanox"],
+    "test_blacklist": ["nanos", "nanosp", "nanox"]
+  },
+  {
     "name": "app-near",
     "build_path": "workdir/app-near",
     "test_dir": "./workdir/app-near/tests"
