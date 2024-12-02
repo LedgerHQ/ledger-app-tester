@@ -74,24 +74,6 @@
   ]
  },
  {
-  "name": "app-age",
-  "owner": "LedgerHQ",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-age",
-  "build_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ]
- },
- {
   "name": "app-aion",
   "owner": "aionnetwork",
   "ref": "develop",
@@ -623,32 +605,6 @@
   "variants_stax": [
    "bitcoin_testnet",
    "bitcoin"
-  ]
- },
- {
-  "name": "app-blockstack",
-  "owner": "Zondax",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-blockstack",
-  "build_path": "app",
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "STX"
-  ],
-  "variants_nanox": [
-   "STX"
-  ],
-  "variants_nanosp": [
-   "STX"
-  ],
-  "variants_stax": [
-   "STX"
   ]
  },
  {
@@ -1775,32 +1731,10 @@
   ]
  },
  {
-  "name": "app-iotex",
-  "owner": "iotexproject",
+  "name": "app-iota-rebased",
+  "owner": "iotaledger",
   "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-iotex",
-  "build_blacklist": [
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "IoTeX"
-  ],
-  "variants_nanox": [
-   "IoTeX"
-  ],
-  "variants_nanosp": [
-   "IoTeX"
-  ],
-  "variants_stax": [
-   "IoTeX"
-  ]
+  "url": "https://github.com/LedgerHQ/app-iota-rebased"
  },
  {
   "name": "app-iov",
@@ -4186,6 +4120,25 @@
   ],
   "variants_stax": [
    "ssh"
+  ]
+ },
+ {
+  "name": "app-stacks",
+  "owner": "Zondax",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-stacks",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "STX"
+  ],
+  "variants_nanox": [
+   "STX"
+  ],
+  "variants_nanosp": [
+   "STX"
+  ],
+  "variants_stax": [
+   "STX"
   ]
  },
  {
