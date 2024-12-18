@@ -3171,6 +3171,25 @@
   ]
  },
  {
+  "name": "app-plugin-morpho-legacy",
+  "owner": "morpho-org",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-plugin-morpho-legacy",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "morpho"
+  ],
+  "variants_nanox": [
+   "morpho"
+  ],
+  "variants_nanosp": [
+   "morpho"
+  ],
+  "variants_stax": [
+   "morpho"
+  ]
+ },
+ {
   "name": "app-plugin-nested",
   "owner": "MassDotMoney",
   "ref": "develop",
