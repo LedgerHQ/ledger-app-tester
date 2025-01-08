@@ -756,30 +756,6 @@
   ]
  },
  {
-  "name": "app-centrifuge",
-  "owner": "Zondax",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-centrifuge",
-  "build_path": "app",
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "CFG",
-   "CFG_XL"
-  ],
-  "variants_nanox": [
-   "CFG"
-  ],
-  "variants_nanosp": [
-   "CFG"
-  ]
- },
- {
   "name": "app-cosmos",
   "owner": "cosmos",
   "ref": "develop",
@@ -1450,34 +1426,6 @@
   ]
  },
  {
-  "name": "app-harmony-one",
-  "owner": "harmony-one",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-harmony-one",
-  "build_blacklist": [
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "harmony_one"
-  ],
-  "variants_nanox": [
-   "harmony_one"
-  ],
-  "variants_nanosp": [
-   "harmony_one"
-  ],
-  "variants_stax": [
-   "harmony_one"
-  ]
- },
- {
   "name": "app-hathor",
   "owner": "HathorNetwork",
   "ref": "develop",
@@ -1523,34 +1471,6 @@
   ],
   "variants_stax": [
    "hedera"
-  ]
- },
- {
-  "name": "app-helium-solana",
-  "owner": "helium",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-helium-solana",
-  "build_blacklist": [
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "helium-solana"
-  ],
-  "variants_nanox": [
-   "helium-solana"
-  ],
-  "variants_nanosp": [
-   "helium-solana"
-  ],
-  "variants_stax": [
-   "helium-solana"
   ]
  },
  {
@@ -1887,30 +1807,6 @@
    "nanosp",
    "nanox",
    "stax"
-  ]
- },
- {
-  "name": "app-khala",
-  "owner": "Zondax",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-khala",
-  "build_path": "app",
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "KHALA",
-   "KHALA_XL"
-  ],
-  "variants_nanox": [
-   "KHALA"
-  ],
-  "variants_nanosp": [
-   "KHALA"
   ]
  },
  {
@@ -2883,34 +2779,6 @@
   ]
  },
  {
-  "name": "app-plugin-compound",
-  "owner": "LinumLabs",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-plugin-compound",
-  "build_blacklist": [
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "compound"
-  ],
-  "variants_nanox": [
-   "compound"
-  ],
-  "variants_nanosp": [
-   "compound"
-  ],
-  "variants_stax": [
-   "compound"
-  ]
- },
- {
   "name": "app-plugin-eigenlayer",
   "owner": "Zondax",
   "ref": "develop",
@@ -3859,37 +3727,6 @@
   ]
  },
  {
-  "name": "app-rise",
-  "owner": "hirishh",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-rise",
-  "build_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "rise"
-  ],
-  "variants_nanox": [
-   "rise"
-  ],
-  "variants_nanosp": [
-   "rise"
-  ],
-  "variants_stax": [
-   "rise"
-  ]
- },
- {
   "name": "app-secret",
   "owner": "SecretSaturn",
   "ref": "develop",
@@ -4325,34 +4162,6 @@
   ]
  },
  {
-  "name": "app-tendermint",
-  "owner": "tendermint",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-tendermint",
-  "build_blacklist": [
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "tendermint"
-  ],
-  "variants_nanox": [
-   "tendermint"
-  ],
-  "variants_nanosp": [
-   "tendermint"
-  ],
-  "variants_stax": [
-   "tendermint"
-  ]
- },
- {
   "name": "app-terra",
   "owner": "LedgerHQ",
   "ref": "develop",
@@ -4406,34 +4215,6 @@
   ],
   "variants_stax": [
    "tezos_baking"
-  ]
- },
- {
-  "name": "app-theta",
-  "owner": "LedgerHQ",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-theta",
-  "build_blacklist": [
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "CHAIN",
-  "variants_nanos": [
-   "theta"
-  ],
-  "variants_nanox": [
-   "theta"
-  ],
-  "variants_nanosp": [
-   "theta"
-  ],
-  "variants_stax": [
-   "theta"
   ]
  },
  {
@@ -4626,36 +4407,6 @@
   ],
   "variants_stax": [
    "hello"
-  ]
- },
- {
-  "name": "app-woleet",
-  "owner": "LedgerHQ",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-woleet",
-  "build_blacklist": [
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "woleet"
-  ],
-  "variants_nanox": [
-   "woleet"
-  ],
-  "variants_nanosp": [
-   "woleet"
-  ],
-  "variants_stax": [
-   "woleet"
   ]
  },
  {
