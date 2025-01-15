@@ -290,13 +290,16 @@
    "AVAIL_XL"
   ],
   "variants_nanox": [
-   "AVAIL"
+   "AVAIL",
+   "AVAIL_RECOVERY"
   ],
   "variants_nanosp": [
-   "AVAIL"
+   "AVAIL",
+   "AVAIL_RECOVERY"
   ],
   "variants_stax": [
-   "AVAIL"
+   "AVAIL",
+   "AVAIL_RECOVERY"
   ]
  },
  {
