@@ -759,6 +759,21 @@
   ]
  },
  {
+  "name": "app-conflux",
+  "owner": "Conflux-Chain",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-conflux",
+  "build_blacklist": [
+   "stax"
+  ],
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ]
+ },
+ {
   "name": "app-cosmos",
   "owner": "cosmos",
   "ref": "develop",
@@ -1047,7 +1062,6 @@
   "variants_nanos": [
    "akroma",
    "artis_sigma1",
-   "artis_tau1",
    "astar",
    "atheios",
    "callisto",
@@ -1061,6 +1075,7 @@
    "ethersocial",
    "expanse",
    "gochain",
+   "harmony",
    "hpb",
    "id4good",
    "iotex",
@@ -1076,11 +1091,9 @@
    "shiden",
    "songbird",
    "tecracoin",
-   "tecratestnet",
    "thundercore",
    "tomochain",
    "ubiq",
-   "volta",
    "wanchain",
    "webchain",
    "wethio",
@@ -1089,7 +1102,6 @@
   "variants_nanox": [
    "akroma",
    "artis_sigma1",
-   "artis_tau1",
    "astar",
    "atheios",
    "callisto",
@@ -1103,6 +1115,7 @@
    "ethersocial",
    "expanse",
    "gochain",
+   "harmony",
    "hpb",
    "id4good",
    "iotex",
@@ -1118,11 +1131,9 @@
    "shiden",
    "songbird",
    "tecracoin",
-   "tecratestnet",
    "thundercore",
    "tomochain",
    "ubiq",
-   "volta",
    "wanchain",
    "webchain",
    "wethio",
@@ -1131,7 +1142,6 @@
   "variants_nanosp": [
    "akroma",
    "artis_sigma1",
-   "artis_tau1",
    "astar",
    "atheios",
    "callisto",
@@ -1145,6 +1155,7 @@
    "ethersocial",
    "expanse",
    "gochain",
+   "harmony",
    "hpb",
    "id4good",
    "iotex",
@@ -1160,11 +1171,9 @@
    "shiden",
    "songbird",
    "tecracoin",
-   "tecratestnet",
    "thundercore",
    "tomochain",
    "ubiq",
-   "volta",
    "wanchain",
    "webchain",
    "wethio",
@@ -1173,7 +1182,6 @@
   "variants_stax": [
    "akroma",
    "artis_sigma1",
-   "artis_tau1",
    "astar",
    "atheios",
    "callisto",
@@ -1187,6 +1195,7 @@
    "ethersocial",
    "expanse",
    "gochain",
+   "harmony",
    "hpb",
    "id4good",
    "iotex",
@@ -1202,11 +1211,9 @@
    "shiden",
    "songbird",
    "tecracoin",
-   "tecratestnet",
    "thundercore",
    "tomochain",
    "ubiq",
-   "volta",
    "wanchain",
    "webchain",
    "wethio",
@@ -1477,6 +1484,34 @@
   ]
  },
  {
+  "name": "app-helium-solana",
+  "owner": "helium",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-helium-solana",
+  "build_blacklist": [
+   "stax"
+  ],
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "helium-solana"
+  ],
+  "variants_nanox": [
+   "helium-solana"
+  ],
+  "variants_nanosp": [
+   "helium-solana"
+  ],
+  "variants_stax": [
+   "helium-solana"
+  ]
+ },
+ {
   "name": "app-hive",
   "owner": "bgornicki",
   "ref": "develop",
@@ -1502,37 +1537,6 @@
   ],
   "variants_stax": [
    "HIVE"
-  ]
- },
- {
-  "name": "app-hodl",
-  "owner": "LedgerHQ",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-hodl",
-  "build_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "APP",
-  "variants_nanos": [
-   "hodl"
-  ],
-  "variants_nanox": [
-   "hodl"
-  ],
-  "variants_nanosp": [
-   "hodl"
-  ],
-  "variants_stax": [
-   "hodl"
   ]
  },
  {
@@ -3607,29 +3611,6 @@
   ]
  },
  {
-  "name": "app-pro",
-  "owner": "LedgerHQ",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-pro",
-  "build_path": "app",
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "ATOM"
-  ],
-  "variants_nanox": [
-   "ATOM"
-  ],
-  "variants_nanosp": [
-   "ATOM"
-  ]
- },
- {
   "name": "app-qrl",
   "owner": "theQRL",
   "ref": "develop",
@@ -3828,37 +3809,6 @@
   ],
   "variants_stax": [
    "SEI"
-  ]
- },
- {
-  "name": "app-sia",
-  "owner": "NebulousLabs",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-sia",
-  "build_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "sia"
-  ],
-  "variants_nanox": [
-   "sia"
-  ],
-  "variants_nanosp": [
-   "sia"
-  ],
-  "variants_stax": [
-   "sia"
   ]
  },
  {
@@ -4429,18 +4379,6 @@
   ],
   "variants_stax": [
    "xrp"
-  ]
- },
- {
-  "name": "app-xinfin",
-  "owner": "XinFinOrg",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-xinfin",
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
   ]
  },
  {
