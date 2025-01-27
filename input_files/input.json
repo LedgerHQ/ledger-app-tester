@@ -4413,6 +4413,25 @@
   ]
  },
  {
+  "name": "app-xah",
+  "owner": "Xahau",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-xah",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "xrp"
+  ],
+  "variants_nanox": [
+   "xrp"
+  ],
+  "variants_nanosp": [
+   "xrp"
+  ],
+  "variants_stax": [
+   "xrp"
+  ]
+ },
+ {
   "name": "app-xinfin",
   "owner": "XinFinOrg",
   "ref": "develop",
