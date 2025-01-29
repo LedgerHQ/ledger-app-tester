@@ -616,6 +616,9 @@
   "ref": "master",
   "url": "https://github.com/LedgerHQ/app-boilerplate",
   "test_dir": "tests",
+  "build_blacklist": [
+   "nanos"
+  ],
   "scan_whitelist": [
    "nanosp",
    "nanox",
@@ -3845,6 +3848,15 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-solana",
   "test_dir": "tests/python",
+  "build_blacklist": [
+   "nanos"
+  ],
+  "scan_whitelist": [
+   "nanosp",
+   "nanox",
+   "stax",
+   "flex"
+  ],
   "variant_param": "COIN",
   "variants_nanos": [
    "solana"
