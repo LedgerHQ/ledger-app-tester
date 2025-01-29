@@ -4027,19 +4027,6 @@
   ]
  },
  {
-  "name": "app-stax-bip-wordle",
-  "owner": "LedgerHQ",
-  "ref": "main",
-  "url": "https://github.com/LedgerHQ/app-stax-bip-wordle",
-  "build_path": "app",
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ]
- },
- {
   "name": "app-stellar",
   "owner": "LedgerHQ",
   "ref": "develop",
