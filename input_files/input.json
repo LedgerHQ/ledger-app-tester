@@ -3781,7 +3781,7 @@
    "nanox",
    "stax"
   ],
-  "variant_param": "APP",
+  "variant_param": "NONE",
   "variants_nanos": [
    "seed_tool"
   ],
@@ -4368,16 +4368,16 @@
   "url": "https://github.com/LedgerHQ/app-xah",
   "variant_param": "COIN",
   "variants_nanos": [
-   "xrp"
+   "xah"
   ],
   "variants_nanox": [
-   "xrp"
+   "xah"
   ],
   "variants_nanosp": [
-   "xrp"
+   "xah"
   ],
   "variants_stax": [
-   "xrp"
+   "xah"
   ]
  },
  {
