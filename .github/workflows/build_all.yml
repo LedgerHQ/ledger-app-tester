@@ -106,61 +106,61 @@ jobs:
           python3 scripts/entrypoint.py split_input --input_file input_files/input.json
 
       - name: Archive output file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: input_1.json
           path: input_1.json
 
       - name: Archive output file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: input_2.json
           path: input_2.json
 
       - name: Archive output file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: input_3.json
           path: input_3.json
 
       - name: Archive output file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: input_4.json
           path: input_4.json
 
       - name: Archive output file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: input_5.json
           path: input_5.json
 
       - name: Archive output file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: input_6.json
           path: input_6.json
 
       - name: Archive output file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: input_7.json
           path: input_7.json
 
       - name: Archive output file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: input_8.json
           path: input_8.json
 
       - name: Archive output file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: input_9.json
           path: input_9.json
 
       - name: Archive output file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: input_10.json
           path: input_10.json
@@ -182,7 +182,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Download split input file
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: input_${{ matrix.index }}.json
 
@@ -209,13 +209,13 @@ jobs:
       #    python3 scripts/push_db.py --input_file build_output.json
 
       - name: Archive output file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build_${{ matrix.device }}_${{ matrix.index }}.json
           path: build_${{ matrix.device }}_${{ matrix.index }}.json
 
       - name: Archive log file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         continue-on-error: true
         with:
           name: log_${{ matrix.device }}_${{ matrix.index }}.txt
@@ -227,241 +227,241 @@ jobs:
     needs: [build-all, setup-devices]
     steps:
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanos_1.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanos_2.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanos_3.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanos_4.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanos_5.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanos_6.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanos_7.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanos_8.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanos_9.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanos_10.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanosp_1.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanosp_2.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanosp_3.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanosp_4.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanosp_5.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanosp_6.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanosp_7.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanosp_8.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanosp_9.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanosp_10.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanox_1.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanox_2.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanox_3.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanox_4.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanox_5.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanox_6.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanox_7.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanox_8.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanox_9.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_nanox_10.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_stax_1.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_stax_2.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_stax_3.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_stax_4.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_stax_5.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_stax_6.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_stax_7.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_stax_8.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_stax_9.txt
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: log_stax_10.txt
@@ -472,7 +472,7 @@ jobs:
             cat log_* > error_log.txt
 
       - name: Archive log error file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         continue-on-error: true
         with:
           name: error_log.txt
@@ -490,52 +490,52 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build_${{ matrix.device }}_1.json
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build_${{ matrix.device }}_2.json
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build_${{ matrix.device }}_3.json
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build_${{ matrix.device }}_4.json
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build_${{ matrix.device }}_5.json
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build_${{ matrix.device }}_6.json
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build_${{ matrix.device }}_7.json
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build_${{ matrix.device }}_8.json
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build_${{ matrix.device }}_9.json
 
       - name: Download files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build_${{ matrix.device }}_10.json
 
@@ -544,7 +544,7 @@ jobs:
           python3 scripts/entrypoint.py merge_output --input_pattern "build_"${{ matrix.device }}"_*.json" --output_file merged_build_${{ matrix.device }}.json --key "build"
 
       - name: Archive output file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: merged_build_${{ matrix.device }}.json
           path: merged_build_${{ matrix.device }}.json
@@ -559,25 +559,25 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Download LNS
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: merged_build_nanos.json
 
       - name: Download LNSP
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: merged_build_nanosp.json
 
       - name: Download LNX
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: merged_build_nanox.json
 
       - name: Download stax
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         continue-on-error: true
         with:
           name: merged_build_stax.json
@@ -613,7 +613,7 @@ jobs:
 
       - name: Archive output file
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: full_build_output.json
           path: full_build_output.json

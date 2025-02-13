@@ -30,7 +30,7 @@ jobs:
         run: |
           python3 scripts/entrypoint.py  create_app_list --full_output_file out.json --access_token ${{ secrets.GH_ACCESS_TOKEN }}
       - name: Upload file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: out.json
           path: out.json
