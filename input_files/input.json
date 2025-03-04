@@ -2321,34 +2321,6 @@
   ]
  },
  {
-  "name": "app-ont",
-  "owner": "LedgerHQ",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-ont",
-  "build_blacklist": [
-   "stax"
-  ],
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "ontology"
-  ],
-  "variants_nanox": [
-   "ontology"
-  ],
-  "variants_nanosp": [
-   "ontology"
-  ],
-  "variants_stax": [
-   "ontology"
-  ]
- },
- {
   "name": "app-openpgp",
   "owner": "LedgerHQ",
   "ref": "develop",
