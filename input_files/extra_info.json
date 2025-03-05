@@ -224,7 +224,7 @@
   },
   {
     "name": "app-ergo",
-    "build_blacklist": ["stax"],
+    "build_blacklist": ["nanos", "stax"],
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
@@ -793,7 +793,7 @@
   },
   {
     "name": "app-sia-x",
-    "build_blacklist": ["stax"],
+    "build_blacklist": ["nanos"],
     "test_blacklist": ["nanos", "nanosp", "nanox", "stax"]
   },
   {
