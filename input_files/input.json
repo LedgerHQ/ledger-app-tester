@@ -1026,6 +1026,7 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-ergo",
   "build_blacklist": [
+   "nanos",
    "stax"
   ],
   "test_blacklist": [
@@ -3792,7 +3793,7 @@
   "ref": "develop",
   "url": "https://github.com/LedgerHQ/app-sia-x",
   "build_blacklist": [
-   "stax"
+   "nanos"
   ],
   "test_blacklist": [
    "nanos",
