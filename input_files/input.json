@@ -3788,12 +3788,15 @@
   ]
  },
  {
-  "name": "app-sia-x",
+  "name": "app-sia",
   "owner": "SiaFoundation",
   "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-sia-x",
+  "url": "https://github.com/LedgerHQ/app-sia",
   "build_blacklist": [
-   "nanos"
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
   ],
   "test_blacklist": [
    "nanos",
