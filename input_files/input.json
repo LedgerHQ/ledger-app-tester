@@ -653,6 +653,41 @@
   ]
  },
  {
+  "name": "app-boilerplate-test-clb",
+  "owner": "LedgerHQ",
+  "ref": "master",
+  "url": "https://github.com/LedgerHQ/app-boilerplate-test-clb",
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "BOL"
+  ],
+  "variants_nanox": [
+   "BOL"
+  ],
+  "variants_nanosp": [
+   "BOL"
+  ],
+  "variants_stax": [
+   "BOL"
+  ]
+ },
+ {
+  "name": "app-btcext-boilerplate",
+  "owner": "LedgerHQ",
+  "ref": "master",
+  "url": "https://github.com/LedgerHQ/app-btcext-boilerplate",
+  "variant_param": "foo",
+  "variants_nanox": [
+   "foo_testnet"
+  ],
+  "variants_nanosp": [
+   "foo_testnet"
+  ],
+  "variants_stax": [
+   "foo_testnet"
+  ]
+ },
+ {
   "name": "app-btec",
   "owner": "LedgerHQ",
   "ref": "develop",
@@ -759,6 +794,34 @@
   ],
   "variants_stax": [
    "celo"
+  ]
+ },
+ {
+  "name": "app-concordium",
+  "owner": "Concordium",
+  "ref": "develop",
+  "url": "https://github.com/LedgerHQ/app-concordium",
+  "build_blacklist": [
+   "stax"
+  ],
+  "test_blacklist": [
+   "nanos",
+   "nanosp",
+   "nanox",
+   "stax"
+  ],
+  "variant_param": "COIN",
+  "variants_nanos": [
+   "CCD"
+  ],
+  "variants_nanox": [
+   "CCD"
+  ],
+  "variants_nanosp": [
+   "CCD"
+  ],
+  "variants_stax": [
+   "CCD"
   ]
  },
  {
