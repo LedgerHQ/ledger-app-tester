@@ -1,0 +1,96 @@
+name: Status for all apps
+
+on:
+  workflow_call:
+    inputs:
+      mode:
+        description: Indicate if we are in build or test.
+        type: string
+        required: true
+      job_name:
+        description: Substring to check in jobs to get the URL.
+        type: string
+        required: true
+      total_apps:
+        description: Total number of tested Apps.
+        required: true
+        type: string
+      exclude_apps:
+        description: |
+          List of excluded Apps.
+        required: false
+        default: ""
+        type: string
+      with_variants:
+        description: Request to build all known variants.
+        type: boolean
+        required: false
+        default: false
+
+
+jobs:
+  set_status:
+    name: Status
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: pip install --break-system-packages -r requirements.txt
+
+      - name: Download Build Status artifact
+        uses: actions/download-artifact@v4
+        with:
+          path: build_status
+          name: build_status_all
+
+      - name: Download Test Status artifact
+        if: inputs.mode == 'test'
+        uses: actions/download-artifact@v4
+        with:
+          path: test_status
+          name: test_status_all
+
+      - name: Check Error artifact
+        id: check_artifacts
+        run: |
+          ./scripts/get_artifacts.py -p ${{ inputs.mode }}_errors_all -e ARTIFACT_ERROR_FOUND
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_RUN_ID: ${{ github.run_id }}
+
+      - name: Download Error artifact
+        if: steps.check_artifacts.outputs.ARTIFACT_ERROR_FOUND == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          path: error
+          name: ${{ inputs.mode }}_errors_all
+
+      - name: Display results
+        run: |
+          ARGS=(-t "${{ inputs.total_apps }}" -j ${{ inputs.job_name }} -o apps_errors.md)
+          if [ -n "${{ inputs.exclude_apps }}" ]; then
+            ARGS+=(-e "${{ inputs.exclude_apps }}")
+          fi
+          ARGS+=(-E error)
+          ARGS+=(-B build_status)
+          if [ "${{ inputs.mode }}" = "test" ]; then
+            ARGS+=(-T test_status)
+          fi
+          if [ "${{ inputs.with_variants }}" = 'true' ]; then
+            ARGS+=(-V)
+          fi
+          scripts/summary.py "${ARGS[@]}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_RUN_ID: ${{ github.run_id }}
+          GH_EVENT_NAME: ${{ github.event_name }}
+
+      - name: Upload App Errors
+        uses: actions/upload-artifact@v4
+        with:
+          name: apps_errors
+          path: apps_errors.md
+          overwrite: true
+          if-no-files-found: ignore
