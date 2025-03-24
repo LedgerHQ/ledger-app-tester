@@ -10,40 +10,34 @@ on:
 
 jobs:
   lint:
-    strategy:
-      fail-fast: false
     name: Linting
     runs-on: ubuntu-latest
     steps:
-    - name: Clone
-      uses: actions/checkout@v3
-    - run: pip install flake8
-    - name: Flake8 lint Python code
-      run: find scripts/ -type f -name '*.py' -exec flake8 --max-line-length=120 '{}' '+'
+      - name: Clone
+        uses: actions/checkout@v4
+      - run: pip install --break-system-packages flake8
+      - name: Flake8 lint Python code
+        run: find scripts/ -type f -name '*.py' -exec flake8 --max-line-length=120 '{}' '+'
 
   mypy:
-    strategy:
-      fail-fast: false
     name: Type checking
     runs-on: ubuntu-latest
     steps:
-    - name: Clone
-      uses: actions/checkout@v3
-    - run: pip install mypy types-requests
-    - name: Mypy type checking
-      run: mypy scripts/
+      - name: Clone
+        uses: actions/checkout@v4
+      - run: pip install --break-system-packages mypy types-requests
+      - name: Mypy type checking
+        run: mypy scripts/
 
   misspell:
-    strategy:
-      fail-fast: false
     name: Check misspellings
     runs-on: ubuntu-latest
     steps:
-    - name: Clone
-      uses: actions/checkout@v3
-    - name: Check misspellings
-      uses: codespell-project/actions-codespell@v2
-      with:
-        builtin: clear,rare
-        check_filenames: true
-        exclude_file: input_files/input.json
+      - name: Clone
+        uses: actions/checkout@v4
+      - name: Check misspellings
+        uses: codespell-project/actions-codespell@v2
+        with:
+          builtin: clear,rare
+          check_filenames: true
+          exclude_file: input_files/test_info.json

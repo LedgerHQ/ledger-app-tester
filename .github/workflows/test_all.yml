@@ -8,391 +8,162 @@ on:
 
   workflow_dispatch:
     inputs:
-      sdk_ref_nanosp:
+      sdk_ref:
+        description: The SDK branch or sha1 to build against.
         type: string
         required: false
-        default: 'API_LEVEL_21'
-      run_nanosp: 
+        default: 'master'
+      with_nanosp:
+        description: Request to target Nanos+
         type: boolean
         required: false
         default: true
-
-      sdk_ref_nanox:
-        type: string
-        required: false
-        default: 'API_LEVEL_21'
-      run_nanox: 
+      with_nanox:
+        description: Request to target Nanox
         type: boolean
         required: false
         default: true
-
-      sdk_ref_stax:
-        type: string
-        required: false
-        default: 'API_LEVEL_21'
-      run_stax: 
+      with_stax:
+        description: Request to target Stax
         type: boolean
         required: false
         default: true
-
+      with_flex:
+        description: Request to target Flex
+        type: boolean
+        required: false
+        default: true
       send_to_slack:
+        description: Request to send the result on Slack
         type: boolean
         required: false
         default: false
 
-      golden_run:
-        type: boolean
-        required: false
-        default: false
+
+env:
+  # Add the names of the repositories to whitelist here, separated by spaces
+  WHITELIST: "app-boilerplate app-boilerplate-rust app-btcext-boilerplate app-celo-spender app-eos app-ethereum app-hedera app-mina app-monero \
+              app-multiversx app-nem app-neo app-openpgp app-plugin-boilerplate app-plugin-bricktowers \
+              app-plugin-chorus-one app-plugin-eigenlayer app-plugin-kelp app-plugin-origin app-near \
+              app-solana app-symbol app-u2f app-xah app-xrp app-zilliqa"
+
+  # Removing (This manifest does not contains the 'tests.pytest_directory' field)
+  # - app-avail
+  # - app-core-dao
+  # - app-flare
+  # - app-ironfish
+  # - app-peaq
+  # - app-sei
+  # - app-spacemesh
+  # - app-stacks
+  # - app-tezos
+  # - app-tezos-baking
+  # - app-thorchain-new
+  # - app-app-alephium
+  # - app-iota-rebased
+  # - app-ironfish-dkg
+  # Removing
+  # - app-acre: FileNotFoundError: [Errno 2] No such file or directory: '/bitcoin/bin/bitcoind' AND no manifest
+  # - app-plugin-coinbase: pytest: command not found
+  # Removing (Failed to build pysha3)
+  # - app-kaspa
+  # - app-tron
+  # - app-vechain
+  # Removing (Blocked in the 1st test)
+  # - app-bitcoin-clone-boilerplate
+  # - app-plugin-midas
+  # Removing (Legacy)
+  # - app-plugin-morpho-legacy
+
+  # WHITELIST: "app-acre app-alephium app-avail app-bitcoin-clone-boilerplate app-boilerplate app-boilerplate-rust \
+  #             app-btcext-boilerplate app-celo-spender app-core-dao app-eos app-ethereum app-flare app-hedera app-iota-rebased \
+  #             app-ironfish app-ironfish-dkg app-kaspa app-mina app-monero app-multiversx app-near app-nem app-neo app-openpgp \
+  #             app-peaq app-plugin-boilerplate app-plugin-bricktowers app-plugin-chorus-one app-plugin-coinbase \
+  #             app-plugin-eigenlayer app-plugin-kelp app-plugin-midas app-plugin-morpho-legacy app-plugin-origin app-sei \
+  #             app-solana app-spacemesh app-stacks app-symbol app-tezos app-tezos-baking app-thorchain-new app-tron app-u2f \
+  #             app-vechain app-xah app-xrp app-zilliqa"
+
+  # BLACKLIST:
+
 
 jobs:
-  split-input-file: 
-    name: Split input file
+  devices_config:
+    name: Set devices
+    uses: ./.github/workflows/_setup_devices.yml
+    with:
+      with_nanosp: ${{ inputs.with_nanosp || false }}
+      with_nanox: ${{ inputs.with_nanox || false }}
+      with_stax: ${{ inputs.with_stax || false }}
+      with_flex: ${{ inputs.with_flex || false }}
+
+  apps_config:
+    name: Set SDK, Whitelist and Blacklist
     runs-on: ubuntu-latest
-    steps:
-      - name: Clone Repo
-        uses: actions/checkout@v3
-
-      - name: Split input into 10 files
-        run: |
-          python3 scripts/entrypoint.py split_input --input_file input_files/input.json
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: input_1.json
-          path: input_1.json
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: input_2.json
-          path: input_2.json
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: input_3.json
-          path: input_3.json
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: input_4.json
-          path: input_4.json
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: input_5.json
-          path: input_5.json
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: input_6.json
-          path: input_6.json
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: input_7.json
-          path: input_7.json
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: input_8.json
-          path: input_8.json
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: input_9.json
-          path: input_9.json
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: input_10.json
-          path: input_10.json
-
-  test-all:
-    name: Test for all targets
-    runs-on: ubuntu-latest
-    needs: split-input-file
-    container:
-      image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-dev-tools:latest
-
-    strategy:
-      matrix:
-        index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]  
-
-    env:
-        API_LEVEL_NANOSP: 'API_LEVEL_21'
-        API_LEVEL_NANOX: 'API_LEVEL_21'
-        API_LEVEL_STAX: 'API_LEVEL_21'
+    outputs:
+      whitelist: ${{ steps.get_whitelist.outputs.whitelist }}
+      blacklist: ${{ steps.get_blacklist.outputs.blacklist }}
 
     steps:
-      - name: Clone Repo
-        uses: actions/checkout@v3
-
-      - name: Download split input file
-        uses: actions/download-artifact@v4
-        with:
-          name: input_${{ matrix.index }}.json
-
-      - name: Setup repos
+      - name: Get Whitelist Apps
+        id: get_whitelist
         run: |
-          python3 scripts/entrypoint.py build_and_test --input_file input_${{ matrix.index }}.json
-
-      - name: Install tests dependencies
+          echo "whitelist=${{ env.WHITELIST || '' }}" >> "$GITHUB_OUTPUT"
+      - name: Get Blacklist Apps
+        id: get_blacklist
         run: |
-          apk add gmp-dev g++ openssl-dev
-          pip install -U pip setuptools
+          echo "blacklist=${{ env.BLACKLIST || '' }}" >> "$GITHUB_OUTPUT"
 
-      - name: Setup inputs
-        run: | 
-            echo "test_nanosp=${{inputs.run_nanosp}}" >> $GITHUB_ENV
-            echo "test_nanox=${{inputs.run_nanox}}" >> $GITHUB_ENV
-            echo "test_stax=${{inputs.run_stax}}" >> $GITHUB_ENV
+  execute_build:
+    name: Build All apps
+    needs: [devices_config, apps_config]
+    uses: ./.github/workflows/_build_app.yml
+    with:
+      mode: "test"
+      sdk_branch: ${{ inputs.sdk_ref }}
+      sdk_type: "all"
+      devices: ${{ needs.devices_config.outputs.devices_config }}
+      exclude_apps: ${{ needs.apps_config.outputs.blacklist }}
+      only_apps: ${{ needs.apps_config.outputs.whitelist }}
 
-            echo "api_level_nanosp=${{inputs.sdk_ref_nanosp}}" >> $GITHUB_ENV
-            echo "api_level_nanox=${{inputs.sdk_ref_nanox}}" >> $GITHUB_ENV
-            echo "api_level_stax=${{inputs.sdk_ref_stax}}" >> $GITHUB_ENV
+  build_artifacts:
+    name: Build Artifacts
+    if: always()
+    needs: [execute_build]
+    uses: ./.github/workflows/_artifacts.yml
+    with:
+      mode: "build"
 
-      - name: Override for schedule event and PR
-        if: ${{ github.event_name == 'schedule' || github.event_name == 'pull_request' }}
-        run: | 
-            echo "test_nanosp=true" >> $GITHUB_ENV
-            echo "test_nanox=true" >> $GITHUB_ENV
-            echo "test_stax=true" >> $GITHUB_ENV
+  execute_test:
+    name: Test All apps
+    if: always()
+    needs: [build_artifacts]
+    uses: ./.github/workflows/_test_app.yml
 
-            echo "api_level_nanosp=${{env.API_LEVEL_NANOSP}}" >> $GITHUB_ENV
-            echo "api_level_nanox=${{env.API_LEVEL_NANOX}}" >> $GITHUB_ENV
-            echo "api_level_stax=${{env.API_LEVEL_STAX}}" >> $GITHUB_ENV
+  test_artifacts:
+    name: Test Artifacts
+    if: always()
+    needs: [execute_test]
+    uses: ./.github/workflows/_artifacts.yml
+    with:
+      mode: "test"
 
-      - name: Launch test nanosp
-        if: ${{ env.test_nanosp }}
-        run: |
-          if [ "${{ inputs.golden_run }}" == true ]; then
-            python scripts/entrypoint.py build_and_test --sdk_ref ${{ env.api_level_nanosp }} --input_file input_${{ matrix.index }}.json --test --nanosp --skip_setup --output_file test_nanosp_${{ matrix.index }}.json --logs_file log_nanosp.txt --golden_run --github_username ${{ secrets.CI_BOT_USERNAME }} --github_access_token ${{ secrets.CI_BOT_TOKEN }}
-          else
-            python scripts/entrypoint.py build_and_test --sdk_ref ${{ env.api_level_nanosp }} --input_file input_${{ matrix.index }}.json --test --nanosp --skip_setup --output_file test_nanosp_${{ matrix.index }}.json --logs_file log_nanosp.txt 
-          fi
+  test_status:
+    name: Test Status
+    if: always()
+    needs: [execute_build, test_artifacts]
+    uses: ./.github/workflows/_status.yml
+    with:
+      mode: "test"
+      job_name: "Build"
+      total_apps: ${{ needs.execute_build.outputs.total_apps }}
 
-      - name: Launch test nanox
-        if: ${{ env.test_nanox }}
-        run: |
-          if [ "${{ inputs.golden_run }}" == true ]; then
-            python scripts/entrypoint.py build_and_test --sdk_ref ${{ env.api_level_nanox }} --input_file input_${{ matrix.index }}.json --test --nanox --skip_setup --output_file test_nanox_${{ matrix.index }}.json --logs_file log_nanox.txt --golden_run --github_username ${{ secrets.CI_BOT_USERNAME }} --github_access_token ${{ secrets.CI_BOT_TOKEN }}
-          else
-            python scripts/entrypoint.py build_and_test --sdk_ref ${{ env.api_level_nanox }} --input_file input_${{ matrix.index }}.json --test --nanox --skip_setup --output_file test_nanox_${{ matrix.index }}.json --logs_file log_nanox.txt 
-          fi
-
-      - name: Launch test stax
-        if: ${{ env.test_stax }}
-        run: |
-          if [ "${{ inputs.golden_run }}" == true ]; then
-            python scripts/entrypoint.py build_and_test --sdk_ref ${{ env.api_level_stax }} --input_file input_${{ matrix.index }}.json --test --stax --skip_setup --output_file test_stax_${{ matrix.index }}.json --logs_file log_stax.txt --golden_run --github_username ${{ secrets.CI_BOT_USERNAME }} --github_access_token ${{ secrets.CI_BOT_TOKEN }}
-          else
-            python scripts/entrypoint.py build_and_test --sdk_ref ${{ env.api_level_stax }} --input_file input_${{ matrix.index }}.json --test --stax --skip_setup --output_file test_stax_${{ matrix.index }}.json --logs_file log_stax.txt 
-          fi
-
-      - name: Merge output files
-        run: |
-          python scripts/entrypoint.py merge_output --input_pattern "test_*.json" --output_file test_output_${{ matrix.index }}.json --key "test"
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: test_output_${{ matrix.index }}.json
-          path: test_output_${{ matrix.index }}.json
-
-      - name: Merge log file
-        continue-on-error: true
-        run: |
-            cat log_* > log_${{ matrix.index }}.txt
-
-      - name: Archive log file
-        uses: actions/upload-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_${{ matrix.index }}.txt
-          path: log_${{ matrix.index }}.txt
-
-  build-error_log:
-    name: Build error logs
-    runs-on: ubuntu-latest
-    needs: test-all
-    steps:
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_1.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_2.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_3.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_4.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_5.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_6.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_7.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_8.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_9.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_10.txt
-
-      - name: Merge all
-        continue-on-error: true
-        run: |
-            cat log_* > error_log.txt
-
-      - name: Archive log error file
-        uses: actions/upload-artifact@v4
-        continue-on-error: true
-        with:
-          name: error_log.txt
-          path: error_log.txt
-
-
-  info-devices:
-    name: Setup test infos
-    runs-on: ubuntu-latest
-    needs: test-all
-
-    steps:
-      - name: Clone Repo
-        uses: actions/checkout@v3
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        with:
-          name: test_output_1.json
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        with:
-          name: test_output_2.json
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        with:
-          name: test_output_3.json
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        with:
-          name: test_output_4.json
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        with:
-          name: test_output_5.json
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        with:
-          name: test_output_6.json
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        with:
-          name: test_output_7.json
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        with:
-          name: test_output_8.json
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        with:
-          name: test_output_9.json
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        with:
-          name: test_output_10.json
-
-      - name: Merge output files
-        run: |
-          python scripts/entrypoint.py merge_output --input_pattern "test_output_*.json" --output_file full_test_output.json --key "test"
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: full_test_output.json
-          path: full_test_output.json
-
-      - name: Convert to markdown
-        run: |
-          python scripts/entrypoint.py convert_output --input_file full_test_output.json --output_file out.md --key test
-          cat out.md >> $GITHUB_STEP_SUMMARY
-
-      - name: Echo GHA url 
-        run: echo "url"=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} >> $GITHUB_ENV
-
-      - name: Convert to slack json
-        run: |
-          python scripts/entrypoint.py slack_output --input_file full_test_output.json --output_file slack.json --key test --url ${{ env.url }}
-
-      - name: Open Issue to summarize opened PRs
-        if: ${{ inputs.golden_run == true }}
-        run: |
-          python scripts/entrypoint.py create_issue --input_file full_test_output.json --access_token ${{ secrets.CI_BOT_TOKEN }}
-      - name: Send custom JSON data to Slack workflow
-        if: ${{ github.event_name == 'schedule' || inputs.send_to_slack == true }}
-        id: slack
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-            payload-file-path: slack.json
-        env:
-            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-      - name: Set job status
-        run: |
-          python scripts/entrypoint.py status_output --input_file full_test_output.json --key test
+  notify_slack:
+    name: Slack notification
+    if: always()
+    needs: [test_status, devices_config, execute_build]
+    uses: ./.github/workflows/_notify_slack.yml
+    with:
+      devices: ${{ needs.devices_config.outputs.devices_config }}
+      total_apps: ${{ needs.execute_build.outputs.total_apps }}
+      send_to_slack: ${{ inputs.send_to_slack || false }}
+      title: "Test"
