@@ -653,38 +653,19 @@
   ]
  },
  {
-  "name": "app-boilerplate-test-clb",
-  "owner": "LedgerHQ",
-  "ref": "master",
-  "url": "https://github.com/LedgerHQ/app-boilerplate-test-clb",
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "BOL"
-  ],
-  "variants_nanox": [
-   "BOL"
-  ],
-  "variants_nanosp": [
-   "BOL"
-  ],
-  "variants_stax": [
-   "BOL"
-  ]
- },
- {
   "name": "app-btcext-boilerplate",
   "owner": "LedgerHQ",
   "ref": "master",
   "url": "https://github.com/LedgerHQ/app-btcext-boilerplate",
-  "variant_param": "foo",
+  "variant_param": "btcext_boilerplate",
   "variants_nanox": [
-   "foo_testnet"
+   "btcext_boilerplate_testnet"
   ],
   "variants_nanosp": [
-   "foo_testnet"
+   "btcext_boilerplate_testnet"
   ],
   "variants_stax": [
-   "foo_testnet"
+   "btcext_boilerplate_testnet"
   ]
  },
  {
@@ -837,6 +818,22 @@
    "nanosp",
    "nanox",
    "stax"
+  ]
+ },
+ {
+  "name": "app-core-dao",
+  "owner": "LedgerHQ",
+  "ref": "main",
+  "url": "https://github.com/LedgerHQ/app-core-dao",
+  "variant_param": "core_dao",
+  "variants_nanox": [
+   "core_dao_testnet"
+  ],
+  "variants_nanosp": [
+   "core_dao_testnet"
+  ],
+  "variants_stax": [
+   "core_dao_testnet"
   ]
  },
  {
@@ -1009,30 +1006,6 @@
   ],
   "variants_nanosp": [
    "DOCK"
-  ]
- },
- {
-  "name": "app-edgeware",
-  "owner": "Zondax",
-  "ref": "develop",
-  "url": "https://github.com/LedgerHQ/app-edgeware",
-  "build_path": "app",
-  "test_blacklist": [
-   "nanos",
-   "nanosp",
-   "nanox",
-   "stax"
-  ],
-  "variant_param": "COIN",
-  "variants_nanos": [
-   "EDG",
-   "EDG_XL"
-  ],
-  "variants_nanox": [
-   "EDG"
-  ],
-  "variants_nanosp": [
-   "EDG"
   ]
  },
  {
