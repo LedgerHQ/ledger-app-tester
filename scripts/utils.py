@@ -1,70 +1,56 @@
-import subprocess
-import shutil
-from pathlib import Path
-from typing import List, Tuple
+import os
+import logging
 
 
-def run_cmd(cmd: str,
-            cwd: Path,
-            print_output: bool = True,
-            no_throw: bool = False) -> Tuple[int, str]:
-    stdout = ""
-    print(f"[run_cmd] Running: {cmd} from {cwd}")
+def logging_init() -> None:
+    """Initialize the logger"""
 
-    ret = subprocess.run(cmd,
-                         shell=True,
-                         stdout=subprocess.PIPE,
-                         stderr=subprocess.STDOUT,
-                         universal_newlines=True,
-                         cwd=cwd,
-                         check=not no_throw)
-
-    if ret.returncode:
-        print(f"[run_cmd] Output:\n{ret.stdout}")
-        stdout = f'''
-###############################################################################
-[run_cmd] Running: {cmd} from {cwd}"
-###############################################################################
-        ''' + ret.stdout
-    else:
-        stdout = ret.stdout.strip()
-
-    return ret.returncode, stdout
+    logging.root.handlers.clear()
+    handler = logging.StreamHandler()
+    handler.setFormatter(logging.Formatter("[%(levelname)s] %(message)s"))
+    logging.root.addHandler(handler)
 
 
-def git_setup(repo_name: str, repo_ref: str, repo_url: str, workdir: Path) -> None:
-    # Force clone in https over SSH
-    GIT_CONFIG = ' -c  url."https://github.com/".insteadOf="git@github.com:" -c url."https://".insteadOf="git://"'
+def logging_set_level(verbose: int) -> None:
+    """Set the logger level"""
 
-    if not Path.exists(workdir/Path(repo_name)):
-        run_cmd(f"git {GIT_CONFIG} clone {repo_url} {repo_name}", cwd=workdir)
-    else:
-        run_cmd("git fetch", cwd=workdir/Path(repo_name))
-
-    error, _ = run_cmd(f"git checkout {repo_ref}", cwd=workdir/Path(repo_name), no_throw=True)
-    if error:
-        print("Error: removing folder")
-        shutil.rmtree(workdir/Path(repo_name))
-        return
-
-    error, _ = run_cmd(f"git {GIT_CONFIG} submodule update --init --recursive",
-                       cwd=workdir/Path(repo_name),
-                       no_throw=True)
-    if error:
-        print("Error: removing folder")
-        shutil.rmtree(workdir/Path(repo_name))
-        return
+    if verbose == 1:
+        logging.root.setLevel(logging.INFO)
+    elif verbose > 1:
+        logging.root.setLevel(logging.DEBUG)
 
 
-def merge_json(json1: list, json2: list, key: str) -> List:
-    merged_data = []
+def set_gh_output(name: str, value: str) -> None:
+    """Sets an output variable for a GitHub Actions workflow.
+       This is used to pass data between steps in a workflow.
 
-    for obj1 in json1:
-        merged_obj = obj1.copy()
-        for obj2 in json2:
-            if obj1[key] == obj2[key]:
-                merged_obj.update(obj2)
-                break
-        merged_data.append(merged_obj)
+    Args:
+        name: Name of the output variable
+        value: Value of the output variable
+    """
 
-    return merged_data
+    # Check if the GITHUB_OUTPUT environment variable is set
+    gh = os.environ.get("GITHUB_OUTPUT")
+    if gh:
+        with open(gh, "a", encoding="utf-8") as outfile:
+            outfile.write(f"{name}={value}\n")
+
+
+def set_gh_summary(value: str) -> None:
+    """Sets a summary status for a GitHub Actions workflow.
+       This is used to write the summary of the workflow run.
+
+    Args:
+        value: Summary content (or filename)
+    """
+
+    # Check if the GITHUB_STEP_SUMMARY environment variable is set
+    gh = os.environ.get("GITHUB_STEP_SUMMARY")
+    if gh:
+        with open(gh, "a", encoding="utf-8") as outfile:
+            try:
+                with open(value, "r", encoding="utf-8") as infile:
+                    outfile.write(infile.read())
+            except FileNotFoundError:
+                # Consider this is a simple string
+                outfile.write(f"{value}\n")
