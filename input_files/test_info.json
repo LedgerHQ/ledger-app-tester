@@ -1,0 +1,42 @@
+[
+  {
+    "name": "app-ethereum",
+    "build_flags": "DEBUG=1 CAL_TEST_KEY=1 DOMAIN_NAME_TEST_KEY=1 SET_PLUGIN_TEST_KEY=1 NFT_TEST_KEY=1"
+  },
+  {
+    "name": "app-monero",
+    "build_flags": "DEBUG=1"
+  },
+  {
+    "name": "app-plugin-boilerplate",
+    "dependencies": "app-ethereum"
+  },
+  {
+    "name": "app-plugin-bricktowers",
+    "dependencies": "app-ethereum"
+  },
+  {
+    "name": "app-plugin-chorus-one",
+    "dependencies": "app-ethereum"
+  },
+  {
+    "name": "app-plugin-eigenlayer",
+    "dependencies": "app-ethereum"
+  },
+  {
+    "name": "app-plugin-kelp",
+    "dependencies": "app-ethereum"
+  },
+  {
+    "name": "app-plugin-origin",
+    "dependencies": "app-ethereum"
+  },
+  {
+    "name": "app-solana",
+    "build_flags": "TRUSTED_NAME_TEST_KEY=1"
+  },
+  {
+    "name": "app-u2f",
+    "test_flags": "--fast"
+  }
+]
