@@ -1,0 +1,123 @@
+name: Notify results on Slack
+
+on:
+  workflow_call:
+    inputs:
+      title:
+        description: Slack message title
+        required: True
+        type: string
+      devices:
+        description: |
+          The list of analyzed devices.
+        required: true
+        type: string
+      total_apps:
+        description: Total number of analyzed Apps.
+        required: true
+        type: string
+      send_to_slack:
+        description: Request to send the result on Slack.
+        type: boolean
+        required: false
+        default: false
+
+
+jobs:
+  info_slack:
+    name: Slack infos
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: pip install --break-system-packages -r requirements.txt
+
+      - name: Check build error artifact
+        id: check_error_artifact
+        run: |
+          ARGS=(-p apps_errors -e ARTIFACT_ERROR_FOUND)
+          ./scripts/get_artifacts.py "${ARGS[@]}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_RUN_ID: ${{ github.run_id }}
+
+      - name: Download errors
+        if: steps.check_error_artifact.outputs.ARTIFACT_ERROR_FOUND == 'true'
+        id: download_error
+        uses: actions/download-artifact@v4
+        with:
+          name: apps_errors
+
+      - name: Convert to Slack Json
+        id: slack_msg
+        run: |
+          ARGS=(--json slack.json --title "${{ inputs.title }}")
+          ARGS+=(-d ${{ inputs.devices }})
+          ARGS+=(-n ${{ inputs.total_apps }})
+          if [ -f apps_errors.md ]; then
+            ARGS+=(--errors apps_errors.md)
+          fi
+          scripts/slack_message.py "${ARGS[@]}"
+        env:
+          GH_RUN_ID: ${{ github.run_id }}
+
+      - name: Print Slack Message
+        if: ${{ steps.slack_msg.outcome == 'success' }}
+        run: |
+          cat slack.json
+
+      - name: Send Result to Slack
+        if: ${{ github.event_name == 'schedule' || inputs.send_to_slack == true }}
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+            payload-file-path: slack.json
+        env:
+            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_APP_TESTER }}
+
+      - name: Send Result to Slack - 2
+        if: ${{ always() && (github.event_name == 'schedule' || inputs.send_to_slack == true) }}
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          payload-file-path: slack.json
+          webhook: ${{ secrets.SLACK_WEBHOOK_APP_TESTER }}
+          webhook-type: incoming-webhook
+
+      - name: Send Result to Slack - 3
+        if: ${{ always() && (github.event_name == 'schedule' || inputs.send_to_slack == true) }}
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_APP_TESTER }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*GitHub Action build result*: ${{ job.status }}\n<${{ github.event.pull_request.html_url || github.event.head_commit.url }}|View Details>"
+                  }
+                }
+              ]
+            }
+
+      - name: Send Result to Slack - 4
+        if: ${{ always() && (github.event_name == 'schedule' || inputs.send_to_slack == true) }}
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_APP_TESTER }}
+          webhook-type: webhook-trigger
+          payload: |
+            status: "${{ job.status }}"
+            option: "false"
+
+      - name: Send Result to Slack - 5
+        if: ${{ always() && (github.event_name == 'schedule' || inputs.send_to_slack == true) }}
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_APP_TESTER }}
+          webhook-type: webhook-trigger
+          payload-file-path: "./slack.json"

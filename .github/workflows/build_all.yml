@@ -9,611 +9,122 @@ on:
   workflow_dispatch:
     inputs:
       sdk_ref:
+        description: The SDK branch or sha1 to build against.
         type: string
         required: false
         default: 'master'
-      build_stax:
+      with_nanosp:
+        description: Request to target Nanos+
         type: boolean
         required: false
         default: true
-      build_nanos:
+      with_nanox:
+        description: Request to target Nanox
         type: boolean
         required: false
         default: true
-      build_nanox:
+      with_stax:
+        description: Request to target Stax
         type: boolean
         required: false
         default: true
-      build_nanosp:
+      with_flex:
+        description: Request to target Flex
         type: boolean
         required: false
         default: true
+      with_variants:
+        description: Request to build all known variants
+        type: boolean
+        required: false
+        default: false
       send_to_slack:
+        description: Request to send the result on Slack
         type: boolean
         required: false
         default: false
 
-      use_sha1_from_live:
-        type: boolean
-        required: false
-        default: false
-      provider:
-        type: string
-        required: false
-        default: "1"
-      device:
-        type: string
-        required: false
-        default: "nanos+"
-      version:
-        type: string
-        required: false
-        default: "1.1.0"
-        
+
+env:
+  # Add the names of the repositories to whitelist here, separated by spaces
+  # WHITELIST:
+  BLACKLIST: "app-avalanche app-karura app-polkadex app-xxnetwork"
+  DEFAULT_SDK: "master"
+
+
 jobs:
-  setup-devices:
-    name: Setup devices
+  devices_config:
+    name: Set devices
+    uses: ./.github/workflows/_setup_devices.yml
+    with:
+      with_nanosp: ${{ inputs.with_nanosp || false }}
+      with_nanox: ${{ inputs.with_nanox || false }}
+      with_stax: ${{ inputs.with_stax || false }}
+      with_flex: ${{ inputs.with_flex || false }}
+
+  apps_config:
+    name: Set SDK, Whitelist and Blacklist
     runs-on: ubuntu-latest
     outputs:
-      names: ${{ steps.build-array.outputs.names }}
+      whitelist: ${{ steps.get_whitelist.outputs.whitelist }}
+      blacklist: ${{ steps.get_blacklist.outputs.blacklist }}
+      sdk_ref: ${{ steps.get_sdk.outputs.sdk_ref }}
 
     steps:
-      - name: Setup inputs
-        run: | 
-            echo "build_stax=${{inputs.build_stax}}" >> $GITHUB_ENV
-            echo "build_nanos=${{inputs.build_nanos}}" >> $GITHUB_ENV
-            echo "build_nanox=${{inputs.build_nanox}}" >> $GITHUB_ENV
-            echo "build_nanosp=${{inputs.build_nanosp}}" >> $GITHUB_ENV
-            echo "sdk_ref=${{inputs.sdk_ref}}" >> $GITHUB_ENV
-
-      - name: Override for schedule event and PR
-        if: ${{ github.event_name == 'schedule' || github.event_name == 'pull_request' }}
-        run: | 
-            echo "build_stax=true" >> $GITHUB_ENV
-            echo "build_nanos=true" >> $GITHUB_ENV
-            echo "build_nanox=true" >> $GITHUB_ENV
-            echo "build_nanosp=true" >> $GITHUB_ENV
-            echo "sdk_ref=master" >> $GITHUB_ENV
-            
-      - name: Build matrix
-        id: build-array
+      - name: Get Whitelist Apps
+        id: get_whitelist
         run: |
-          if [[ ${{ env.build_nanos }} == "true" ]]; then
-            NAMES+=("nanos")
-          fi
-          if [[ ${{ env.build_nanox }} == "true" ]]; then
-            NAMES+=("nanox")
-          fi
-          if [[ ${{ env.build_nanosp }} == "true" ]]; then
-            NAMES+=("nanosp")
-          fi
-          if [[ ${{ env.build_stax }} == "true" ]]; then
-            NAMES+=("stax")
-          fi
-          devices="[\"$(echo ${NAMES[@]} | sed 's/ /","/g')\"]"
-          echo "names=$devices" >> $GITHUB_OUTPUT
-
-
-  split-input-file: 
-    name: Split input file
-    runs-on: ubuntu-latest
-    steps:
-      - name: Clone Repo
-        uses: actions/checkout@v3
-
-      - name: Split input into 10 files
+          echo "whitelist=${{ env.WHITELIST || '' }}" >> "$GITHUB_OUTPUT"
+      - name: Get Blacklist Apps
+        id: get_blacklist
         run: |
-          python3 scripts/entrypoint.py split_input --input_file input_files/input.json
+          echo "blacklist=${{ env.BLACKLIST || '' }}" >> "$GITHUB_OUTPUT"
 
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: input_1.json
-          path: input_1.json
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: input_2.json
-          path: input_2.json
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: input_3.json
-          path: input_3.json
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: input_4.json
-          path: input_4.json
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: input_5.json
-          path: input_5.json
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: input_6.json
-          path: input_6.json
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: input_7.json
-          path: input_7.json
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: input_8.json
-          path: input_8.json
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: input_9.json
-          path: input_9.json
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: input_10.json
-          path: input_10.json
-
-  build-all:
-    name: Build for all targets
-    runs-on: ubuntu-latest
-    needs: [split-input-file, setup-devices]
-    container:
-      image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest
-
-    strategy:
-      matrix:
-        index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]  
-        device: ${{ fromJSON(needs.setup-devices.outputs.names) }}
-
-    steps:
-      - name: Clone Repo
-        uses: actions/checkout@v3
-
-      - name: Download split input file
-        uses: actions/download-artifact@v4
-        with:
-          name: input_${{ matrix.index }}.json
-
-      - name: Setup repos
-        if: ${{ inputs.use_sha1_from_live }}
+      - name: Get SDK
+        id: get_sdk
         run: |
-          python3 scripts/entrypoint.py build_and_test --input_file input_${{ matrix.index }}.json --use_sha1_from_live --provider ${{ inputs.provider }} --device ${{ inputs.device }} --version ${{ inputs.version }}
-
-      - name: Setup repos
-        if: ${{ !inputs.use_sha1_from_live }}
-        run: |
-          python3 scripts/entrypoint.py build_and_test --input_file input_${{ matrix.index }}.json
-
-      - name: Launch build
-        run: |
-          if [ "${{ matrix.device }}" == "nanos" ]; then
-            python3 scripts/entrypoint.py build_and_test --sdk_ref API_LEVEL_LNS --input_file input_${{ matrix.index }}.json --build --${{ matrix.device }} --skip_setup --output_file build_${{ matrix.device }}_${{ matrix.index }}.json --logs_file log_${{ matrix.device }}_${{ matrix.index }}.txt
-          else
-            python3 scripts/entrypoint.py build_and_test --sdk_ref ${{ inputs.sdk_ref || 'master' }} --input_file input_${{ matrix.index }}.json --build --${{ matrix.device }} --skip_setup --output_file build_${{ matrix.device }}_${{ matrix.index }}.json --logs_file log_${{ matrix.device }}_${{ matrix.index }}.txt
-          fi
-
-      #- name: Push info to DB
-      #  run: | 
-      #    python3 scripts/push_db.py --input_file build_output.json
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: build_${{ matrix.device }}_${{ matrix.index }}.json
-          path: build_${{ matrix.device }}_${{ matrix.index }}.json
-
-      - name: Archive log file
-        uses: actions/upload-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_${{ matrix.device }}_${{ matrix.index }}.txt
-          path: log_${{ matrix.device }}_${{ matrix.index }}.txt
-
-  build-error_log:
-    name: Build error logs
-    runs-on: ubuntu-latest
-    needs: [build-all, setup-devices]
-    steps:
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanos_1.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanos_2.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanos_3.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanos_4.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanos_5.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanos_6.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanos_7.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanos_8.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanos_9.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanos_10.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanosp_1.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanosp_2.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanosp_3.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanosp_4.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanosp_5.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanosp_6.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanosp_7.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanosp_8.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanosp_9.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanosp_10.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanox_1.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanox_2.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanox_3.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanox_4.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanox_5.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanox_6.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanox_7.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanox_8.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanox_9.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_nanox_10.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_stax_1.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_stax_2.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_stax_3.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_stax_4.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_stax_5.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_stax_6.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_stax_7.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_stax_8.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_stax_9.txt
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: log_stax_10.txt
-
-      - name: Merge all
-        continue-on-error: true
-        run: |
-            cat log_* > error_log.txt
-
-      - name: Archive log error file
-        uses: actions/upload-artifact@v4
-        continue-on-error: true
-        with:
-          name: error_log.txt
-          path: error_log.txt
-
-  info-devices:
-    name: Setup build infos by devices
-    runs-on: ubuntu-latest
-    needs: [build-all, setup-devices]
-    strategy:
-      matrix:
-        device: ${{ fromJSON(needs.setup-devices.outputs.names) }}
-    steps:
-      - name: Clone Repo
-        uses: actions/checkout@v3
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        with:
-          name: build_${{ matrix.device }}_1.json
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        with:
-          name: build_${{ matrix.device }}_2.json
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        with:
-          name: build_${{ matrix.device }}_3.json
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        with:
-          name: build_${{ matrix.device }}_4.json
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        with:
-          name: build_${{ matrix.device }}_5.json
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        with:
-          name: build_${{ matrix.device }}_6.json
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        with:
-          name: build_${{ matrix.device }}_7.json
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        with:
-          name: build_${{ matrix.device }}_8.json
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        with:
-          name: build_${{ matrix.device }}_9.json
-
-      - name: Download files
-        uses: actions/download-artifact@v4
-        with:
-          name: build_${{ matrix.device }}_10.json
-
-      - name: Merge output files
-        run: |
-          python3 scripts/entrypoint.py merge_output --input_pattern "build_"${{ matrix.device }}"_*.json" --output_file merged_build_${{ matrix.device }}.json --key "build"
-
-      - name: Archive output file
-        uses: actions/upload-artifact@v4
-        with:
-          name: merged_build_${{ matrix.device }}.json
-          path: merged_build_${{ matrix.device }}.json
-
-  info-all:
-    name: Setup build infos
-    runs-on: ubuntu-latest
-    needs: [info-devices, setup-devices]
-
-    steps:
-      - name: Clone Repo
-        uses: actions/checkout@v3
-
-      - name: Download LNS
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: merged_build_nanos.json
-
-      - name: Download LNSP
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: merged_build_nanosp.json
-
-      - name: Download LNX
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: merged_build_nanox.json
-
-      - name: Download stax
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: merged_build_stax.json
-
-      - name: Merge output files
-        run: |
-          python3 scripts/entrypoint.py merge_output --input_pattern "merged_build_*.json" --output_file full_build_output.json --key "build"
-
-      - name: Convert to markdown
-        run: |
-          python3 scripts/entrypoint.py convert_output --input_file full_build_output.json --output_file out.md --key build
-          cat out.md >> $GITHUB_STEP_SUMMARY
-
-      - name: Echo GHA url 
-        run: echo "url"=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} >> $GITHUB_ENV
-
-      - name: Convert to slack json
-        run: |
-          python3 scripts/entrypoint.py slack_output --input_file full_build_output.json --output_file slack.json --key build --devices ${{ needs.setup-devices.outputs.names }} --url ${{ env.url }}
-
-      - name: Send custom JSON data to Slack workflow
-        if: ${{ github.event_name == 'schedule' || inputs.send_to_slack == true }}
-        id: slack
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-            payload-file-path: slack.json
-        env:
-            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-      - name: Set job status
-        run: |
-          python3 scripts/entrypoint.py status_output --input_file full_build_output.json --key build
-
-      - name: Archive output file
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: full_build_output.json
-          path: full_build_output.json
+          echo "sdk_ref=${{ inputs.sdk_ref || env.DEFAULT_SDK }}" >> "$GITHUB_OUTPUT"
+
+  execute_build:
+    name: Build All apps
+    needs: [devices_config, apps_config]
+    uses: ./.github/workflows/_build_app.yml
+    with:
+      mode: "build"
+      sdk_branch: ${{ needs.apps_config.outputs.sdk_ref }}
+      sdk_type: "all"
+      devices: ${{ needs.devices_config.outputs.devices_config }}
+      exclude_apps: ${{ needs.apps_config.outputs.blacklist }}
+      only_apps: ${{ needs.apps_config.outputs.whitelist }}
+      with_variants: ${{ inputs.with_variants || true }}
+
+  build_artifacts:
+    name: Build Artifacts
+    if: always()
+    needs: [execute_build]
+    uses: ./.github/workflows/_artifacts.yml
+    with:
+      mode: "build"
+
+  build_status:
+    name: Build Status
+    if: always()
+    needs: [apps_config, execute_build, build_artifacts]
+    uses: ./.github/workflows/_status.yml
+    with:
+      mode: "build"
+      job_name: "Build"
+      total_apps: ${{ needs.execute_build.outputs.total_apps }}
+      exclude_apps: ${{ needs.apps_config.outputs.blacklist }}
+      with_variants: ${{ inputs.with_variants || true }}
+
+  notify_slack:
+    name: Slack notification
+    if: always()
+    needs: [devices_config, execute_build, build_status]
+    uses: ./.github/workflows/_notify_slack.yml
+    with:
+      devices: ${{ needs.devices_config.outputs.devices_config }}
+      total_apps: ${{ needs.execute_build.outputs.total_apps }}
+      send_to_slack: ${{ inputs.send_to_slack || false }}
+      title: "Build"

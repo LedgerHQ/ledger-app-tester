@@ -1,62 +1,102 @@
 # README
 
-This repository contains a collection of scripts that can be used both locally and within a CI environment to streamline the process of managing and testing apps. Below, you'll find an overview of the key scripts and how to use them.
-All the workflow can be manually triggered and configured from the **actions** page.
+This repository contains a collection of workflows & scripts that to be used within a CI environment
+to streamline the process of managing and testing apps.
+All the workflows can be manually triggered and configured from the [action page](https://github.com/LedgerHQ/ledger-app-tester/actions).
 
-## Scripts Overview
+## Workflows Overview
 
-### 1. Create App List
+In the [workflows](.github/workflows) directory, some files (whose name starts by `_`)
+are internal workflows, only intended to be called from other top level workflows.
+The important ones are:
 
-The `create_app_list` script is designed to parse GitHub repositories and generate a list of app variants. It takes a JSON file named `extra_info.json` (located in the `input_files/` directory) as a parameter, which includes essential information such as `build_path`. For each app, this script clones the repository and executes the `make listvariant` command to generate the list of variants.
+- `fast-check.yml`: Linter for the internal workflows/scripts.
+- `build_all.yml`: Build all available Apps.
+- `scan_all.yml`: Scan build all available Apps.
+- `test_all.yml`: Test (with _ragger_ framework) all available Apps.
 
-**Output**: An output of this script can be found in `input_files/input.json`. It also incorporates all the information provided in `extra_info_file.json`.
+They are triggered on the following conditions:
 
-**CI Usage**: This script is utilized by the `check_outdated_build_db.yaml` CI script.
+- On a new Pull request.
+- Scheduled (each one with its own setup).
+- Manually (from the dedicated page of the repository).
 
-**Note**: To use this script locally, you'll need to create a GitHub access token.
+The workflows accept few input parameters when executed manually:
 
-### 2. Build and Test and Scan
+- Device(s) to target.
+- SDK reference to be used (default is `master` for the Build, and the latest `API_LEVEL` for the Test).
+- Request to send the result on Slack (dedicated channel `#embedded-apps-tester`).
 
-The `build_and_test` script performs either build or test or scan operations on the apps listed in the input
-file generated previously.
+Also, some environment variables can be setup inside the workflows:
 
-**Build Operation**:
-- Sets up repositories and SDK.
-- Chooses the correct build path and extra flags based on the input file.
-- Performs the build (`make`) operation for the specified device.
+- `WHITELIST`: List of Apps to select and work on.
+- `BLACKLIST`: List of Apps to exclude.
+- `DEFAULT_SDK`: The default SDK reference got build the Apps.
+- `LIMIT`: Max nb of Apps to select (directly in `_build_app.yml` only).
 
-**Test Operation**:
-- Installs required dependencies.
-- Executes pytest in the test directory specified in the input file for the specified device.
+## Workflows Configuration
 
-**Scan Operation**:
-- Sets up repositories and SDK.
-- Chooses the correct build path and extra flags based on the input file.
-- Performs the scan build (`make scan`) operation for the specified device.
-  It currently consist on a build with the Clang Static Analyser.
+### Scheduling
 
-**CI Usage**:
-- `test_all.yml`: Tests devices.
-- `build_all.yml`: Builds for selected devices.
-- `scan_all.yml`: Scans for selected devices
-- `refresh_inputs.yml`: Check whether the input list needs updating.
+Each workflow is executed independently, with its own schedule (thanks to `cron`):
 
-To reduce CI run times, the input file is automatically split into 10 sub-inputs, and then all the inputs are run through a matrix strategy.
-### 3. Planned Improvements
+- ___Build___ & ___Scan___: During the night, every day from Monday to Friday.
+- ___Test___: During the night, every Monday.
 
-- **Support for ZEMU Tests**
+### SDK Reference
 
-## Getting Started
+The SDK reference (branch) used differ from one task to another:
 
-To get started with this repository, follow these steps:
+- ___Build___ & ___Scan___:
+  - Manual trigger: The user enters manually the reference. Default is `master`.
+  - Automatic: The reference is `master`.
+- ___Test___:
+  - Manual trigger: The user enters manually the reference. Default is `master`.
+  - Automatic: The reference is retrieved automatically from the SDK repository,
+    and set to the _latest_ available for each device.
 
-1. Clone the repository to your local machine.
-2. Ensure you have set up a GitHub access token if you intend to use the scripts locally.
-3. Make sure to run the scripts inside the ledger-app-dev-tools docker to use a proper build setup.
+### Adding a new device
 
-Alternatively you can run the script from the actions tab of the repo. 
-You can view the result in the summary of the GH action: 
-:red_circle: means a fail.
-:heavy_check_mark: means success,
-:fast_forward: means the action was explicitly blacklisted in the input file.
-nothing: means there was no variant associated to the device when running make listvariants.
+To add a new device, the modifications are:
+
+- In each top level workflow, add a new _input parameter_, and update the job `devices_config` accordingly.
+- In `_setup_devices.yml`: Adapt the job `define_devices`.
+- In `_build_app.yml` & `_test_app.yml`: Add the corresponding steps `Run` and `Check failure`.
+- In `_test_app.yml`: Ensure the correct SDK reference is selected, or add a new step for this.
+- In `setup_devices.py`: Add a new parameter and adapt the code.
+- In `parse_all_apps.py`: Add the new device in the list `devices`.
+
+> Note: To ensure finding all related parts, a simple grep on an existing one (e.g. __stax__) is sufficient.
+
+## Workflows Output
+
+Once a workflow has been executed, it outputs a _summary_, and upload the significant _artifacts_.
+
+In the Summary, the information is:
+
+- The github event that has triggered the workflow.
+- The number of Apps being tested.
+- The number of errors encountered (and the number of apps concerned by those errors).
+- A table with all tested Apps per device, and an icon giving the status:
+  - ✅ Success
+  - ❌ Failure
+  - ⚫ Not selected
+  - 🚧 Workflow issue
+  - 🚫 No test executed because of Build issue
+
+## Workflows internals
+
+The internal operations are described [here](doc/internals.md)
+
+## Artifacts
+
+The artifacts management is described [here](doc/artifacts.md)
+
+## Planned Improvements
+
+The next steps could be:
+
+- Support building variants
+- Support Rust Apps
+- Extend the Scan and Test Apps list
+- Find a way to get dependencies for plugins, exchange...
