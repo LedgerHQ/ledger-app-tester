@@ -1,4 +1,4 @@
-name: Test apps on given SDK ref
+name: Test All Apps on given SDK ref
 
 on:
   schedule:

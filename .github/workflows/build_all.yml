@@ -1,4 +1,4 @@
-name: Build apps on given SDK ref
+name: Build All Apps on given SDK ref
 
 on:
   schedule:

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# script to build an App and manage the status and log files
+# script to Build an App and manage the status and log files
 #
 
 exeName=$(readlink "$0")
@@ -28,7 +28,7 @@ help() {
     echo "Options:"
     echo
     echo "  -a <name>   : App name"
-    echo "  -b <dir>    : Application build directory (relative to repository path)"
+    echo "  -b <dir>    : Application build directory"
     echo "  -t <target> : Targeted device"
     echo "  -d <names>  : List of supported devices (separated with space)"
     echo "  -f <flags>  : List of extra flags (separated with space)"
@@ -97,7 +97,7 @@ fi
 
 if [[ "${IS_RUST}" == "true" ]]; then
     CURRENT_DIR=$(pwd)
-    cd "${BUILD_DIR}" || exit 1
+    cd "${APP_NAME}/${BUILD_DIR}" || exit 1
     cargo +$RUST_NIGHTLY update ledger_device_sdk
     cargo +$RUST_NIGHTLY update ledger_secure_sdk_sys
     # Build, with particular case of Nanos+
@@ -106,7 +106,7 @@ if [[ "${IS_RUST}" == "true" ]]; then
     cd "${CURRENT_DIR}" || exit 1
 else
     # Prepare make arguments
-    ARGS=(-j -C "${BUILD_DIR}" "${EXTRA_FLAGS}")
+    ARGS=(-j -C "${APP_NAME}/${BUILD_DIR}" "${EXTRA_FLAGS}")
     # Particular target name of Nanos+
     TARGET_BUILD="${TARGET/s+/s2}"
     if [[ -n "${VAR_PARAM}" ]]; then

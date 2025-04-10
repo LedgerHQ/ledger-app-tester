@@ -1,0 +1,136 @@
+name: Check an App
+
+on:
+  workflow_call:
+    inputs:
+      exclude_apps:
+        description: |
+          List of application names to exclude from the check.
+        required: false
+        default: ""
+        type: string
+      only_apps:
+        description: |
+          List of application names to include in the check.
+          Warning: `only_apps` takes precedence on `exclude_apps`.
+        required: false
+        default: ""
+        type: string
+    outputs:
+      total_apps:
+        description: |
+          Total number of selected Apps.
+        value: ${{ jobs.define_apps.outputs.total_apps }}
+
+
+#env:
+  # LIMIT: 50
+
+
+jobs:
+  define_apps:
+    name: Get applications list
+    runs-on: ubuntu-latest
+    outputs:
+      apps_config: ${{ steps.apps_list.outputs.apps_config }}
+      total_apps: ${{ steps.apps_list.outputs.total_apps }}
+
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: pip install --break-system-packages -r requirements.txt
+
+      - name: Define the list of applications
+        id: apps_list
+        run: |
+          ARGS=(-j apps_config -n total_apps)
+
+          # Exclude some apps
+          if [ -n "${{ inputs.exclude_apps }}" ]; then
+            ARGS+=(-e ${{ inputs.exclude_apps }})
+          fi
+          # Only some apps
+          if [ -n "${{ inputs.only_apps }}" ]; then
+            ARGS+=(-o ${{ inputs.only_apps }})
+          fi
+          # Limit to a number of apps
+          if [ -n "${{ env.LIMIT }}" ]; then
+            ARGS+=( -l ${{ env.LIMIT }})
+          fi
+
+          ./scripts/parse_all_apps.py "${ARGS[@]}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Print matrix
+        run: |
+          echo "Matrix content: ${{ steps.apps_list.outputs.apps_config }}"
+
+      - name: Upload Apps Config
+        uses: actions/upload-artifact@v4
+        with:
+          name: apps_config
+          path: apps_config.json
+          if-no-files-found: error
+
+  run_all:
+    name: Run for all targets
+    needs: [define_apps]
+    strategy:
+      fail-fast: false
+      matrix:
+        repo_info: ${{ fromJson(needs.define_apps.outputs.apps_config) }}
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-dev-tools:latest
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v4
+        with:
+          repository: LedgerHQ/ledger-app-tester
+          path: ledger-app-tester
+
+      - name: Clone App
+        uses: actions/checkout@v4
+        with:
+          repository: LedgerHQ/${{ matrix.repo_info.repo_name }}
+          path: ${{ matrix.repo_info.repo_name }}
+          submodules: true
+
+      - name: Prepare test conditions
+        id: prepare_test
+        run: |
+          # Initial check args
+          ARGS="-v -a ${{ matrix.repo_info.repo_name }}"
+          ARGS="${ARGS} -b ${{ matrix.repo_info.build_directory }}"
+
+          echo "CMD_ARGS=${ARGS}" >> "$GITHUB_ENV"
+          echo "CMD_ARGS=${ARGS}"
+
+      - name: Run Guideline Enforcer
+        if: ${{ always() && (steps.prepare_test.outcome == 'success') }}
+        id: run_check
+        run: |
+          # shellcheck disable=SC2086
+          ./ledger-app-tester/scripts/check_app.sh ${{ env.CMD_ARGS}}
+      - name: Check failure
+        if: ${{ always() && (steps.run_check.outcome == 'skipped') }}
+        run: |
+          echo -n "|:construction:" >> check_status_${{ matrix.repo_info.repo_name }}.md
+
+      - name: Archive Status
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: check_status_${{ matrix.repo_info.repo_name }}
+          path: check_status_${{ matrix.repo_info.repo_name }}.md
+
+      - name: Archive Error
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: check_errors_${{ matrix.repo_info.repo_name }}
+          path: check_errors_${{ matrix.repo_info.repo_name }}.md
+          if-no-files-found: ignore

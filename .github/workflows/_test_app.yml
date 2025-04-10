@@ -1,4 +1,4 @@
-name: Test all apps
+name: Test an App
 
 on:
   workflow_call:
@@ -69,12 +69,16 @@ jobs:
           pip install --break-system-packages -r ledger-app-tester/requirements.txt
           pip install --break-system-packages toml-cli
 
+          # Get Test directory from manifest
           TEST_DIR=$(ledger-manifest -otp "${{ matrix.repo_info.repo_name }}/ledger_app.toml")
           if [ -z "${TEST_DIR}" ]; then
             echo "No test directory found" && exit 1
           fi
-          TEST_DIR="${{ matrix.repo_info.repo_name }}/${TEST_DIR}"
+          # Initial build args
+          ARGS="-v -a ${{ matrix.repo_info.repo_name }} -d ${TEST_DIR}"
 
+          # Install dedicated dependencies
+          TEST_DIR="${{ matrix.repo_info.repo_name }}/${TEST_DIR}"
           if [ -f "${TEST_DIR}/requirements.txt" ]; then
             pip install --break-system-packages -r "${TEST_DIR}/requirements.txt"
           fi
@@ -82,9 +86,8 @@ jobs:
             "${TEST_DIR}"/setup_script.sh
           fi
 
-          ARGS="-v -a ${{ matrix.repo_info.repo_name }} -d ${TEST_DIR}"
+          # SDK: C or Rust
           SDK=$(echo "${{ matrix.repo_info.sdk }}" | tr '[:upper:]' '[:lower:]')
-
           if [ "${SDK}" = "rust" ]; then
             ARGS="${ARGS} -r"
             if [ -f "${{ matrix.repo_info.repo_name }}/Cargo.toml" ]; then
@@ -97,6 +100,7 @@ jobs:
           fi
           ARGS="${ARGS} -e \"${ELF_NAME}\""
 
+          # Extra build flags
           APP_FLAGS=$(jq --arg name "${{ matrix.repo_info.repo_name }}" -r '.[] | select(.name == $name) | .test_flags' ledger-app-tester/input_files/test_info.json)
           if [ "${APP_FLAGS}" != null ] && [ -n "${APP_FLAGS}" ]; then
             echo "Found Test flags: ${APP_FLAGS}"
@@ -106,6 +110,7 @@ jobs:
           echo "CMD_ARGS=${ARGS}" >> "$GITHUB_ENV"
           echo "CMD_ARGS=${ARGS}"
 
+          # Copy elf dependencies
           APP_DEPS=$(jq --arg name "${{ matrix.repo_info.repo_name }}" -r '.[] | select(.name == $name) | .dependencies' ledger-app-tester/input_files/test_info.json)
           if [ "${APP_DEPS}" != null ]; then
             for app in ${APP_DEPS}; do

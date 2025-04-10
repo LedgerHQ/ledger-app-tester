@@ -1,4 +1,4 @@
-name: Build all apps
+name: Build an App
 
 on:
   workflow_call:
@@ -162,7 +162,7 @@ jobs:
 
           # Initial build args
           ARGS="-v -a ${{ matrix.repo_info.repo_name }}"
-          ARGS="${ARGS} -b ${{ matrix.repo_info.repo_name }}/${{ matrix.repo_info.build_directory }}"
+          ARGS="${ARGS} -b ${{ matrix.repo_info.build_directory }}"
 
           # Supported devices
           DEVICES=$(echo '${{ toJSON(matrix.repo_info.devices) }}' | jq -r '. | join(" ")')
@@ -174,7 +174,7 @@ jobs:
             ARGS="${ARGS} -r"
           fi
 
-          # Extra build args
+          # Extra build flags
           case "${{ inputs.mode }}" in
             build)
               ;;

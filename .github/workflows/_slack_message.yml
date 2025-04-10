@@ -1,4 +1,4 @@
-name: Notify results on Slack
+name: Prepare Slack Message
 
 on:
   workflow_call:
@@ -10,7 +10,7 @@ on:
       devices:
         description: |
           The list of analyzed devices.
-        required: true
+        required: false
         type: string
       total_apps:
         description: Total number of analyzed Apps.
@@ -50,7 +50,9 @@ jobs:
         id: slack_msg
         run: |
           ARGS=(--json slack.json --title "${{ inputs.title }}")
-          ARGS+=(-d ${{ inputs.devices }})
+          if [ -n "${{ inputs.devices }}" ]; then
+            ARGS+=(-d ${{ inputs.devices }})
+          fi
           ARGS+=(-n ${{ inputs.total_apps }})
           if [ -f apps_errors.md ]; then
             ARGS+=(--errors apps_errors.md)

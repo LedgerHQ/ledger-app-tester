@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# script to build an App and manage the status and log files
+# script to Test an App and manage the status and log files
 #
 
 exeName=$(readlink "$0")
@@ -26,7 +26,7 @@ help() {
     echo "Options:"
     echo
     echo "  -a <name>   : App name"
-    echo "  -d <dir>    : Application test directory (relative to repository path)"
+    echo "  -d <dir>    : Application test directory"
     echo "  -e <name>   : elf name"
     echo "  -f <flags>  : List of extra flags (separated with space)"
     echo "  -t <target> : Targeted device"
@@ -93,7 +93,7 @@ if [[ ! -f "${ELF_FILE}" ]]; then
 fi
 
 # shellcheck disable=SC2086
-(cd "${TEST_DIR}" && pytest --tb=short -v --device="${TARGET}" ${EXTRA_FLAGS})
+(cd "${APP_NAME}/${TEST_DIR}" && pytest --tb=short -v --device="${TARGET}" ${EXTRA_FLAGS})
 ERR=$?
 
 if [[ ${ERR} -ne 0 ]]; then

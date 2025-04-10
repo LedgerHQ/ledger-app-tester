@@ -1,38 +1,13 @@
-name: Scan All Apps on given SDK ref
+name: Check All Apps
 
 on:
   schedule:
-    - cron: '32 5 * * 1,2,3,4,5'
+    - cron: '32 5 * * 3'
 
   pull_request:
 
   workflow_dispatch:
     inputs:
-      sdk_ref:
-        description: The SDK branch or sha1 to build against.
-        type: string
-        required: false
-        default: 'master'
-      with_nanosp:
-        description: Request to target Nanos+
-        type: boolean
-        required: false
-        default: true
-      with_nanox:
-        description: Request to target Nanox
-        type: boolean
-        required: false
-        default: true
-      with_stax:
-        description: Request to target Stax
-        type: boolean
-        required: false
-        default: true
-      with_flex:
-        description: Request to target Flex
-        type: boolean
-        required: false
-        default: true
       send_to_slack:
         description: Request to send the result on Slack
         type: boolean
@@ -48,22 +23,12 @@ env:
 
 
 jobs:
-  devices_config:
-    name: Set devices
-    uses: ./.github/workflows/_setup_devices.yml
-    with:
-      with_nanosp: ${{ inputs.with_nanosp || false }}
-      with_nanox: ${{ inputs.with_nanox || false }}
-      with_stax: ${{ inputs.with_stax || false }}
-      with_flex: ${{ inputs.with_flex || false }}
-
   apps_config:
-    name: Set SDK, Whitelist and Blacklist
+    name: Set Whitelist and Blacklist
     runs-on: ubuntu-latest
     outputs:
       whitelist: ${{ steps.get_whitelist.outputs.whitelist }}
       blacklist: ${{ steps.get_blacklist.outputs.blacklist }}
-      sdk_ref: ${{ steps.get_sdk.outputs.sdk_ref }}
 
     steps:
       - name: Get Whitelist Apps
@@ -75,50 +40,41 @@ jobs:
         run: |
           echo "blacklist=${{ env.BLACKLIST || '' }}" >> "$GITHUB_OUTPUT"
 
-      - name: Get SDK
-        id: get_sdk
-        run: |
-          echo "sdk_ref=${{ inputs.sdk_ref || env.DEFAULT_SDK }}" >> "$GITHUB_OUTPUT"
-
-  execute_scan:
-    name: Scan All C apps
-    needs: [devices_config, apps_config]
-    uses: ./.github/workflows/_build_app.yml
+  execute_check:
+    name: Check All apps
+    needs: [apps_config]
+    uses: ./.github/workflows/_check_app.yml
     with:
-      mode: "scan"
-      sdk_branch: ${{ needs.apps_config.outputs.sdk_ref }}
-      sdk_type: "c"
-      devices: ${{ needs.devices_config.outputs.devices_config }}
       exclude_apps: ${{ needs.apps_config.outputs.blacklist }}
       only_apps: ${{ needs.apps_config.outputs.whitelist }}
 
-  scan_artifacts:
-    name: Scan Artifacts
+  check_artifacts:
+    name: Check Artifacts
     if: always()
-    needs: [execute_scan]
+    needs: [execute_check]
     uses: ./.github/workflows/_artifacts.yml
     with:
-      mode: "build"
+      mode: "check"
 
-  scan_status:
-    name: Scan Status
+  check_status:
+    name: Check Status
     if: always()
-    needs: [execute_scan, scan_artifacts]
+    needs: [apps_config, execute_check, check_artifacts]
     uses: ./.github/workflows/_status.yml
     with:
-      mode: "build"
-      job_name: "Scan"
-      total_apps: ${{ needs.execute_scan.outputs.total_apps }}
+      mode: "check"
+      job_name: "Check"
+      total_apps: ${{ needs.execute_check.outputs.total_apps }}
+      exclude_apps: ${{ needs.apps_config.outputs.blacklist }}
 
   slack_message:
     name: Slack Message
     if: always()
-    needs: [devices_config, execute_scan, scan_status]
+    needs: [execute_check, check_status]
     uses: ./.github/workflows/_slack_message.yml
     with:
-      devices: ${{ needs.devices_config.outputs.devices_config }}
-      total_apps: ${{ needs.execute_scan.outputs.total_apps }}
-      title: "Scan"
+      total_apps: ${{ needs.execute_check.outputs.total_apps }}
+      title: "Check"
 
   slack_notification:
     name: Slack Notification
