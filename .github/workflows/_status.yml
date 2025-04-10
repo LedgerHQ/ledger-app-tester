@@ -39,7 +39,15 @@ jobs:
       - name: Install dependencies
         run: pip install --break-system-packages -r requirements.txt
 
+      - name: Download Check Status artifact
+        if: inputs.mode == 'check'
+        uses: actions/download-artifact@v4
+        with:
+          path: check_status
+          name: check_status_all
+
       - name: Download Build Status artifact
+        if: inputs.mode != 'check'
         uses: actions/download-artifact@v4
         with:
           path: build_status
@@ -67,7 +75,23 @@ jobs:
           path: error
           name: ${{ inputs.mode }}_errors_all
 
-      - name: Display results
+      - name: Display Results
+        if: inputs.mode == 'check'
+        run: |
+          ARGS=(-t "${{ inputs.total_apps }}" -j ${{ inputs.job_name }} -o apps_errors.md)
+          if [ -n "${{ inputs.exclude_apps }}" ]; then
+            ARGS+=(-e "${{ inputs.exclude_apps }}")
+          fi
+          ARGS+=(-E error)
+          ARGS+=(-C check_status)
+          scripts/summary_check.py "${ARGS[@]}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_RUN_ID: ${{ github.run_id }}
+          GH_EVENT_NAME: ${{ github.event_name }}
+
+      - name: Display Results
+        if: inputs.mode != 'check'
         run: |
           ARGS=(-t "${{ inputs.total_apps }}" -j ${{ inputs.job_name }} -o apps_errors.md)
           if [ -n "${{ inputs.exclude_apps }}" ]; then
