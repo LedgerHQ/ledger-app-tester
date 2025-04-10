@@ -135,14 +135,16 @@ else
     fi
 fi
 
+# Particular target name of Nanos+
+TARGET_BUILD="${TARGET/s+/sp}"
 if [[ ${ERR} -ne 0 ]]; then
     echo -n "|:x:" >> "${FILE_STATUS}"
     if [[ -f "${FILE_ERROR}" ]]; then
-        echo -n ", ${TARGET}" >> "${FILE_ERROR}"
+        echo -n ", ${TARGET_BUILD}" >> "${FILE_ERROR}"
     else
         {
             echo -e "\t• ${APP_NAME}"
-            echo -e -n "\t\t${TARGET}"
+            echo -e -n "\t\t${TARGET_BUILD}"
         } > "${FILE_ERROR}"
     fi
 else
