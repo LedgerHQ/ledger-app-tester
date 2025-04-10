@@ -14,6 +14,7 @@ The important ones are:
 - `build_all.yml`: Build all available Apps.
 - `scan_all.yml`: Scan build all available Apps.
 - `test_all.yml`: Test (with _ragger_ framework) all available Apps.
+- `check_all.yml`: Run the Guideline Enforcer on all available Apps.
 
 They are triggered on the following conditions:
 
@@ -42,6 +43,7 @@ Each workflow is executed independently, with its own schedule (thanks to `cron`
 
 - ___Build___ & ___Scan___: During the night, every day from Monday to Friday.
 - ___Test___: During the night, every Monday.
+- ___Check___: During the night, every Wednesday.
 
 ### SDK Reference
 
@@ -91,12 +93,3 @@ The internal operations are described [here](doc/internals.md)
 ## Artifacts
 
 The artifacts management is described [here](doc/artifacts.md)
-
-## Planned Improvements
-
-The next steps could be:
-
-- Support building variants
-- Support Rust Apps
-- Extend the Scan and Test Apps list
-- Find a way to get dependencies for plugins, exchange...

@@ -19,8 +19,7 @@ flowchart LR
     S[Status]
     N[Slack Notification]
 
-    D & L --> B
-    B --> A
+    D & L --> B --> A
     A & B --> S
     S --> N
 ```
@@ -42,11 +41,26 @@ flowchart LR
     S[Status]
     N[Slack Notification]
 
-    D & L --> B
-    B --> BA
-    BA --> T
-    T --> TA
+    D & L --> B --> BA
+    BA --> T --> TA
     TA & B --> S
+    S --> N
+```
+
+### Check Workflow
+
+The Simple Check consist in the following sequence:
+
+```mermaid
+flowchart LR
+    L[Apps Selection]
+    C[Check All Apps]
+    A[Artifacts]
+    S[Status]
+    N[Slack Notification]
+
+    L --> C --> A
+    L & C & A --> S
     S --> N
 ```
 
@@ -73,7 +87,7 @@ Also, some configurations are possible thanks to environment variables:
 This results are set in the appropriate variables in `GITHUB_OUTPUT`.
 Those variables can then be used as input parameters for other jobs or child workflows.
 
-### Building All Apps
+## Building All Apps
 
 Building the Apps is done thanks to a dedicated internal workflow [_build_app.yml](../.github/workflows/_build_app.yml).
 This workflow uses the following input parameters:
@@ -95,7 +109,7 @@ This workflow returns the following output value:
 
 - `total_apps`: Total number of selected Apps
 
-#### Apps List
+### Apps List
 
 The first step is to generate the real App list, considering the different input parameters and env variables.
 This step is executed by [parse_all_apps.py](../scripts/parse_all_apps.py),
@@ -119,7 +133,7 @@ The result is a Json data which looks like:
 
 Finally, the Json data file is uploaded as a GitHub artifact under the name `apps_config`.
 
-#### Building Operation
+### Building Operation
 
 Now that we know which App have to be compiled, we can go ahead with the next step.  
 Of course, the build operation is executed inside the docker container `ledger-app-builder`.
@@ -161,7 +175,7 @@ Finally, if the input parameter `mode` is `test`,
 the file tree of the different `app.elf` per device, under `build/` directory,
 is uploaded as a GitHub artifact named `binaries_<app_name>`.
 
-#### Collecting Artifacts
+### Collecting Artifacts
 
 After the Build (or Test) operation, the artifacts are cleaned up.
 Instead of keeping a multitude of individual files (suffixed by the App Name), they are collected
@@ -204,7 +218,7 @@ Also, for the Test:
 > **Note**: To avoid printing useless errors when artifacts are not available (like errors),
 there is a special step to check if the artifacts exist.
 
-#### Status
+### Generating Status
 
 Once the previous operations are completed, the next operation consists in generating the summary report.
 
@@ -249,7 +263,7 @@ After cloning the app-tester and installing few dependencies, the following step
    This file is in fact generated along within the summary report in previous step.
    This file will be used later to generate the Slack message.
 
-#### Slack Notification
+### Slack Notification
 
 Last step of the operations is to notify the result / status on Slack.
 
@@ -278,14 +292,14 @@ Then, the sending is done from the top level workflow, conditioned by either:
 - Schedule triggering
 - Manual triggering, with the parameter `send_to_slack`
 
-### Scan All Apps
+## Scanning All Apps
 
 The Apps scanning operation consists in building a set of Apps,
 with dedicated extra flags (`ENABLE_SDK_WERROR=1 scan-build`).
 
 Thus, the list of operations is the same as described in [Building All Apps](#building-all-apps)
 
-### Test All Apps
+## Testing All Apps
 
 The Apps testing operation consists in building a set of Apps, and executing the _ragger_ tests
 for each of them (and for each device).
@@ -323,15 +337,15 @@ Thus, that means other operations are the same as the _Build_ case, and won't be
 
 These operations are performed by [_test_app.yml](../.github/workflows/_test_app.yml).
 
-#### Apps List
+### Apps List
 
 Contrary to the _Build_ operation, here, we won't parse GitHub to find the Apps list,
 but we'll rather use the list of Apps that have been selected and built.
 
-#### Testing Operation
+### Testing Operation
 
-After cloning the app-tester and installing few dependencies, the test operation is
-delegated to [test_app.sh](../scripts/test_app.sh), where the following steps are executed:
+After cloning the app-tester and installing few dependencies, the test operation is delegated to [test_app.sh](../scripts/test_app.sh).
+In the workflow, the following steps are executed:
 
 1. Download the artifact `binaries_<app_name>` containing the different `app.elf` for each device.
 2. Determine the device list (based on the downloaded artifact in previous step).
@@ -340,6 +354,61 @@ delegated to [test_app.sh](../scripts/test_app.sh), where the following steps ar
 > **Note**: The selected devices are all tested one after the other in the same job.
 
 The test status are concatenated in a dedicated file, named `test_status_<app_name>.md`.  
-In case of error, incriminated devices are written in a  dedicated file, named `test_errors_<app_name>.md`.
+In case of error, incriminated devices are written in a dedicated file, named `test_errors_<app_name>.md`.
+
+All those files are then uploaded as GitHub artifacts.
+
+## Checking All Apps
+
+The Apps checking operation consists in calling the _Guideline Enforcer_ script
+(available in the docker container), on a set of Apps.
+
+```mermaid
+flowchart LR
+    A[Get Applications List]
+    C1[Clone _app-tester_ repo]
+    C2[Clone _App_ repo]
+    P[Prepare Test conditions
+      _command line_ with options]
+
+    R[Run check]
+    S[Archive
+      _check_status_APP_NAME_
+      _check_errors_APP_NAME_
+      Artifacts]
+
+    A --> C1 & C2 --> P --> R --> S
+```
+
+The operations are thanks to a dedicated internal workflow [_check_app.yml](../.github/workflows/_check_app.yml).
+This workflow uses the following input parameters:
+
+- `exclude_apps`: List of application names to exclude from the build.
+- `only_apps`: List of application names to include in the build.
+
+Here again, some environment variables can be set:
+
+- `WHITELIST`
+- `BLACKLIST`
+- `LIMIT`
+
+This workflow returns the following output value:
+
+- `total_apps`: Total number of selected Apps
+
+### Apps List
+
+This step is similar to the one done in the _Build_ operation.
+
+### Checking Operation
+
+After cloning the app-tester, the check operation is delegated to [check_app.sh](../scripts/check_app.sh).
+In the workflow, the following steps are executed:
+
+1. Define the Apps list.
+2. Execute the checks
+
+The check status is stored in a dedicated file, named `check_status_<app_name>.md`.  
+In case of error, incriminated App is written in a dedicated file, named `check_errors_<app_name>.md`.
 
 All those files are then uploaded as GitHub artifacts.
