@@ -295,20 +295,6 @@ def summary_report(github_event: str,
     legend.extend(["", "</details>"])
     content += "\n".join(legend) + "\n"
 
-    # Append errors section if output file exists
-    if os.path.isfile(args.output):
-        errors_section = [
-            "<details><summary>Errors per Apps</summary>",
-            ""
-        ]
-        try:
-            with open(args.output, encoding="utf-8") as infile:
-                errors_section.append(infile.read())
-        except FileNotFoundError:
-            logging.warning("Output file '%s' not found.", args.output)
-        errors_section.extend(["", "</details>", ""])
-        content += "\n".join(errors_section)
-
     with open("summary.md", "w", encoding="utf-8") as outfile:
         outfile.write(content)
 

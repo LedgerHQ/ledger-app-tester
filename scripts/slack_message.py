@@ -97,9 +97,7 @@ def main() -> None:
 
     if args.errors:
         fail_count = count_apps(args.errors)
-        status = f":red-cross: Fail for {fail_count} / {args.nb} App"
-        if fail_count > 1:
-            status += "s"
+        status = f":red-cross: Fail for {fail_count} / {args.nb} Apps"
     else:
         status = ":large_green_circle: Success"
 
@@ -107,15 +105,13 @@ def main() -> None:
     # ----------
     logging.info("Preparing JSON data with workflow result")
     slack_json = {}
-    slack_json["title"] = f"{args.title} on {args.devices}"
+    slack_json["title"] = f"{args.title} on [{', '.join(args.devices)}]"
     slack_json["status"] = status
+    slack_json["url"] = f"https://github.com/LedgerHQ/ledger-app-tester/actions/runs/{run_id}"
     if args.errors:
         with open(args.errors, encoding="utf-8") as f:
             content = f.read()
         slack_json["status_detail"] = f"Failed for:\n{content}"
-
-    url = f"https://github.com/LedgerHQ/ledger-app-tester/actions/runs/{run_id}"
-    slack_json["url"] = f"Results link: <{url}>"
 
     logging.debug("JSON_DATA:\n%s", json.dumps(slack_json, indent=4))
 
