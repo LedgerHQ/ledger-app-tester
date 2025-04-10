@@ -253,22 +253,30 @@ After cloning the app-tester and installing few dependencies, the following step
 
 Last step of the operations is to notify the result / status on Slack.
 
-This is done by a dedicated internal workflow [_notify_slack.yml](../.github/workflows/_notify_slack.yml).
+This is done in 2 steps:
+
+- Prepare the Slack message
+- Send the Slack message
+
+> **Note**: This split is due to a limitation: we cannot use the _webhook_ secret in a reusable workflow.
+
+The preparation is then done by a dedicated internal workflow [_slack_message.yml](../.github/workflows/_slack_message.yml).
 This workflow uses different input parameters:
 
 - `title`: Title of the message.
 - `devices`: The list of analyzed devices.
 - `total_apps`: Total number of tested Apps.
-- `send_to_slack`: Request to send the result on Slack.
-
-Despite there is an input parameter (`send_to_slack`) to request the message,
-these steps are still executed, allowing to prepare (and check) the message.
 
 After cloning the app-tester and installing few dependencies, the following steps are executed :
 
 1. Check if the artifact `apps_errors` exist, and download it.
 2. Convert the different elements to a Json data thanks to [slack_message.py](../scripts/slack_message.py).
-3. If the parameter `send_to_slack` is `true`, really the Slack message.
+3. Upload the Slack message file for next step (sending).
+
+Then, the sending is done from the top level workflow, conditioned by either:
+
+- Schedule triggering
+- Manual triggering, with the parameter `send_to_slack`
 
 ### Scan All Apps
 
