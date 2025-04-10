@@ -93,7 +93,7 @@ if [[ ! -f "${ELF_FILE}" ]]; then
 fi
 
 # shellcheck disable=SC2086
-(cd "${TEST_DIR}" && pytest --tb=short -v --device="${TARGET}" ${EXTRA_FLAGS})
+(cd "${APP_NAME}/${TEST_DIR}" && pytest --tb=short -v --device="${TARGET}" ${EXTRA_FLAGS})
 ERR=$?
 
 if [[ ${ERR} -ne 0 ]]; then

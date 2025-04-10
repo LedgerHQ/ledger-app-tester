@@ -107,24 +107,22 @@ def get_job_link(app_name: str, job_name: str, jobs) -> str:
 # ===============================================================================
 def construct_job_status(app_name: str,
                          bname: str,
-                         tdir: str,
                          build_status: List[str],
-                         job_name: str,
+                         args: Namespace,
                          jobs) -> Tuple[str, int]:
     """Construct the job status string.
     Args:
         app_name: The name of the app.
         bname: The name of the build file.
-        tdir: The directory containing the test status files.
         build_status: The build status string.
-        job_name: The job name to search for.
+        args: Command line arguments.
         jobs: List of jobs from GitHub.
     Returns:
         Job status line and nb errors.
     """
 
     tname = bname.replace("build", "test", 1)
-    test_path = os.path.join(tdir, tname)
+    test_path = os.path.join(args.Test, tname)
     try:
         with open(test_path, encoding="utf-8") as infile:
             test_status = infile.readline().split("|")[1:]
@@ -139,7 +137,7 @@ def construct_job_status(app_name: str,
         for b_status, t_status in zip(build_status, test_status)
     ]
 
-    job_status = f"|{get_job_link(app_name, job_name, jobs)}"
+    job_status = f"|{get_job_link(app_name, args.job, jobs)}"
     job_status += "<br>"
     job_status += f"{get_job_link(app_name, 'Test', jobs)}"
     job_status += "".join(merged_tokens)
@@ -151,19 +149,15 @@ def construct_job_status(app_name: str,
 #          Apps status report
 # ===============================================================================
 def status_report(report_file: str,
-                  job_name: str,
                   run_id: int,
-                  bdir: str,
-                  tdir: Optional[str] = None,
+                  args: Namespace,
                   github_token: Optional[str] = None) -> Tuple[int, int, int, int]:
     """Generate the status report for the apps.
 
     Args:
         report_file: The file to write the report to.
-        job_name: The job name to search for in the workflow.
         run_id: The workflow run ID.
-        bdir: The directory containing the build status files.
-        tdir: The directory containing the test status files (optional).
+        args: Command line arguments.
         github_token: GitHub token for authentication (optional).
     Returns:
         Tuple containing
@@ -192,9 +186,9 @@ def status_report(report_file: str,
     lines.append("|" + "|".join(["-----------", ":----:"] + [f":{'-'*len(d)}:" for d in devices]) + "|\n")
 
     # List all apps and their status, sorted alphabetically
-    for bname in sorted(os.listdir(bdir)):
+    for bname in sorted(os.listdir(args.Build)):
         nb_apps += 1
-        build_path = os.path.join(bdir, bname)
+        build_path = os.path.join(args.Build, bname)
         with open(build_path, encoding="utf-8") as infile:
             app_status = infile.readline()
         nb_build_errors += app_status.count(":x:")
@@ -204,15 +198,14 @@ def status_report(report_file: str,
         app_name = os.path.splitext(os.path.basename(bname.split("_")[-1]))[0]
 
         # Construct the job status string
-        if tdir is None:
-            job_status = f"|{get_job_link(app_name, job_name, jobs)}{app_status}"
+        if args.Test is None:
+            job_status = f"|{get_job_link(app_name, args.job, jobs)}{app_status}"
         else:
             # If test directory is provided, Analyze both Build and Test Status
             job_status, test_erros = construct_job_status(app_name,
                                                           bname,
-                                                          tdir,
                                                           build_status,
-                                                          job_name,
+                                                          args,
                                                           jobs)
             nb_test_errors += test_erros
 
@@ -338,10 +331,8 @@ def main() -> None:
     else:
         nb_apps_error = 0
     nb_apps_analyzed, nb_build_errors, nb_test_errors, nb_skip_errors = status_report("app_status.md",
-                                                                                      args.job,
                                                                                       int(workflow_run_id),
-                                                                                      args.Build,
-                                                                                      args.Test,
+                                                                                      args,
                                                                                       github_token)
 
     # Check if apps are missing in the status report
