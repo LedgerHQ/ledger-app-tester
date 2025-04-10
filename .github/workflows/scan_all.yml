@@ -1,4 +1,4 @@
-name: Scan apps on given SDK ref
+name: Scan All Apps on given SDK ref
 
 on:
   schedule:

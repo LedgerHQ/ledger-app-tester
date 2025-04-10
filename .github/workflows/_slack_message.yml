@@ -1,4 +1,4 @@
-name: Notify results on Slack
+name: Prepare Slack Message
 
 on:
   workflow_call:

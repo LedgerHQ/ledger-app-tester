@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# script to build an App and manage the status and log files
+# script to Build an App and manage the status and log files
 #
 
 exeName=$(readlink "$0")
@@ -28,7 +28,7 @@ help() {
     echo "Options:"
     echo
     echo "  -a <name>   : App name"
-    echo "  -b <dir>    : Application build directory (relative to repository path)"
+    echo "  -b <dir>    : Application build directory"
     echo "  -t <target> : Targeted device"
     echo "  -d <names>  : List of supported devices (separated with space)"
     echo "  -f <flags>  : List of extra flags (separated with space)"

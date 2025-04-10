@@ -1,4 +1,4 @@
-name: Test all apps
+name: Test an App
 
 on:
   workflow_call:
