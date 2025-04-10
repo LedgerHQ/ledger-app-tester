@@ -157,13 +157,38 @@ jobs:
       job_name: "Build"
       total_apps: ${{ needs.execute_build.outputs.total_apps }}
 
-  notify_slack:
-    name: Slack notification
+  slack_message:
+    name: Slack Message
     if: always()
-    needs: [test_status, devices_config, execute_build]
-    uses: ./.github/workflows/_notify_slack.yml
+    needs: [devices_config, execute_build, test_status]
+    uses: ./.github/workflows/_slack_message.yml
     with:
       devices: ${{ needs.devices_config.outputs.devices_config }}
       total_apps: ${{ needs.execute_build.outputs.total_apps }}
-      send_to_slack: ${{ inputs.send_to_slack || false }}
       title: "Test"
+
+  slack_notification:
+    name: Slack Notification
+    if: always()
+    needs: [slack_message]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Slack Message
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: slack_message
+
+      - name: Send custom JSON data to Slack
+        if: ${{ github.event_name == 'schedule' || inputs.send_to_slack == true }}
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload-file-path: slack.json
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Delete artifact
+        if: always()
+        uses: geekyeggo/delete-artifact@v5
+        with:
+            name: slack_message
