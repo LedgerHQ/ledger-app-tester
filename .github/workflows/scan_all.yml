@@ -80,7 +80,7 @@ jobs:
         run: |
           echo "sdk_ref=${{ inputs.sdk_ref || env.DEFAULT_SDK }}" >> "$GITHUB_OUTPUT"
 
-  execute_build:
+  execute_scan:
     name: Scan All C apps
     needs: [devices_config, apps_config]
     uses: ./.github/workflows/_build_app.yml
@@ -92,32 +92,32 @@ jobs:
       exclude_apps: ${{ needs.apps_config.outputs.blacklist }}
       only_apps: ${{ needs.apps_config.outputs.whitelist }}
 
-  build_artifacts:
-    name: Build Artifacts
+  scan_artifacts:
+    name: Scan Artifacts
     if: always()
-    needs: [execute_build]
+    needs: [execute_scan]
     uses: ./.github/workflows/_artifacts.yml
     with:
       mode: "build"
 
-  build_status:
-    name: Build Status
+  scan_status:
+    name: Scan Status
     if: always()
-    needs: [execute_build, build_artifacts]
+    needs: [execute_scan, scan_artifacts]
     uses: ./.github/workflows/_status.yml
     with:
       mode: "build"
       job_name: "Scan"
-      total_apps: ${{ needs.execute_build.outputs.total_apps }}
+      total_apps: ${{ needs.execute_scan.outputs.total_apps }}
 
   slack_message:
     name: Slack Message
     if: always()
-    needs: [devices_config, execute_build, build_status]
+    needs: [devices_config, execute_scan, scan_status]
     uses: ./.github/workflows/_slack_message.yml
     with:
       devices: ${{ needs.devices_config.outputs.devices_config }}
-      total_apps: ${{ needs.execute_build.outputs.total_apps }}
+      total_apps: ${{ needs.execute_scan.outputs.total_apps }}
       title: "Scan"
 
   slack_notification:
