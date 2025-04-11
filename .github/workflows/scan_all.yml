@@ -8,33 +8,38 @@ on:
 
   workflow_dispatch:
     inputs:
+      default_all_apps:
+        description: Run on All Apps (default is defined Whitelist & Blacklist).
+        type: boolean
+        required: false
+        default: false
       sdk_ref:
         description: The SDK branch or sha1 to build against.
         type: string
         required: false
         default: 'master'
       with_nanosp:
-        description: Request to target Nanos+
+        description: Request to target Nanos+.
         type: boolean
         required: false
         default: true
       with_nanox:
-        description: Request to target Nanox
+        description: Request to target Nanox.
         type: boolean
         required: false
         default: true
       with_stax:
-        description: Request to target Stax
+        description: Request to target Stax.
         type: boolean
         required: false
         default: true
       with_flex:
-        description: Request to target Flex
+        description: Request to target Flex.
         type: boolean
         required: false
         default: true
       send_to_slack:
-        description: Request to send the result on Slack
+        description: Request to send the result on Slack.
         type: boolean
         required: false
         default: false
@@ -67,10 +72,12 @@ jobs:
 
     steps:
       - name: Get Whitelist Apps
+        if: inputs.default_all_apps == false
         id: get_whitelist
         run: |
           echo "whitelist=${{ env.WHITELIST || '' }}" >> "$GITHUB_OUTPUT"
       - name: Get Blacklist Apps
+        if: inputs.default_all_apps == false
         id: get_blacklist
         run: |
           echo "blacklist=${{ env.BLACKLIST || '' }}" >> "$GITHUB_OUTPUT"

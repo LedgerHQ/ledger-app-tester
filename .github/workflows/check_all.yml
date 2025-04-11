@@ -8,8 +8,13 @@ on:
 
   workflow_dispatch:
     inputs:
+      default_all_apps:
+        description: Run on All Apps (default is defined Whitelist & Blacklist).
+        type: boolean
+        required: false
+        default: false
       send_to_slack:
-        description: Request to send the result on Slack
+        description: Request to send the result on Slack.
         type: boolean
         required: false
         default: false
@@ -32,10 +37,12 @@ jobs:
 
     steps:
       - name: Get Whitelist Apps
+        if: inputs.default_all_apps == false
         id: get_whitelist
         run: |
           echo "whitelist=${{ env.WHITELIST || '' }}" >> "$GITHUB_OUTPUT"
       - name: Get Blacklist Apps
+        if: inputs.default_all_apps == false
         id: get_blacklist
         run: |
           echo "blacklist=${{ env.BLACKLIST || '' }}" >> "$GITHUB_OUTPUT"
