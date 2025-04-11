@@ -25,14 +25,13 @@ They are triggered on the following conditions:
 The workflows accept few input parameters when executed manually:
 
 - Device(s) to target.
-- SDK reference to be used (default is `master` for the Build, and the latest `API_LEVEL` for the Test).
+- SDK reference to be used (default is `master` for the Build, and the `HEAD` of `API_LEVEL` for the Test).
 - Request to send the result on Slack (dedicated channel `#embedded-apps-tester`).
 
-Also, some environment variables can be setup inside the workflows:
+Also, some configuration files are available in the directory `input_files`:
 
-- `WHITELIST`: List of Apps to select and work on.
-- `BLACKLIST`: List of Apps to exclude.
-- `DEFAULT_SDK`: The default SDK reference got build the Apps.
+- `test_lists.json`: List of _Whitelist_ and _Blacklist_ Apps for each test.
+- `test_info.json`: List of config for the _ragger_ tests execution.
 
 ## Workflows Configuration
 

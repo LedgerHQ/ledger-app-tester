@@ -30,32 +30,13 @@ on:
         default: false
 
 
-env:
-  # Add the names of the repositories to whitelist here, separated by spaces
-  WHITELIST: "app-bitcoin app-bitcoin-new app-boilerplate app-cardano app-ethereum app-exchange app-monero app-passwords app-plugin-boilerplate app-recovery-check app-security-key app-solana app-tron app-xrp"
-  # BLACKLIST:
-  DEFAULT_SDK: "master"
-
-
 jobs:
   apps_config:
-    name: Set Whitelist and Blacklist
-    runs-on: ubuntu-latest
-    outputs:
-      whitelist: ${{ steps.get_whitelist.outputs.whitelist }}
-      blacklist: ${{ steps.get_blacklist.outputs.blacklist }}
-
-    steps:
-      - name: Get Whitelist Apps
-        if: inputs.default_all_apps == false
-        id: get_whitelist
-        run: |
-          echo "whitelist=${{ env.WHITELIST || '' }}" >> "$GITHUB_OUTPUT"
-      - name: Get Blacklist Apps
-        if: inputs.default_all_apps == false
-        id: get_blacklist
-        run: |
-          echo "blacklist=${{ env.BLACKLIST || '' }}" >> "$GITHUB_OUTPUT"
+    name: Set Apps lists
+    uses: ./.github/workflows/_setup_apps.yml
+    if: inputs.default_all_apps == false
+    with:
+      mode: "check"
 
   execute_check:
     name: Check All apps

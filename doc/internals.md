@@ -77,15 +77,18 @@ Each devices to target is initialized with the following steps:
 
 ### Apps Selection
 
-Here, we define which apps we want/need to test, and against which SDK.  
-Also, some configurations are possible thanks to environment variables:
+Here, we define which apps we want/need to test.
+This is computed thanks to [_setup_apps.yml](../.github/workflows/_setup_apps.yml),
+using the input file [test_lists.json](../input_files/test_lists.json),
+and setting the appropriate variables in `GITHUB_OUTPUT`.
 
-- `WHITELIST`
-- `BLACKLIST`
-- `DEFAULT_SDK`
+### Sdk Selection
 
-This results are set in the appropriate variables in `GITHUB_OUTPUT`.
-Those variables can then be used as input parameters for other jobs or child workflows.
+Here, we define which apps we want/need to build against.  
+This is set in the appropriate variables in `GITHUB_OUTPUT`, using either:
+
+- The input variable `sdk_branch`
+- The default `master` branch
 
 ## Building All Apps
 

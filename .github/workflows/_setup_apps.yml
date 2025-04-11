@@ -1,0 +1,57 @@
+name: Define targeted devices list
+
+on:
+  workflow_call:
+    inputs:
+      mode:
+        description: Indicate if we are in build, scan, test, or check.
+        type: string
+        required: true
+    outputs:
+      whitelist:
+        description: The Applications to whitelist.
+        value: ${{ jobs.define_apps.outputs.whitelist }}
+      blacklist:
+        description: The Applications to blacklist.
+        value: ${{ jobs.define_apps.outputs.blacklist }}
+
+
+jobs:
+  define_apps:
+    name: Set Applications
+    runs-on: ubuntu-latest
+    outputs:
+      whitelist: ${{ steps.get_whitelist.outputs.whitelist }}
+      blacklist: ${{ steps.get_blacklist.outputs.blacklist }}
+
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v4
+
+      - name: Get Whitelist Apps
+        id: get_whitelist
+        run: |
+          APP_ARRAY=$(jq --arg name "${{ inputs.mode }} whitelist" '.[] | .[$name]' input_files/test_lists.json)
+          if [ "${APP_ARRAY}" != "null" ]; then
+            # Check if the array has any elements
+            if [[ $(echo "${APP_ARRAY}" | jq 'length') -gt 0 ]]; then
+              APP_LIST=$(echo "${APP_ARRAY}" | jq -r 'join(" ")')
+              echo "whitelist=${APP_LIST}" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+      - name: Get Blacklist Apps
+        id: get_blacklist
+        run: |
+          APP_ARRAY=$(jq --arg name "${{ inputs.mode }} blacklist" '.[] | .[$name]' input_files/test_lists.json)
+          if [ "${APP_ARRAY}" != "null" ]; then
+            # Check if the array has any elements
+            if [[ $(echo "${APP_ARRAY}" | jq 'length') -gt 0 ]]; then
+              APP_LIST=$(echo "${APP_ARRAY}" | jq -r 'join(" ")')
+              echo "blacklist=${APP_LIST}" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+
+      - name: Print apps
+        run: |
+          echo "Found Whitelist Apps: ${{ steps.get_whitelist.outputs.whitelist }}"
+          echo "Found Blacklist Apps: ${{ steps.get_blacklist.outputs.blacklist }}"

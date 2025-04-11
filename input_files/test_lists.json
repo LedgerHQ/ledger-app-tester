@@ -1,0 +1,71 @@
+[
+  {
+    "check whitelist": [
+      "app-bitcoin",
+      "app-bitcoin-clone-boilerplate",
+      "app-bitcoin-new",
+      "app-boilerplate",
+      "app-boilerplate-rust",
+      "app-btcext-boilerplate",
+      "app-cardano",
+      "app-ethereum",
+      "app-exchange",
+      "app-monero",
+      "app-nbgl-tests",
+      "app-openpgp",
+      "app-plugin-boilerplate",
+      "app-recovery-check",
+      "app-security-key",
+      "app-solana",
+      "app-tron",
+      "app-u2f",
+      "app-xah",
+      "app-xrp"
+    ],
+    "check blacklist": [],
+
+    "test whitelist": [
+      "app-boilerplate",
+      "app-boilerplate-rust",
+      "app-btcext-boilerplate",
+      "app-ethereum",
+      "app-monero",
+      "app-nbgl-tests",
+      "app-openpgp",
+      "app-plugin-boilerplate",
+      "app-recovery-check",
+      "app-security-key",
+      "app-solana",
+      "app-u2f",
+      "app-xah",
+      "app-xrp"
+    ],
+     "test blacklist": [],
+
+   "scan whitelist": [
+      "app-bitcoin",
+      "app-bitcoin-clone-boilerplate",
+      "app-bitcoin-new",
+      "app-boilerplate",
+      "app-btcext-boilerplate",
+      "app-cardano",
+      "app-ethereum",
+      "app-exchange",
+      "app-monero",
+      "app-nbgl-tests",
+      "app-openpgp",
+      "app-plugin-boilerplate",
+      "app-recovery-check",
+      "app-security-key",
+      "app-solana",
+      "app-tron",
+      "app-u2f",
+      "app-xah",
+      "app-xrp"
+    ],
+    "scan blacklist": [],
+
+    "build whitelist": [],
+    "build blacklist": ["app-pocket"]
+  }
+]
