@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       title:
-        description: Slack message title
+        description: Slack message title.
         required: True
         type: string
       devices:
@@ -16,6 +16,11 @@ on:
         description: Total number of analyzed Apps.
         required: true
         type: string
+      send_to_slack:
+        description: Request to send the result on Slack.
+        type: boolean
+        required: false
+        default: false
 
 
 jobs:
@@ -66,9 +71,10 @@ jobs:
         run: |
           cat slack.json
 
-      - name: Upload Slack Message
-        uses: actions/upload-artifact@v4
+      - name: Send custom JSON data to Slack
+        if: ${{ github.event_name == 'schedule' || inputs.send_to_slack == true }}
+        uses: slackapi/slack-github-action@v1.24.0
         with:
-          name: slack_message
-          path: slack.json
-          if-no-files-found: error
+          payload-file-path: slack.json
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
