@@ -33,7 +33,6 @@ Also, some environment variables can be setup inside the workflows:
 - `WHITELIST`: List of Apps to select and work on.
 - `BLACKLIST`: List of Apps to exclude.
 - `DEFAULT_SDK`: The default SDK reference got build the Apps.
-- `LIMIT`: Max nb of Apps to select (directly in `_build_app.yml` only).
 
 ## Workflows Configuration
 

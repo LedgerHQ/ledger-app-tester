@@ -23,10 +23,6 @@ on:
         value: ${{ jobs.define_apps.outputs.total_apps }}
 
 
-#env:
-  # LIMIT: 50
-
-
 jobs:
   define_apps:
     name: Get applications list
@@ -54,10 +50,6 @@ jobs:
           # Only some apps
           if [ -n "${{ inputs.only_apps }}" ]; then
             ARGS+=(-o ${{ inputs.only_apps }})
-          fi
-          # Limit to a number of apps
-          if [ -n "${{ env.LIMIT }}" ]; then
-            ARGS+=( -l ${{ env.LIMIT }})
           fi
 
           ./scripts/parse_all_apps.py "${ARGS[@]}"

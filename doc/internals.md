@@ -100,11 +100,6 @@ This workflow uses the following input parameters:
 - `only_apps`: List of application names to include in the build.
 - `with_variants`: Request to build all known variants.
 
-Here again, some environment variables can be set:
-
-- `BLACKLIST`
-- `LIMIT`
-
 This workflow returns the following output value:
 
 - `total_apps`: Total number of selected Apps
@@ -385,12 +380,6 @@ This workflow uses the following input parameters:
 
 - `exclude_apps`: List of application names to exclude from the build.
 - `only_apps`: List of application names to include in the build.
-
-Here again, some environment variables can be set:
-
-- `WHITELIST`
-- `BLACKLIST`
-- `LIMIT`
 
 This workflow returns the following output value:
 
