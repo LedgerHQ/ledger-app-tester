@@ -1,0 +1,339 @@
+name: Build an App
+
+on:
+  workflow_call:
+    inputs:
+      mode:
+        description: Indicate if we are in build, scan or test.
+        type: string
+        required: true
+      sdk_branch:
+        description: |
+          The SDK branch to build against. Defaults to `master`.
+        required: false
+        default: 'master'
+        type: string
+      sdk_type:
+        description: |
+          The type of SDK the apps use. Could be `c`, `rust` or `all` (defaults to `all`).
+        required: false
+        default: 'all'
+        type: string
+      devices:
+        description: |
+          The list of device(s) the CI will run on.
+          If an app does not implement a device,it will be ignored.
+          Defaults to the all the devices.
+        required: false
+        default: 'all'
+        type: string
+      exclude_apps:
+        description: |
+          List of application names to exclude from the build.
+        required: false
+        default: ""
+        type: string
+      only_apps:
+        description: |
+          List of application names to include in the build.
+          Warning: `only_apps` takes precedence on `exclude_apps`.
+        required: false
+        default: ""
+        type: string
+      with_variants:
+        description: Request to build all known variants.
+        type: boolean
+        required: false
+        default: false
+    outputs:
+      total_apps:
+        description: |
+          Total number of selected Apps.
+        value: ${{ jobs.define_apps.outputs.total_apps }}
+
+
+env:
+  DEF_API_LEVEL: 22
+
+
+jobs:
+  define_apps:
+    name: Get applications list
+    runs-on: ubuntu-latest
+    outputs:
+      apps_config: ${{ steps.apps_list.outputs.apps_config }}
+      total_apps: ${{ steps.apps_list.outputs.total_apps }}
+
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: pip install --break-system-packages -r requirements.txt
+
+      - name: Define the list of applications
+        id: apps_list
+        run: |
+          ARGS=(-s "${{ inputs.sdk_type }}" -d ${{ inputs.devices }})
+          ARGS+=(-j apps_config -n total_apps)
+
+          # Exclude some apps
+          if [ -n "${{ inputs.exclude_apps }}" ]; then
+            ARGS+=(-e ${{ inputs.exclude_apps }})
+          fi
+          # Only some apps
+          if [ -n "${{ inputs.only_apps }}" ]; then
+            ARGS+=(-o ${{ inputs.only_apps }})
+          fi
+
+          ./scripts/parse_all_apps.py "${ARGS[@]}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Print matrix
+        shell: bash
+        run: |
+          echo "Matrix content: ${{ steps.apps_list.outputs.apps_config }}"
+          {
+            echo ":dart: Workflow event: ${{ github.event_name }}"
+            if [ "${{ inputs.with_variants}}" = true ]; then
+              echo ":heavy_check_mark: With Variants included"
+            else
+              echo ":heavy_multiplication_x: Without Variants!"
+            fi
+            echo ":rocket: Nb Apps checked: ${{ steps.apps_list.outputs.total_apps }}"
+            if [ -n "${{ inputs.exclude_apps }}" ]; then
+              echo ":mute: Excluded Apps:"
+              IFS=' ' read -ra APP_ARRAY <<< "${{ inputs.exclude_apps }}"
+              for app in "${APP_ARRAY[@]}"; do
+                echo -e "\t• $app"
+              done
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload Apps Config
+        uses: actions/upload-artifact@v4
+        with:
+          name: apps_config
+          path: apps_config.json
+          if-no-files-found: error
+
+  run_all:
+    name: Run for all targets
+    needs: [define_apps]
+    strategy:
+      fail-fast: false
+      matrix:
+        repo_info: ${{ fromJson(needs.define_apps.outputs.apps_config) }}
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v4
+        with:
+          repository: LedgerHQ/ledger-app-tester
+          path: ledger-app-tester
+
+      - name: Clone App
+        uses: actions/checkout@v4
+        with:
+          repository: LedgerHQ/${{ matrix.repo_info.repo_name }}
+          path: ${{ matrix.repo_info.repo_name }}
+          submodules: true
+
+      - name: Define SDK Branch
+        if: ${{ matrix.repo_info.sdk == 'c' || matrix.repo_info.sdk == 'C' }}
+        id: sdk_branch
+        run: |
+          if [ -n "${{ inputs.sdk_branch }}" ]; then
+            SDK_BRANCH="${{ inputs.sdk_branch }}"
+            SDK_DEPTH=1
+          else
+            SDK_BRANCH="master"
+            SDK_DEPTH=0
+          fi
+          echo "sdk_branch=${SDK_BRANCH}" >> "$GITHUB_OUTPUT"
+          echo "sdk_depth=${SDK_DEPTH}" >> "$GITHUB_OUTPUT"
+          echo "BRANCH=${SDK_BRANCH}, DEPTH=${SDK_DEPTH}"
+
+      - name: Clone SDK
+        if: steps.sdk_branch.outcome == 'success'
+        uses: actions/checkout@v4
+        with:
+          repository: LedgerHQ/ledger-secure-sdk
+          ref: ${{ steps.sdk_branch.outputs.sdk_branch }}
+          fetch-depth: ${{ steps.sdk_branch.outputs.sdk_depth }}
+          path: sdk
+
+      - name: Prepare test conditions
+        id: prepare_test
+        shell: bash
+        run: |
+          pip install --break-system-packages toml-cli
+
+          # Initial build args
+          ARGS="-v -a ${{ matrix.repo_info.repo_name }}"
+          ARGS="${ARGS} -b ${{ matrix.repo_info.build_directory }}"
+
+          # Supported devices
+          DEVICES=$(echo '${{ toJSON(matrix.repo_info.devices) }}' | jq -r '. | join(" ")')
+          ARGS="${ARGS} -d \"'${DEVICES}'\""
+
+          # SDK: C or Rust
+          SDK=$(echo "${{ matrix.repo_info.sdk }}" | tr '[:upper:]' '[:lower:]')
+          if [ "${SDK}" = "rust" ]; then
+            ARGS="${ARGS} -r"
+          fi
+
+          # Extra build flags
+          case "${{ inputs.mode }}" in
+            build)
+              ;;
+            test)
+              APP_FLAGS=$(jq --arg name "${{ matrix.repo_info.repo_name }}" -r '.[] | select(.name == $name) | .build_flags' ledger-app-tester/input_files/test_info.json)
+              if [ "${APP_FLAGS}" != null ] && [ -n "${APP_FLAGS}" ]; then
+                echo "Found Extra flags: ${APP_FLAGS}"
+                ARGS="${ARGS} -f \"${APP_FLAGS}\""
+              fi
+              ;;
+            scan)
+              ARGS="${ARGS} -f \"ENABLE_SDK_WERROR=1 scan-build\""
+              ;;
+            *)
+              echo "Invalid mode: ${{ inputs.mode }}"
+              exit 1
+          esac
+
+          # Variants
+          if [ "${{ inputs.with_variants }}" = true ]; then
+            PARAM="${{ matrix.repo_info.variant_param }}"
+            if [ "${PARAM}" != null ] && [ -n "${PARAM}" ]; then
+              ARGS="${ARGS} -P ${PARAM}"
+              VALUES_JSON='${{ toJson(matrix.repo_info.variants_values) }}'
+              if [ "${VALUES_JSON}" != null ] && [ -n "${VALUES_JSON}" ] && [ "${VALUES_JSON}" != "[]" ]; then
+                VALUES=()
+                for VALUE in $(echo "${VALUES_JSON}" | jq -r '.[]') ; do
+                  VALUES+=("${VALUE}")
+                done
+                ARGS="${ARGS} -V \"${VALUES[*]}\""
+              fi
+            fi
+          fi
+
+          echo "CMD_ARGS=${ARGS}" >> "$GITHUB_ENV"
+          echo "CMD_ARGS=${ARGS}"
+
+      - name: SDK Nano
+        if: ${{ always() && (inputs.sdk_branch == '') && (steps.prepare_test.outcome == 'success') && (steps.sdk_branch.outcome == 'success') }}
+        run: |
+          # Select the latest API_LEVEL for both NanoS+ and NanoX
+          VAL=$(jq -r '[to_entries[] | select(.value[] | contains("nanox")) | select(.value[] | contains("-rc") | not) | .key | tonumber] | max' sdk/api_levels.json)
+          if [ -z "${VAL}" ]; then
+            echo "No API_LEVEL branch found!"
+            VAL=${{ env.DEF_API_LEVEL }}
+          fi
+          git -C sdk checkout API_LEVEL_${VAL}
+
+      - name: Run NanoS+
+        if: ${{ always() && (steps.prepare_test.outcome == 'success') }}
+        id: run_nanos2
+        run: |
+          # shellcheck disable=SC2086
+          ./ledger-app-tester/scripts/build_app.sh -t nanos+ ${{ env.CMD_ARGS}}
+      - name: Check failure NanoS+
+        if: ${{ always() && (steps.run_nanos2.outcome == 'skipped') }}
+        run: |
+          echo -n "|:construction:" >> build_status_${{ matrix.repo_info.repo_name }}.md
+
+      - name: Run NanoX
+        if: ${{ always() && (steps.prepare_test.outcome == 'success') }}
+        id: run_nanox
+        run: |
+          # shellcheck disable=SC2086
+          ./ledger-app-tester/scripts/build_app.sh -t nanox ${{ env.CMD_ARGS}}
+      - name: Check failure NanoX
+        if: ${{ always() && (steps.run_nanox.outcome == 'skipped') }}
+        run: |
+          echo -n "|:construction:" >> build_status_${{ matrix.repo_info.repo_name }}.md
+
+      - name: SDK Stax & Flex
+        if: ${{ always() && (inputs.sdk_branch == '') && (steps.prepare_test.outcome == 'success') && (steps.sdk_branch.outcome == 'success') }}
+        run: |
+          # Select the latest API_LEVEL for both Stax and Flex
+          VAL=$(jq -r '[to_entries[] | select(.value[] | contains("stax")) | select(.value[] | contains("-rc") | not) | .key | tonumber] | max' sdk/api_levels.json)
+          if [ -z "${VAL}" ]; then
+            echo "No API_LEVEL branch found!"
+            VAL=${{ env.DEF_API_LEVEL }}
+          fi
+          git -C sdk checkout API_LEVEL_${VAL}
+
+      - name: Run Stax
+        if: ${{ always() && (steps.prepare_test.outcome == 'success') }}
+        id: run_stax
+        run: |
+          # shellcheck disable=SC2086
+          ./ledger-app-tester/scripts/build_app.sh -t stax ${{ env.CMD_ARGS}}
+      - name: Check failure Stax
+        if: ${{ always() && (steps.run_stax.outcome == 'skipped') }}
+        run: |
+          echo -n "|:construction:" >> build_status_${{ matrix.repo_info.repo_name }}.md
+
+      - name: Run Flex
+        if: ${{ always() && (steps.prepare_test.outcome == 'success') }}
+        id: run_flex
+        run: |
+          # shellcheck disable=SC2086
+          ./ledger-app-tester/scripts/build_app.sh -t flex ${{ env.CMD_ARGS}}
+      - name: Check failure Flex
+        if: ${{ always() && (steps.run_flex.outcome == 'skipped') }}
+        run: |
+          echo -n "|:construction:" >> build_status_${{ matrix.repo_info.repo_name }}.md
+
+      - name: Archive Status
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build_status_${{ matrix.repo_info.repo_name }}
+          path: build_status_${{ matrix.repo_info.repo_name }}.md
+
+      - name: Archive Error
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build_errors_${{ matrix.repo_info.repo_name }}
+          path: build_errors_${{ matrix.repo_info.repo_name }}.md
+          if-no-files-found: ignore
+
+      - name: Copy Binaries artifacts
+        if: ${{ always() && (inputs.mode == 'test') }}
+        id: copy_artifacts
+        shell: bash
+        run: |
+          BIN_DIR="binaries_${{ matrix.repo_info.repo_name }}"
+
+          SDK=$(echo "${{ matrix.repo_info.sdk }}" | tr '[:upper:]' '[:lower:]')
+          if [ "${SDK}" = "rust" ]; then
+            DIR="target"
+            if [[ -f "${{ matrix.repo_info.repo_name }}/Cargo.toml" ]]; then
+              NAME=$(toml get --toml-path ${{ matrix.repo_info.repo_name }}/Cargo.toml package.name)
+            else
+              NAME="${{ matrix.repo_info.repo_name }}"
+            fi
+          else
+            DIR="build"
+            NAME="app.elf"
+          fi
+
+          while IFS= read -r -d $'\0' app; do
+            echo "Found App: ${app}"
+            mkdir -p "${BIN_DIR}/$(dirname "${app}")"
+            cp -r "${app}" "${BIN_DIR}/${app}"
+          done < <(find ${{ matrix.repo_info.repo_name }}/${{ matrix.repo_info.build_directory }}/${DIR}/ -name "${NAME}" -print0)
+
+      - name: Upload Binaries artifacts
+        if: ${{ always() && (steps.copy_artifacts.outcome == 'success') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: binaries_${{ matrix.repo_info.repo_name }}
+          path: binaries_${{ matrix.repo_info.repo_name }}/

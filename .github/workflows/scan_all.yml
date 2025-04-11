@@ -1,0 +1,105 @@
+name: Scan All Apps on given SDK ref
+
+on:
+  schedule:
+    - cron: '32 5 * * 1,2,3,4,5'
+
+  pull_request:
+
+  workflow_dispatch:
+    inputs:
+      default_all_apps:
+        description: Run on All Apps (default is defined Whitelist & Blacklist).
+        type: boolean
+        required: false
+        default: false
+      sdk_ref:
+        description: The SDK branch or sha1 to build against.
+        type: string
+        required: false
+        default: 'master'
+      with_nanosp:
+        description: Request to target Nanos+.
+        type: boolean
+        required: false
+        default: true
+      with_nanox:
+        description: Request to target Nanox.
+        type: boolean
+        required: false
+        default: true
+      with_stax:
+        description: Request to target Stax.
+        type: boolean
+        required: false
+        default: true
+      with_flex:
+        description: Request to target Flex.
+        type: boolean
+        required: false
+        default: true
+      send_to_slack:
+        description: Request to send the result on Slack.
+        type: boolean
+        required: false
+        default: false
+
+
+jobs:
+  devices_config:
+    name: Set Devices list
+    uses: ./.github/workflows/_setup_devices.yml
+    with:
+      with_nanosp: ${{ inputs.with_nanosp || false }}
+      with_nanox: ${{ inputs.with_nanox || false }}
+      with_stax: ${{ inputs.with_stax || false }}
+      with_flex: ${{ inputs.with_flex || false }}
+
+  apps_config:
+    name: Set Apps lists
+    uses: ./.github/workflows/_setup_apps.yml
+    if: inputs.default_all_apps == false
+    with:
+      mode: "scan"
+
+  execute_scan:
+    name: Scan All C apps
+    needs: [devices_config, apps_config]
+    uses: ./.github/workflows/_build_app.yml
+    with:
+      mode: "scan"
+      sdk_branch: ${{ inputs.sdk_ref || 'master' }}
+      sdk_type: "c"
+      devices: ${{ needs.devices_config.outputs.devices_config }}
+      exclude_apps: ${{ needs.apps_config.outputs.blacklist }}
+      only_apps: ${{ needs.apps_config.outputs.whitelist }}
+
+  scan_artifacts:
+    name: Scan Artifacts
+    if: always()
+    needs: [execute_scan]
+    uses: ./.github/workflows/_artifacts.yml
+    with:
+      mode: "build"
+
+  scan_status:
+    name: Scan Status
+    if: always()
+    needs: [execute_scan, scan_artifacts]
+    uses: ./.github/workflows/_status.yml
+    with:
+      mode: "build"
+      job_name: "Scan"
+      total_apps: ${{ needs.execute_scan.outputs.total_apps }}
+
+  slack_message:
+    name: Slack Message
+    if: always()
+    needs: [devices_config, execute_scan, scan_status]
+    uses: ./.github/workflows/_slack_message.yml
+    secrets: inherit
+    with:
+      devices: ${{ needs.devices_config.outputs.devices_config }}
+      total_apps: ${{ needs.execute_scan.outputs.total_apps }}
+      title: "Scan"
+      send_to_slack: ${{ inputs.send_to_slack || false }}

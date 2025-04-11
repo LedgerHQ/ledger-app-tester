@@ -1,0 +1,77 @@
+name: Collecting Artifacts
+
+on:
+  workflow_call:
+    inputs:
+      mode:
+        description: Indicate if we are in build or test.
+        type: string
+        required: true
+
+
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GH_RUN_ID: ${{ github.run_id }}
+
+
+jobs:
+  artifcts:
+    name: Collecting artifacts
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - name: ${{ inputs.mode }}
+            artifact_all: ${{ inputs.mode }}_status_all
+            artifact_app: ${{ inputs.mode }}_status_app
+            upload: ${{ inputs.mode }}_status_app
+
+          - name: ${{ inputs.mode }}
+            artifact_all: ${{ inputs.mode }}_errors_all
+            artifact_app: ${{ inputs.mode }}_errors_app
+            upload: ${{ inputs.mode }}_errors_app
+
+          - name: Binaries
+            artifact_all: binaries_all
+            artifact_app: binaries_app
+            upload: app
+
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: pip install --break-system-packages -r requirements.txt
+
+      - name: Check artifacts
+        id: check_errors
+        run: |
+          ./scripts/get_artifacts.py -p ${{ matrix.artifact_all }} -e ARTIFACT_ALL_FOUND
+          ./scripts/get_artifacts.py -p ${{ matrix.artifact_app }} -e ARTIFACTS_APPS_FOUND
+
+      - name: Download All artifact
+        if: steps.check_errors.outputs.ARTIFACT_ALL_FOUND == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ matrix.artifact_all }}
+          merge-multiple: true
+
+      - name: Download App artifacts
+        if: steps.check_errors.outputs.ARTIFACTS_APPS_FOUND == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ${{ matrix.artifact_app }}-*
+          merge-multiple: true
+
+      - name: Merge artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_all }}
+          path: ${{ matrix.upload }}-*
+          overwrite: true
+          if-no-files-found: ignore
+
+      - name: Delete artifacts
+        uses: geekyeggo/delete-artifact@v5
+        with:
+            name: ${{ matrix.artifact_app }}-*

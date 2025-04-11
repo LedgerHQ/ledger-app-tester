@@ -1,0 +1,77 @@
+name: Check All Apps
+
+on:
+  schedule:
+    - cron: '32 5 * * 3'
+
+  pull_request:
+
+  workflow_dispatch:
+    inputs:
+      default_all_apps:
+        description: Run on All Apps (default is defined Whitelist & Blacklist).
+        type: boolean
+        required: false
+        default: false
+      scan_device:
+        description: Targeted device for scan.
+        type: choice
+        options:
+          - nanos+
+          - nanox
+          - stax
+          - flex
+        required: false
+        default: 'stax'
+      send_to_slack:
+        description: Request to send the result on Slack.
+        type: boolean
+        required: false
+        default: false
+
+
+jobs:
+  apps_config:
+    name: Set Apps lists
+    uses: ./.github/workflows/_setup_apps.yml
+    if: inputs.default_all_apps == false
+    with:
+      mode: "check"
+
+  execute_check:
+    name: Check All apps
+    needs: [apps_config]
+    uses: ./.github/workflows/_check_app.yml
+    with:
+      exclude_apps: ${{ needs.apps_config.outputs.blacklist }}
+      only_apps: ${{ needs.apps_config.outputs.whitelist }}
+      scan_device: ${{ inputs.scan_device || 'stax' }}
+
+  check_artifacts:
+    name: Check Artifacts
+    if: always()
+    needs: [execute_check]
+    uses: ./.github/workflows/_artifacts.yml
+    with:
+      mode: "check"
+
+  check_status:
+    name: Check Status
+    if: always()
+    needs: [apps_config, execute_check, check_artifacts]
+    uses: ./.github/workflows/_status.yml
+    with:
+      mode: "check"
+      job_name: "Check"
+      total_apps: ${{ needs.execute_check.outputs.total_apps }}
+
+  slack_message:
+    name: Slack Message
+    if: always()
+    needs: [execute_check, check_status]
+    uses: ./.github/workflows/_slack_message.yml
+    secrets: inherit
+    with:
+      total_apps: ${{ needs.execute_check.outputs.total_apps }}
+      title: "Check"
+      send_to_slack: ${{ inputs.send_to_slack || false }}

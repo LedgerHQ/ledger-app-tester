@@ -1,0 +1,43 @@
+name: Fast Python checks
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - develop
+      - master
+  pull_request:
+
+jobs:
+  lint:
+    name: Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone
+        uses: actions/checkout@v4
+      - run: pip install --break-system-packages flake8
+      - name: Flake8 lint Python code
+        run: find scripts/ -type f -name '*.py' -exec flake8 --max-line-length=120 '{}' '+'
+
+  mypy:
+    name: Type checking
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone
+        uses: actions/checkout@v4
+      - run: pip install --break-system-packages mypy types-requests
+      - name: Mypy type checking
+        run: mypy scripts/
+
+  misspell:
+    name: Check misspellings
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone
+        uses: actions/checkout@v4
+      - name: Check misspellings
+        uses: codespell-project/actions-codespell@v2
+        with:
+          builtin: clear,rare
+          check_filenames: true
+          exclude_file: input_files/test_info.json
