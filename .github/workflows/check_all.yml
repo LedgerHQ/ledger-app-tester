@@ -13,6 +13,16 @@ on:
         type: boolean
         required: false
         default: false
+      scan_device:
+        description: Targeted device for scan.
+        type: choice
+        options:
+          - nanos+
+          - nanox
+          - stax
+          - flex
+        required: false
+        default: 'stax'
       send_to_slack:
         description: Request to send the result on Slack.
         type: boolean
@@ -54,6 +64,7 @@ jobs:
     with:
       exclude_apps: ${{ needs.apps_config.outputs.blacklist }}
       only_apps: ${{ needs.apps_config.outputs.whitelist }}
+      scan_device: ${{ inputs.scan_device || 'stax' }}
 
   check_artifacts:
     name: Check Artifacts

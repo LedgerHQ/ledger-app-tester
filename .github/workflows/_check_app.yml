@@ -16,6 +16,11 @@ on:
         required: false
         default: ""
         type: string
+      scan_device:
+        description: Targeted device for scan.
+        type: string
+        required: false
+        default: 'stax'
     outputs:
       total_apps:
         description: |
@@ -59,6 +64,7 @@ jobs:
       - name: Print matrix
         run: |
           echo "Matrix content: ${{ steps.apps_list.outputs.apps_config }}"
+          echo ":sparkles: Selected device for Scan: ${{ inputs.scan_device }}" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload Apps Config
         uses: actions/upload-artifact@v4
@@ -96,6 +102,7 @@ jobs:
         run: |
           # Initial check args
           ARGS="-v -a ${{ matrix.repo_info.repo_name }}"
+          ARGS="${ARGS} -t ${{ inputs.scan_device }}"
           ARGS="${ARGS} -b ${{ matrix.repo_info.build_directory }}"
 
           echo "CMD_ARGS=${ARGS}" >> "$GITHUB_ENV"

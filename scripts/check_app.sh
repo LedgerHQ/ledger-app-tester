@@ -26,6 +26,7 @@ help() {
     echo
     echo "  -a <dir>    : App directory"
     echo "  -b <dir>    : Application build directory (relative to the App directory)"
+    echo "  -t <target> : Targeted device"
     echo "  -v          : Verbose mode"
     echo "  -h          : Displays this help"
     echo
@@ -38,10 +39,11 @@ help() {
 #
 #===============================================================================
 
-while getopts ":a:b:vh" opt; do
+while getopts ":a:b:t:vh" opt; do
     case ${opt} in
         a)  APP_DIR=${OPTARG}  ;;
         b)  BUILD_DIR=${OPTARG} ;;
+        t)  TARGET=${OPTARG}    ;;
         v)  VERBOSE=true ;;
         h)  help ;;
 
@@ -59,6 +61,7 @@ done
 
 [[ -z "${APP_DIR}" ]] && help "Error: Application directory not specified"
 [[ -z "${BUILD_DIR}" ]] && help "Error: Build directory not specified"
+[[ -z "${TARGET}" ]] && help "Error: TARGET not specified"
 
 FILE_STATUS="check_status_${APP_DIR}.md"
 FILE_ERROR="check_errors_${APP_DIR}.md"
@@ -69,24 +72,17 @@ FILE_ERROR="check_errors_${APP_DIR}.md"
 #
 #===============================================================================
 
-echo -n "Current dir: "
-pwd
-ls -l
-echo "App_dir: ${APP_DIR}:"
-ls -l "${APP_DIR}"
-echo "Build_dir: ${BUILD_DIR}:"
-ls -l "${BUILD_DIR}"
-
+# Particular target name of Nanos+
+TARGET_BUILD="${TARGET/s+/sp}"
 # Prepare make arguments
-ARGS=(-a "$(readlink -f "${APP_DIR}")" -b "${BUILD_DIR}")
+ARGS=(-a "$(readlink -f "${APP_DIR}")" -b "${BUILD_DIR} " -t "${TARGET_BUILD}")
 [[ "${VERBOSE}" == "true" ]] && ARGS+=(-v)
 
-echo "Arguments: ${ARGS[@]}"
-ls -l "${APP_DIR}/ledger_app.toml"
-
+SDK="${TARGET_BUILD^^}_SDK"
+[[ "${VERBOSE}" == "true" ]] && echo "Selected SDK: ${SDK}"
 # Check
 # shellcheck disable=SC2068
-(cd "${APP_DIR}" && /opt/enforcer.sh ${ARGS[@]})
+(cd "${APP_DIR}" && BOLOS_SDK="${SDK}" /opt/enforcer.sh ${ARGS[@]})
 ERR=$?
 
 if [[ ${ERR} -ne 0 ]]; then

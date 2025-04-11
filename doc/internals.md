@@ -372,6 +372,7 @@ This workflow uses the following input parameters:
 
 - `exclude_apps`: List of application names to exclude from the build.
 - `only_apps`: List of application names to include in the build.
+- `scan_device`: Targeted device for scan.
 
 This workflow returns the following output value:
 
