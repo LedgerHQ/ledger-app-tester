@@ -122,8 +122,6 @@ jobs:
       mode: "build"
       job_name: "Build"
       total_apps: ${{ needs.execute_build.outputs.total_apps }}
-      exclude_apps: ${{ needs.apps_config.outputs.blacklist }}
-      with_variants: ${{ inputs.with_variants || true }}
 
   slack_message:
     name: Slack Message

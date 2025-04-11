@@ -28,43 +28,46 @@ def arg_parse() -> Namespace:
                         required=True,
                         type=int,
                         help="Total Apps count.")
-    parser.add_argument("-e",
-                        "--exclude",
-                        required=False,
-                        type=str,
-                        help="List of excluded applications. "
-                        "Accepts several successive values (separated with space). ")
     parser.add_argument("-j",
                         "--job",
                         required=True,
                         type=str,
                         help="Substring to check in jobs to get the URL.")
-
-    parser.add_argument("-E",
-                        "--Error",
-                        required=False,
-                        type=str,
-                        help="Test Error files directory.")
-    parser.add_argument("-T",
-                        "--Test",
-                        required=False,
-                        type=str,
-                        help="Test Status files directory.")
-    parser.add_argument("-B",
-                        "--Build",
-                        required=False,
-                        type=str,
-                        help="Build Status files directory.")
     parser.add_argument("-o",
                         "--output",
                         required=True,
                         type=str,
                         help="Error output file.")
-    parser.add_argument("-V", "--Variants", action="store_true", default=False, help="Handle Variants.")
+
+    parser.add_argument("-E",
+                        "--Error",
+                        type=str,
+                        help="Error files directory.")
+    parser.add_argument("-C",
+                        "--Check",
+                        type=str,
+                        help="Check Status files directory.")
+    parser.add_argument("-B",
+                        "--Build",
+                        type=str,
+                        help="Build Status files directory.")
+    parser.add_argument("-T",
+                        "--Test",
+                        type=str,
+                        help="Test Status files directory.")
 
     parser.add_argument("-v", "--verbose", action="count", default=0, help="Increase verbosity.")
 
-    return parser.parse_args()
+    args = parser.parse_args()
+
+    # Custom validation to enforce exclusivity
+    if args.Check:
+        if (args.Build or args.Test):
+            parser.error("Cannot use --Check with --Build or --Test. Use either --Check or both --Build and --Test.")
+    elif not args.Build:
+        parser.error("Build Status must be specified.")
+
+    return args
 
 
 # ===============================================================================
@@ -106,14 +109,14 @@ def get_job_link(app_name: str, job_name: str, jobs) -> str:
 #          Generate full job Status
 # ===============================================================================
 def construct_job_status(app_name: str,
-                         bname: str,
+                         fname: str,
                          build_status: List[str],
                          args: Namespace,
                          jobs) -> Tuple[str, int]:
     """Construct the job status string.
     Args:
         app_name: The name of the app.
-        bname: The name of the build file.
+        fname: The name of the build file.
         build_status: The build status string.
         args: Command line arguments.
         jobs: List of jobs from GitHub.
@@ -121,7 +124,7 @@ def construct_job_status(app_name: str,
         Job status line and nb errors.
     """
 
-    tname = bname.replace("build", "test", 1)
+    tname = fname.replace("build", "test", 1)
     test_path = os.path.join(args.Test, tname)
     try:
         with open(test_path, encoding="utf-8") as infile:
@@ -162,7 +165,7 @@ def status_report(report_file: str,
     Returns:
         Tuple containing
          - The number of apps,
-         - The number of build errors,
+         - The number of build/check errors,
          - The number of test errors,
          - The number of skipped errors.
     """
@@ -175,27 +178,31 @@ def status_report(report_file: str,
     jobs = list(run.jobs())
 
     nb_apps = 0
-    nb_build_errors = 0
+    nb_errors = 0
     nb_test_errors = 0
     nb_skip_errors = 0
 
     lines = []
     # Format the header lines automatically
-    headers = [" App Names ", " Jobs "] + [f" {d} " for d in devices]
+    headers = [" App Names ", " Jobs "]
+    if args.Check:
+        headers += [" Result"]
+    else:
+        headers += [f" {d} " for d in devices]
     lines.append("|" + "|".join(headers) + "|\n")
-    lines.append("|" + "|".join(["-----------", ":----:"] + [f":{'-'*len(d)}:" for d in devices]) + "|\n")
+    lines.append("|" + "|".join(["-----------"] + [f":{'-' * max(3, len(h.strip()))}:" for h in headers[1:]]) + "|\n")
 
     # List all apps and their status, sorted alphabetically
-    for bname in sorted(os.listdir(args.Build)):
+    indir = args.Check if args.Check else args.Build
+    for fname in sorted(os.listdir(indir)):
         nb_apps += 1
-        build_path = os.path.join(args.Build, bname)
-        with open(build_path, encoding="utf-8") as infile:
+        file_path = os.path.join(indir, fname)
+        with open(file_path, encoding="utf-8") as infile:
             app_status = infile.readline()
-        nb_build_errors += app_status.count(":x:")
-        build_status = app_status.split("|")[1:]
+        nb_errors += app_status.count(":x:")
 
         # Extract app name from file name
-        app_name = os.path.splitext(os.path.basename(bname.split("_")[-1]))[0]
+        app_name = os.path.splitext(os.path.basename(fname.split("_")[-1]))[0]
 
         # Construct the job status string
         if args.Test is None:
@@ -203,8 +210,8 @@ def status_report(report_file: str,
         else:
             # If test directory is provided, Analyze both Build and Test Status
             job_status, test_erros = construct_job_status(app_name,
-                                                          bname,
-                                                          build_status,
+                                                          fname,
+                                                          app_status.split("|")[1:],
                                                           args,
                                                           jobs)
             nb_test_errors += test_erros
@@ -220,23 +227,21 @@ def status_report(report_file: str,
     with open(report_file, "w", encoding="utf-8") as outfile:
         outfile.writelines(lines)
 
-    return nb_apps, nb_build_errors, nb_test_errors, nb_skip_errors
+    return nb_apps, nb_errors, nb_test_errors, nb_skip_errors
 
 
 # ===============================================================================
 #          Apps status report
 # ===============================================================================
-def summary_report(github_event: str,
-                   nb_apps_error: int,
-                   nb_build_errors: int,
+def summary_report(nb_apps_error: int,
+                   nb_errors: int,
                    nb_test_errors: int,
                    nb_skip_errors: int,
                    args: Namespace) -> None:
     """Generate the summary report for the apps.
     Args:
-        github_event: The GitHub event name.
         nb_apps_error: The number of apps with errors.
-        nb_build_errors: The number of build errors.
+        nb_errors: The number of build/check errors.
         nb_test_errors: The number of test errors.
         nb_skip_errors: The number of skipped errors.
         args: Command line arguments.
@@ -244,25 +249,18 @@ def summary_report(github_event: str,
 
     logging.info("Generating summary report")
 
-    # Header lines
-    lines = [
-        f":dart: Workflow event: {github_event}",
-        f":pushpin: Variants: {'' if args.Variants else 'NOT '}included!",
-        f":rocket: Nb Apps checked: {args.total_apps}",
-    ]
+    lines = []
     # Error lines
     if nb_skip_errors > 0:
         lines.append(f":no_entry: Nb Apps skipped: {nb_skip_errors}")
-    lines.append(f":loudspeaker: Nb Build Error(s) found: {nb_build_errors}")
+    if args.Check:
+        lines.append(f":loudspeaker: Nb Check Error(s) found: {nb_errors}")
+    else:
+        lines.append(f":loudspeaker: Nb Build Error(s) found: {nb_errors}")
     if args.Test is not None:
         lines.append(f":loudspeaker: Nb Test Error(s) found: {nb_test_errors}")
     if nb_apps_error:
         lines.append(f":boom: Nb App(s) with error(s): {nb_apps_error}")
-    # Excluded apps
-    if args.exclude:
-        lines.append(":mute: Excluded Apps:")
-        for app in args.exclude.split(" "):
-            lines.append(f"\t• {app}")
     lines.append("<br>")
 
     content = "\n".join(lines) + "\n"
@@ -316,24 +314,20 @@ def main() -> None:
     if workflow_run_id is None:
         logging.error("'GH_RUN_ID' environment variable is not set")
         sys.exit(1)
-    github_event = os.environ.get("GH_EVENT_NAME")
-    if github_event is None:
-        logging.error("'GH_EVENT_NAME' environment variable is not set")
-        sys.exit(1)
 
     # Processing
     # ----------
-    logging.info("Generating '%s' summary...", github_event)
+    logging.info("Generating summary...")
 
     # Generate reports
     if os.path.isdir("error"):
         nb_apps_error = errors_report(args.output, args.Error)
     else:
         nb_apps_error = 0
-    nb_apps_analyzed, nb_build_errors, nb_test_errors, nb_skip_errors = status_report("app_status.md",
-                                                                                      int(workflow_run_id),
-                                                                                      args,
-                                                                                      github_token)
+    nb_apps_analyzed, nb_errors, nb_test_errors, nb_skip_errors = status_report("app_status.md",
+                                                                                int(workflow_run_id),
+                                                                                args,
+                                                                                github_token)
 
     # Check if apps are missing in the status report
     nb_apps_not_analyzed = args.total_apps - nb_apps_analyzed
@@ -341,9 +335,8 @@ def main() -> None:
         set_gh_summary(f":warning: {nb_apps_not_analyzed} App(s) missing!!!\n<br>")
 
     # Generate full summary
-    summary_report(github_event,
-                   nb_apps_error,
-                   nb_build_errors,
+    summary_report(nb_apps_error,
+                   nb_errors,
                    nb_test_errors,
                    nb_skip_errors,
                    args)

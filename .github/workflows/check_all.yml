@@ -83,7 +83,6 @@ jobs:
       mode: "check"
       job_name: "Check"
       total_apps: ${{ needs.execute_check.outputs.total_apps }}
-      exclude_apps: ${{ needs.apps_config.outputs.blacklist }}
 
   slack_message:
     name: Slack Message

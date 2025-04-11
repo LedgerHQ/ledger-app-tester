@@ -91,8 +91,25 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Print matrix
+        shell: bash
         run: |
           echo "Matrix content: ${{ steps.apps_list.outputs.apps_config }}"
+          {
+            echo ":dart: Workflow event: ${{ github.event_name }}"
+            if [ "${{ inputs.with_variants}}" = true ]; then
+              echo ":heavy_check_mark: With Variants included"
+            else
+              echo ":heavy_multiplication_x: Without Variants!"
+            fi
+            echo ":rocket: Nb Apps checked: ${{ steps.apps_list.outputs.total_apps }}"
+            if [ -n "${{ inputs.exclude_apps }}" ]; then
+              echo ":mute: Excluded Apps:"
+              IFS=' ' read -ra APP_ARRAY <<< "${{ inputs.exclude_apps }}"
+              for app in "${APP_ARRAY[@]}"; do
+                echo -e "\t• $app"
+              done
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload Apps Config
         uses: actions/upload-artifact@v4

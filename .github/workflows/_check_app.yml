@@ -64,7 +64,12 @@ jobs:
       - name: Print matrix
         run: |
           echo "Matrix content: ${{ steps.apps_list.outputs.apps_config }}"
-          echo ":sparkles: Selected device for Scan: ${{ inputs.scan_device }}" >> "$GITHUB_STEP_SUMMARY"
+          {
+            echo ":dart: Workflow event: ${{ github.event_name }}"
+              echo ":heavy_multiplication_x: Without Variants!"
+            echo ":rocket: Nb Apps checked: ${{ steps.apps_list.outputs.total_apps }}"
+            echo ":sparkles: Selected device for Scan: ${{ inputs.scan_device }}"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload Apps Config
         uses: actions/upload-artifact@v4

@@ -247,7 +247,6 @@ This workflow uses a single input parameter:
 - `job_name`: Substring to check in jobs to get the URL (_Build_ or _Scan_).
 - `total_apps`: Total number of tested Apps.
 - `exclude_apps`: List of excluded Apps.
-- `with_variants`: Request to build all known variants.
 
 After cloning the app-tester and installing few dependencies, the following steps are executed:
 
