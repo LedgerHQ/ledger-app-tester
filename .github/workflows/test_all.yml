@@ -45,12 +45,6 @@ on:
         default: false
 
 
-  # Do we need to add in the whitelist:
-  # app-bitcoin
-  # app-bitcoin-new
-  # Temporary removing:
-  # - app-tron (Failed to build pysha3)
-  # - app-bitcoin-clone-boilerplate (Blocked in the 1st test)
 jobs:
   devices_config:
     name: Set Devices list
