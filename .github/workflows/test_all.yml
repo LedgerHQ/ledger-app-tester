@@ -8,87 +8,52 @@ on:
 
   workflow_dispatch:
     inputs:
+      default_all_apps:
+        description: Run on All Apps (default is defined Whitelist & Blacklist).
+        type: boolean
+        required: false
+        default: false
       sdk_ref:
         description: The SDK branch or sha1 to build against.
         type: string
         required: false
         default: 'master'
       with_nanosp:
-        description: Request to target Nanos+
+        description: Request to target Nanos+.
         type: boolean
         required: false
         default: true
       with_nanox:
-        description: Request to target Nanox
+        description: Request to target Nanox.
         type: boolean
         required: false
         default: true
       with_stax:
-        description: Request to target Stax
+        description: Request to target Stax.
         type: boolean
         required: false
         default: true
       with_flex:
-        description: Request to target Flex
+        description: Request to target Flex.
         type: boolean
         required: false
         default: true
       send_to_slack:
-        description: Request to send the result on Slack
+        description: Request to send the result on Slack.
         type: boolean
         required: false
         default: false
 
 
-env:
-  # Add the names of the repositories to whitelist here, separated by spaces
-  WHITELIST: "app-boilerplate app-boilerplate-rust app-btcext-boilerplate app-celo-spender app-eos app-ethereum app-hedera app-mina app-monero \
-              app-multiversx app-nem app-neo app-openpgp app-plugin-boilerplate app-plugin-bricktowers \
-              app-plugin-chorus-one app-plugin-eigenlayer app-plugin-kelp app-plugin-origin app-near \
-              app-solana app-symbol app-u2f app-xah app-xrp app-zilliqa"
-
-  # Removing (This manifest does not contains the 'tests.pytest_directory' field)
-  # - app-avail
-  # - app-core-dao
-  # - app-flare
-  # - app-ironfish
-  # - app-peaq
-  # - app-sei
-  # - app-spacemesh
-  # - app-stacks
-  # - app-tezos
-  # - app-tezos-baking
-  # - app-thorchain-new
-  # - app-app-alephium
-  # - app-iota-rebased
-  # - app-ironfish-dkg
-  # Removing
-  # - app-acre: FileNotFoundError: [Errno 2] No such file or directory: '/bitcoin/bin/bitcoind' AND no manifest
-  # - app-plugin-coinbase: pytest: command not found
-  # Removing (Failed to build pysha3)
-  # - app-kaspa
-  # - app-tron
-  # - app-vechain
-  # Removing (Blocked in the 1st test)
-  # - app-bitcoin-clone-boilerplate
-  # - app-plugin-midas
-  # Removing (Legacy)
-  # - app-plugin-morpho-legacy
-
-  # WHITELIST: "app-acre app-alephium app-avail app-bitcoin-clone-boilerplate app-boilerplate app-boilerplate-rust \
-  #             app-btcext-boilerplate app-celo-spender app-core-dao app-eos app-ethereum app-flare app-hedera app-iota-rebased \
-  #             app-ironfish app-ironfish-dkg app-kaspa app-mina app-monero app-multiversx app-near app-nem app-neo app-openpgp \
-  #             app-peaq app-plugin-boilerplate app-plugin-bricktowers app-plugin-chorus-one app-plugin-coinbase \
-  #             app-plugin-eigenlayer app-plugin-kelp app-plugin-midas app-plugin-morpho-legacy app-plugin-origin app-sei \
-  #             app-solana app-spacemesh app-stacks app-symbol app-tezos app-tezos-baking app-thorchain-new app-tron app-u2f \
-  #             app-vechain app-xah app-xrp app-zilliqa"
-
-  # BLACKLIST:
-
-
+  # Do we need to add in the whitelist:
+  # app-bitcoin
+  # app-bitcoin-new
+  # Temporary removing:
+  # - app-tron (Failed to build pysha3)
+  # - app-bitcoin-clone-boilerplate (Blocked in the 1st test)
 jobs:
   devices_config:
-    name: Set devices
+    name: Set Devices list
     uses: ./.github/workflows/_setup_devices.yml
     with:
       with_nanosp: ${{ inputs.with_nanosp || false }}
@@ -97,21 +62,11 @@ jobs:
       with_flex: ${{ inputs.with_flex || false }}
 
   apps_config:
-    name: Set SDK, Whitelist and Blacklist
-    runs-on: ubuntu-latest
-    outputs:
-      whitelist: ${{ steps.get_whitelist.outputs.whitelist }}
-      blacklist: ${{ steps.get_blacklist.outputs.blacklist }}
-
-    steps:
-      - name: Get Whitelist Apps
-        id: get_whitelist
-        run: |
-          echo "whitelist=${{ env.WHITELIST || '' }}" >> "$GITHUB_OUTPUT"
-      - name: Get Blacklist Apps
-        id: get_blacklist
-        run: |
-          echo "blacklist=${{ env.BLACKLIST || '' }}" >> "$GITHUB_OUTPUT"
+    name: Set Apps lists
+    uses: ./.github/workflows/_setup_apps.yml
+    if: inputs.default_all_apps == false
+    with:
+      mode: "test"
 
   execute_build:
     name: Build All apps
@@ -162,33 +117,9 @@ jobs:
     if: always()
     needs: [devices_config, execute_build, test_status]
     uses: ./.github/workflows/_slack_message.yml
+    secrets: inherit
     with:
       devices: ${{ needs.devices_config.outputs.devices_config }}
       total_apps: ${{ needs.execute_build.outputs.total_apps }}
       title: "Test"
-
-  slack_notification:
-    name: Slack Notification
-    if: always()
-    needs: [slack_message]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download Slack Message
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: slack_message
-
-      - name: Send custom JSON data to Slack
-        if: ${{ github.event_name == 'schedule' || inputs.send_to_slack == true }}
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          payload-file-path: slack.json
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-      - name: Delete artifact
-        if: always()
-        uses: geekyeggo/delete-artifact@v5
-        with:
-            name: slack_message
+      send_to_slack: ${{ inputs.send_to_slack || false }}

@@ -8,48 +8,46 @@ on:
 
   workflow_dispatch:
     inputs:
+      default_all_apps:
+        description: Run on All Apps (default is defined Whitelist & Blacklist).
+        type: boolean
+        required: false
+        default: false
       sdk_ref:
         description: The SDK branch or sha1 to build against.
         type: string
         required: false
         default: 'master'
       with_nanosp:
-        description: Request to target Nanos+
+        description: Request to target Nanos+.
         type: boolean
         required: false
         default: true
       with_nanox:
-        description: Request to target Nanox
+        description: Request to target Nanox.
         type: boolean
         required: false
         default: true
       with_stax:
-        description: Request to target Stax
+        description: Request to target Stax.
         type: boolean
         required: false
         default: true
       with_flex:
-        description: Request to target Flex
+        description: Request to target Flex.
         type: boolean
         required: false
         default: true
       send_to_slack:
-        description: Request to send the result on Slack
+        description: Request to send the result on Slack.
         type: boolean
         required: false
         default: false
 
 
-env:
-  # Add the names of the repositories to whitelist here, separated by spaces
-  WHITELIST: "app-bitcoin app-bitcoin-new app-boilerplate app-cardano app-ethereum app-exchange app-monero app-passwords app-plugin-boilerplate app-recovery-check app-security-key app-solana app-tron app-xrp"
-  # BLACKLIST:
-  DEFAULT_SDK: "master"
-
-
 jobs:
   devices_config:
-    name: Set devices
+    name: Set Devices list
     uses: ./.github/workflows/_setup_devices.yml
     with:
       with_nanosp: ${{ inputs.with_nanosp || false }}
@@ -58,27 +56,11 @@ jobs:
       with_flex: ${{ inputs.with_flex || false }}
 
   apps_config:
-    name: Set SDK, Whitelist and Blacklist
-    runs-on: ubuntu-latest
-    outputs:
-      whitelist: ${{ steps.get_whitelist.outputs.whitelist }}
-      blacklist: ${{ steps.get_blacklist.outputs.blacklist }}
-      sdk_ref: ${{ steps.get_sdk.outputs.sdk_ref }}
-
-    steps:
-      - name: Get Whitelist Apps
-        id: get_whitelist
-        run: |
-          echo "whitelist=${{ env.WHITELIST || '' }}" >> "$GITHUB_OUTPUT"
-      - name: Get Blacklist Apps
-        id: get_blacklist
-        run: |
-          echo "blacklist=${{ env.BLACKLIST || '' }}" >> "$GITHUB_OUTPUT"
-
-      - name: Get SDK
-        id: get_sdk
-        run: |
-          echo "sdk_ref=${{ inputs.sdk_ref || env.DEFAULT_SDK }}" >> "$GITHUB_OUTPUT"
+    name: Set Apps lists
+    uses: ./.github/workflows/_setup_apps.yml
+    if: inputs.default_all_apps == false
+    with:
+      mode: "scan"
 
   execute_scan:
     name: Scan All C apps
@@ -86,7 +68,7 @@ jobs:
     uses: ./.github/workflows/_build_app.yml
     with:
       mode: "scan"
-      sdk_branch: ${{ needs.apps_config.outputs.sdk_ref }}
+      sdk_branch: ${{ inputs.sdk_ref || 'master' }}
       sdk_type: "c"
       devices: ${{ needs.devices_config.outputs.devices_config }}
       exclude_apps: ${{ needs.apps_config.outputs.blacklist }}
@@ -115,33 +97,9 @@ jobs:
     if: always()
     needs: [devices_config, execute_scan, scan_status]
     uses: ./.github/workflows/_slack_message.yml
+    secrets: inherit
     with:
       devices: ${{ needs.devices_config.outputs.devices_config }}
       total_apps: ${{ needs.execute_scan.outputs.total_apps }}
       title: "Scan"
-
-  slack_notification:
-    name: Slack Notification
-    if: always()
-    needs: [slack_message]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download Slack Message
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: slack_message
-
-      - name: Send custom JSON data to Slack
-        if: ${{ github.event_name == 'schedule' || inputs.send_to_slack == true }}
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          payload-file-path: slack.json
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-      - name: Delete artifact
-        if: always()
-        uses: geekyeggo/delete-artifact@v5
-        with:
-            name: slack_message
+      send_to_slack: ${{ inputs.send_to_slack || false }}

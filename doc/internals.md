@@ -77,15 +77,18 @@ Each devices to target is initialized with the following steps:
 
 ### Apps Selection
 
-Here, we define which apps we want/need to test, and against which SDK.  
-Also, some configurations are possible thanks to environment variables:
+Here, we define which apps we want/need to test.
+This is computed thanks to [_setup_apps.yml](../.github/workflows/_setup_apps.yml),
+using the input file [test_lists.json](../input_files/test_lists.json),
+and setting the appropriate variables in `GITHUB_OUTPUT`.
 
-- `WHITELIST`
-- `BLACKLIST`
-- `DEFAULT_SDK`
+### Sdk Selection
 
-This results are set in the appropriate variables in `GITHUB_OUTPUT`.
-Those variables can then be used as input parameters for other jobs or child workflows.
+Here, we define which apps we want/need to build against.  
+This is set in the appropriate variables in `GITHUB_OUTPUT`, using either:
+
+- The input variable `sdk_branch`
+- The default `master` branch
 
 ## Building All Apps
 
@@ -99,11 +102,6 @@ This workflow uses the following input parameters:
 - `exclude_apps`: List of application names to exclude from the build.
 - `only_apps`: List of application names to include in the build.
 - `with_variants`: Request to build all known variants.
-
-Here again, some environment variables can be set:
-
-- `BLACKLIST`
-- `LIMIT`
 
 This workflow returns the following output value:
 
@@ -252,7 +250,6 @@ This workflow uses a single input parameter:
 - `job_name`: Substring to check in jobs to get the URL (_Build_ or _Scan_).
 - `total_apps`: Total number of tested Apps.
 - `exclude_apps`: List of excluded Apps.
-- `with_variants`: Request to build all known variants.
 
 After cloning the app-tester and installing few dependencies, the following steps are executed:
 
@@ -267,30 +264,22 @@ After cloning the app-tester and installing few dependencies, the following step
 
 Last step of the operations is to notify the result / status on Slack.
 
-This is done in 2 steps:
-
-- Prepare the Slack message
-- Send the Slack message
-
-> **Note**: This split is due to a limitation: we cannot use the _webhook_ secret in a reusable workflow.
-
-The preparation is then done by a dedicated internal workflow [_slack_message.yml](../.github/workflows/_slack_message.yml).
+This is done by a dedicated internal workflow [_slack_message.yml](../.github/workflows/_slack_message.yml).  
 This workflow uses different input parameters:
 
 - `title`: Title of the message.
 - `devices`: The list of analyzed devices.
 - `total_apps`: Total number of tested Apps.
+- `send_to_slack`: Request to send the result on Slack.
+
+Despite there is an input parameter (`send_to_slack`), these steps are still executed,
+allowing to prepare (and check) the message.
 
 After cloning the app-tester and installing few dependencies, the following steps are executed :
 
 1. Check if the artifact `apps_errors` exist, and download it.
 2. Convert the different elements to a Json data thanks to [slack_message.py](../scripts/slack_message.py).
-3. Upload the Slack message file for next step (sending).
-
-Then, the sending is done from the top level workflow, conditioned by either:
-
-- Schedule triggering
-- Manual triggering, with the parameter `send_to_slack`
+3. If the parameter `send_to_slack` is `true`, really send the Slack message.
 
 ## Scanning All Apps
 
@@ -385,12 +374,7 @@ This workflow uses the following input parameters:
 
 - `exclude_apps`: List of application names to exclude from the build.
 - `only_apps`: List of application names to include in the build.
-
-Here again, some environment variables can be set:
-
-- `WHITELIST`
-- `BLACKLIST`
-- `LIMIT`
+- `scan_device`: Targeted device for scan.
 
 This workflow returns the following output value:
 

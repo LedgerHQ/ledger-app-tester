@@ -164,8 +164,6 @@ def main() -> None:
     logging.info("Fetching application repositories from GitHub")
     gh = GitHubLedgerHQ(github_token) if github_token else GitHubLedgerHQ()
     apps = gh.apps.filter(archived=Condition.WITHOUT,
-                          private=Condition.WITHOUT,
-                          legacy=Condition.WITHOUT,
                           only_list=args.only,
                           exclude_list=args.exclude,
                           sdk=args.sdk)

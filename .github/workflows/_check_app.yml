@@ -16,15 +16,16 @@ on:
         required: false
         default: ""
         type: string
+      scan_device:
+        description: Targeted device for scan.
+        type: string
+        required: false
+        default: 'stax'
     outputs:
       total_apps:
         description: |
           Total number of selected Apps.
         value: ${{ jobs.define_apps.outputs.total_apps }}
-
-
-#env:
-  # LIMIT: 50
 
 
 jobs:
@@ -55,10 +56,6 @@ jobs:
           if [ -n "${{ inputs.only_apps }}" ]; then
             ARGS+=(-o ${{ inputs.only_apps }})
           fi
-          # Limit to a number of apps
-          if [ -n "${{ env.LIMIT }}" ]; then
-            ARGS+=( -l ${{ env.LIMIT }})
-          fi
 
           ./scripts/parse_all_apps.py "${ARGS[@]}"
         env:
@@ -67,6 +64,12 @@ jobs:
       - name: Print matrix
         run: |
           echo "Matrix content: ${{ steps.apps_list.outputs.apps_config }}"
+          {
+            echo ":dart: Workflow event: ${{ github.event_name }}"
+              echo ":heavy_multiplication_x: Without Variants!"
+            echo ":rocket: Nb Apps checked: ${{ steps.apps_list.outputs.total_apps }}"
+            echo ":sparkles: Selected device for Scan: ${{ inputs.scan_device }}"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload Apps Config
         uses: actions/upload-artifact@v4
@@ -104,6 +107,7 @@ jobs:
         run: |
           # Initial check args
           ARGS="-v -a ${{ matrix.repo_info.repo_name }}"
+          ARGS="${ARGS} -t ${{ inputs.scan_device }}"
           ARGS="${ARGS} -b ${{ matrix.repo_info.build_directory }}"
 
           echo "CMD_ARGS=${ARGS}" >> "$GITHUB_ENV"

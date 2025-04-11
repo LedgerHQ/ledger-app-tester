@@ -15,17 +15,6 @@ on:
         description: Total number of tested Apps.
         required: true
         type: string
-      exclude_apps:
-        description: |
-          List of excluded Apps.
-        required: false
-        default: ""
-        type: string
-      with_variants:
-        description: Request to build all known variants.
-        type: boolean
-        required: false
-        default: false
 
 
 jobs:
@@ -76,40 +65,21 @@ jobs:
           name: ${{ inputs.mode }}_errors_all
 
       - name: Display Results
-        if: inputs.mode == 'check'
         run: |
           ARGS=(-t "${{ inputs.total_apps }}" -j ${{ inputs.job_name }} -o apps_errors.md)
-          if [ -n "${{ inputs.exclude_apps }}" ]; then
-            ARGS+=(-e "${{ inputs.exclude_apps }}")
-          fi
           ARGS+=(-E error)
-          ARGS+=(-C check_status)
-          scripts/summary_check.py "${ARGS[@]}"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_RUN_ID: ${{ github.run_id }}
-          GH_EVENT_NAME: ${{ github.event_name }}
-
-      - name: Display Results
-        if: inputs.mode != 'check'
-        run: |
-          ARGS=(-t "${{ inputs.total_apps }}" -j ${{ inputs.job_name }} -o apps_errors.md)
-          if [ -n "${{ inputs.exclude_apps }}" ]; then
-            ARGS+=(-e "${{ inputs.exclude_apps }}")
-          fi
-          ARGS+=(-E error)
-          ARGS+=(-B build_status)
-          if [ "${{ inputs.mode }}" = "test" ]; then
-            ARGS+=(-T test_status)
-          fi
-          if [ "${{ inputs.with_variants }}" = 'true' ]; then
-            ARGS+=(-V)
+          if [ "${{ inputs.mode }}" = "check" ]; then
+            ARGS+=(-C check_status)
+          else
+            ARGS+=(-B build_status)
+            if [ "${{ inputs.mode }}" = "test" ]; then
+              ARGS+=(-T test_status)
+            fi
           fi
           scripts/summary.py "${ARGS[@]}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_RUN_ID: ${{ github.run_id }}
-          GH_EVENT_NAME: ${{ github.event_name }}
 
       - name: Upload App Errors
         uses: actions/upload-artifact@v4
