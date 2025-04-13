@@ -12,13 +12,10 @@ on:
           The SDK branch to build against. Defaults to `master`.
         required: false
         type: string
-      devices:
-        description: |
-          The list of device(s) the CI will run on.
-          If an app does not implement a device,it will be ignored.
-          Defaults to the all the devices.
+      run_for_devices:
+        description: The list of device(s) to target. Defaults to 'All'
         required: false
-        default: 'all'
+        default: 'All'
         type: string
       exclude_apps:
         description: |
@@ -67,7 +64,7 @@ jobs:
       - name: Define the list of applications
         id: apps_list
         run: |
-          ARGS=(-s all -d ${{ inputs.devices }})
+          ARGS=(-s all -d ${{ inputs.run_for_devices }})
           ARGS+=(-j apps_config -n total_apps)
 
           # Exclude some apps

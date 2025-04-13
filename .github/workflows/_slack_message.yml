@@ -7,9 +7,8 @@ on:
         description: Slack message title.
         required: True
         type: string
-      devices:
-        description: |
-          The list of analyzed devices.
+      run_for_devices:
+        description: List of analyzed devices.
         required: false
         type: string
       total_apps:
@@ -55,8 +54,8 @@ jobs:
         id: slack_msg
         run: |
           ARGS=(--json slack.json --title "${{ inputs.title }}")
-          if [ -n "${{ inputs.devices }}" ]; then
-            ARGS+=(-d ${{ inputs.devices }})
+          if [ -n "${{ inputs.run_for_devices }}" ]; then
+            ARGS+=(-d ${{ inputs.run_for_devices }})
           fi
           ARGS+=(-n ${{ inputs.total_apps }})
           if [ -f apps_errors.md ]; then
