@@ -32,6 +32,8 @@ help() {
     echo "  -t <target> : Targeted device"
     echo "  -d <names>  : List of supported devices (separated with space)"
     echo "  -f <flags>  : List of extra flags (separated with space)"
+    echo "  -m <mode>   : Required mode (scan, test or build)"
+    echo "  -s <branch> : SDK branch"
     echo "  -P <name>   : Variant Param"
     echo "  -V <name>   : Variant Value"
     echo "  -r          : Rust application"
@@ -47,12 +49,14 @@ help() {
 #
 #===============================================================================
 
-while getopts ":a:b:t:d:f:P:V:rvh" opt; do
+while getopts ":a:b:t:d:f:m:s:P:V:rvh" opt; do
     case ${opt} in
         a)  APP_NAME=${OPTARG}  ;;
         b)  BUILD_DIR=${OPTARG} ;;
         t)  TARGET=${OPTARG}    ;;
         d)  DEVICES=${OPTARG}   ;;
+        m)  MODE=${OPTARG}      ;;
+        s)  BRANCH=${OPTARG}    ;;
         P)  VAR_PARAM=${OPTARG} ;;
         V)  VAR_VALUE=${OPTARG} ;;
         f)  EXTRA_FLAGS=${OPTARG} ;;
@@ -75,6 +79,7 @@ done
 [[ -z "${APP_NAME}" ]] && help "Error: Application name not specified"
 [[ -z "${BUILD_DIR}" ]] && help "Error: Build directory not specified"
 [[ -z "${TARGET}" ]] && help "Error: TARGET not specified"
+[[ "${IS_RUST}" == "false" && -z "${BRANCH}" && -z "${MODE}" ]] && help "Error: Mode or Branch must be specified"
 
 [[ -n "${VAR_PARAM}" && -z "${VAR_VALUE}" ]] && help "Error: Variant Value not specified"
 [[ -z "${VAR_PARAM}" && -n "${VAR_VALUE}" ]] && help "Error: Variant Param not specified"
@@ -105,6 +110,31 @@ if [[ "${IS_RUST}" == "true" ]]; then
     ERR=$?
     cd "${CURRENT_DIR}" || exit 1
 else
+    # Prepare SDK branch
+    SDK_PATH="/opt/ledger-secure-sdk"
+    if [[ -n "${BRANCH}" ]]; then
+        git -C ${SDK_PATH} checkout "${BRANCH}"
+    else
+        case "${MODE}" in
+            build) ;;
+            test)
+                # Using SDK from the container for the targeted device
+                SDK_PATH="/opt/${TARGET/s+/splus}-secure-sdk"
+                ;;
+            scan)
+                # Using the HEAD of the dedicated API_LEVEL_xx branch for the targeted device
+                VAL=$(jq --arg name "${TARGET}" -r '[to_entries[] | select(.value[] | contains($name)) | select(.value[] | contains("-rc") | not) | .key | tonumber] | max' ${SDK_PATH}/api_levels.json)
+                if [ -z "${VAL}" ]; then
+                    echo "No API_LEVEL branch found. Keep master!"
+                else
+                    echo "API_LEVEL branch found: ${VAL}"
+                    git -C ${SDK_PATH} checkout "API_LEVEL_${VAL}"
+                fi
+                ;;
+            *)    help "Error: Unknown mode ${MODE}" ;;
+        esac
+    fi
+
     # Prepare make arguments
     ARGS=(-j -C "${APP_NAME}/${BUILD_DIR}" "${EXTRA_FLAGS}")
     # Particular target name of Nanos+
@@ -116,11 +146,11 @@ else
             BUILD_ARGS+=("${VAR_PARAM}=${val}")
             # Clean
             # shellcheck disable=SC2068
-            TARGET="${TARGET_BUILD}" BOLOS_SDK="$GITHUB_WORKSPACE/sdk" make ${BUILD_ARGS[@]} clean
+            TARGET="${TARGET_BUILD}" BOLOS_SDK="${SDK_PATH}" make ${BUILD_ARGS[@]} clean
             # Build
             # shellcheck disable=SC2068
             # shellcheck disable=SC2086
-            TARGET="${TARGET_BUILD}" BOLOS_SDK="$GITHUB_WORKSPACE/sdk" make ${BUILD_ARGS[@]}
+            TARGET="${TARGET_BUILD}" BOLOS_SDK="${SDK_PATH}" make ${BUILD_ARGS[@]}
             ERR=$?
             if [[ ${ERR} -ne 0 ]]; then
                 break
@@ -130,7 +160,7 @@ else
         echo "===== Compiling for default VARIANT"
         # Build
         # shellcheck disable=SC2068
-        TARGET="${TARGET_BUILD}" BOLOS_SDK="$GITHUB_WORKSPACE/sdk" make ${ARGS[@]}
+        TARGET="${TARGET_BUILD}" BOLOS_SDK="${SDK_PATH}" make ${ARGS[@]}
         ERR=$?
     fi
 fi

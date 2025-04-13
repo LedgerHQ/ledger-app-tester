@@ -82,14 +82,6 @@ This is computed thanks to [_setup_apps.yml](../.github/workflows/_setup_apps.ym
 using the input file [test_lists.json](../input_files/test_lists.json),
 and setting the appropriate variables in `GITHUB_OUTPUT`.
 
-### Sdk Selection
-
-Here, we define which apps we want/need to build against.  
-This is set in the appropriate variables in `GITHUB_OUTPUT`, using either:
-
-- The input variable `sdk_branch`
-- The default `master` branch
-
 ## Building All Apps
 
 Building the Apps is done thanks to a dedicated internal workflow [_build_app.yml](../.github/workflows/_build_app.yml).
@@ -106,7 +98,10 @@ This workflow returns the following output value:
 
 - `total_apps`: Total number of selected Apps
 
-> **Note**: The SDK type is defined like this: `C` for _Scan_, and `All` for other cases.
+> **Notes**:
+>
+> - The SDK type is defined like this: `C` for _Scan_, and `All` for other cases.
+> - The SDK branch, unless specified in input, is `master`
 
 ### Apps List
 
@@ -287,6 +282,8 @@ After cloning the app-tester and installing few dependencies, the following step
 The Apps scanning operation consists in building a set of Apps,
 with dedicated extra flags (`ENABLE_SDK_WERROR=1 scan-build`).
 
+> **Note**: The SDK branch, unless specified in input, is `HEAD` of the `API_LEVEL_xx` branch of the targeted device
+
 Thus, the list of operations is the same as described in [Building All Apps](#building-all-apps)
 
 ## Testing All Apps
@@ -324,6 +321,8 @@ Thus, that means other operations are the same as the _Build_ case, and won't be
 - Artifacts collection
 - Status Generation
 - Slack notification
+
+> **Note**: The SDK branch, unless specified in input, is the default one in the container for the targeted device
 
 These operations are performed by [_test_app.yml](../.github/workflows/_test_app.yml).
 

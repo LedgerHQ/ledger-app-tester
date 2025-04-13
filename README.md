@@ -62,7 +62,6 @@ To add a new device, the modifications are:
 - In each top level workflow, add a new _input parameter_, and update the job `devices_config` accordingly.
 - In `_setup_devices.yml`: Adapt the job `define_devices`.
 - In `_build_app.yml` & `_test_app.yml`: Add the corresponding steps `Run` and `Check failure`.
-- In `_test_app.yml`: Ensure the correct SDK reference is selected, or add a new step for this.
 - In `setup_devices.py`: Add a new parameter and adapt the code.
 - In `parse_all_apps.py`: Add the new device in the list `devices`.
 

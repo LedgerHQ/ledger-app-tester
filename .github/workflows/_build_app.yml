@@ -11,7 +11,6 @@ on:
         description: |
           The SDK branch to build against. Defaults to `master`.
         required: false
-        default: 'master'
         type: string
       devices:
         description: |
@@ -136,30 +135,6 @@ jobs:
           path: ${{ matrix.repo_info.repo_name }}
           submodules: true
 
-      - name: Define SDK Branch
-        if: ${{ matrix.repo_info.sdk == 'c' || matrix.repo_info.sdk == 'C' }}
-        id: sdk_branch
-        run: |
-          if [ -n "${{ inputs.sdk_branch }}" ]; then
-            SDK_BRANCH="${{ inputs.sdk_branch }}"
-            SDK_DEPTH=1
-          else
-            SDK_BRANCH="master"
-            SDK_DEPTH=0
-          fi
-          echo "sdk_branch=${SDK_BRANCH}" >> "$GITHUB_OUTPUT"
-          echo "sdk_depth=${SDK_DEPTH}" >> "$GITHUB_OUTPUT"
-          echo "BRANCH=${SDK_BRANCH}, DEPTH=${SDK_DEPTH}"
-
-      - name: Clone SDK
-        if: steps.sdk_branch.outcome == 'success'
-        uses: actions/checkout@v4
-        with:
-          repository: LedgerHQ/ledger-secure-sdk
-          ref: ${{ steps.sdk_branch.outputs.sdk_branch }}
-          fetch-depth: ${{ steps.sdk_branch.outputs.sdk_depth }}
-          path: sdk
-
       - name: Prepare test conditions
         id: prepare_test
         shell: bash
@@ -169,6 +144,13 @@ jobs:
           # Initial build args
           ARGS="-v -a ${{ matrix.repo_info.repo_name }}"
           ARGS="${ARGS} -b ${{ matrix.repo_info.build_directory }}"
+
+          # Check if the SDK branch is set
+          if [ -n "${{ inputs.sdk_branch }}" ]; then
+            ARGS="${ARGS} -s ${{ inputs.sdk_branch }}"
+          else
+            ARGS="${ARGS} -m ${{ inputs.mode }}"
+          fi
 
           # Supported devices
           DEVICES=$(echo '${{ toJSON(matrix.repo_info.devices) }}' | jq -r '. | join(" ")')
@@ -218,17 +200,6 @@ jobs:
           echo "CMD_ARGS=${ARGS}" >> "$GITHUB_ENV"
           echo "CMD_ARGS=${ARGS}"
 
-      - name: SDK Nano
-        if: ${{ always() && (inputs.sdk_branch == '') && (steps.prepare_test.outcome == 'success') && (steps.sdk_branch.outcome == 'success') }}
-        run: |
-          # Select the latest API_LEVEL for both NanoS+ and NanoX
-          VAL=$(jq -r '[to_entries[] | select(.value[] | contains("nanox")) | select(.value[] | contains("-rc") | not) | .key | tonumber] | max' sdk/api_levels.json)
-          if [ -z "${VAL}" ]; then
-            echo "No API_LEVEL branch found!"
-            VAL=${{ env.DEF_API_LEVEL }}
-          fi
-          git -C sdk checkout API_LEVEL_${VAL}
-
       - name: Run NanoS+
         if: ${{ always() && (steps.prepare_test.outcome == 'success') }}
         id: run_nanos2
@@ -250,17 +221,6 @@ jobs:
         if: ${{ always() && (steps.run_nanox.outcome == 'skipped') }}
         run: |
           echo -n "|:construction:" >> build_status_${{ matrix.repo_info.repo_name }}.md
-
-      - name: SDK Stax & Flex
-        if: ${{ always() && (inputs.sdk_branch == '') && (steps.prepare_test.outcome == 'success') && (steps.sdk_branch.outcome == 'success') }}
-        run: |
-          # Select the latest API_LEVEL for both Stax and Flex
-          VAL=$(jq -r '[to_entries[] | select(.value[] | contains("stax")) | select(.value[] | contains("-rc") | not) | .key | tonumber] | max' sdk/api_levels.json)
-          if [ -z "${VAL}" ]; then
-            echo "No API_LEVEL branch found!"
-            VAL=${{ env.DEF_API_LEVEL }}
-          fi
-          git -C sdk checkout API_LEVEL_${VAL}
 
       - name: Run Stax
         if: ${{ always() && (steps.prepare_test.outcome == 'success') }}
