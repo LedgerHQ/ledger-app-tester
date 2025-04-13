@@ -4,8 +4,7 @@ on:
   workflow_call:
     inputs:
       exclude_apps:
-        description: |
-          List of application names to exclude from the check.
+        description: List of application names to exclude from the check.
         required: false
         default: ""
         type: string
@@ -23,8 +22,7 @@ on:
         default: 'stax'
     outputs:
       total_apps:
-        description: |
-          Total number of selected Apps.
+        description: Total number of selected Apps.
         value: ${{ jobs.define_apps.outputs.total_apps }}
 
 

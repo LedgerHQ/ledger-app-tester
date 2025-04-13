@@ -8,18 +8,16 @@ on:
         type: string
         required: true
       sdk_branch:
-        description: |
-          The SDK branch to build against. Defaults to `master`.
+        description: The SDK branch to build against. Defaults to `master`.
         required: false
         type: string
       run_for_devices:
-        description: The list of device(s) to target. Defaults to 'All'
+        description: The list of device(s) to target. Defaults to 'All'.
         required: false
         default: 'All'
         type: string
       exclude_apps:
-        description: |
-          List of application names to exclude from the build.
+        description: List of application names to exclude from the build.
         required: false
         default: ""
         type: string
@@ -37,8 +35,7 @@ on:
         default: false
     outputs:
       total_apps:
-        description: |
-          Total number of selected Apps.
+        description: Total number of selected Apps.
         value: ${{ jobs.define_apps.outputs.total_apps }}
 
 
