@@ -97,7 +97,6 @@ This workflow uses the following input parameters:
 
 - `mode`: Indicate if we are in _build_, _scan_ or _test_.
 - `sdk_branch`: The SDK branch to build against.
-- `sdk_type`: The type of SDK the apps use (`C` or `Rust`).
 - `devices`: The list of targeted devices.
 - `exclude_apps`: List of application names to exclude from the build.
 - `only_apps`: List of application names to include in the build.
@@ -106,6 +105,8 @@ This workflow uses the following input parameters:
 This workflow returns the following output value:
 
 - `total_apps`: Total number of selected Apps
+
+> **Note**: The SDK type is defined like this: `C` for _Scan_, and `All` for other cases.
 
 ### Apps List
 

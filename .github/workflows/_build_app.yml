@@ -13,12 +13,6 @@ on:
         required: false
         default: 'master'
         type: string
-      sdk_type:
-        description: |
-          The type of SDK the apps use. Could be `c`, `rust` or `all` (defaults to `all`).
-        required: false
-        default: 'all'
-        type: string
       devices:
         description: |
           The list of device(s) the CI will run on.
@@ -74,7 +68,7 @@ jobs:
       - name: Define the list of applications
         id: apps_list
         run: |
-          ARGS=(-s "${{ inputs.sdk_type }}" -d ${{ inputs.devices }})
+          ARGS=(-s all -d ${{ inputs.devices }})
           ARGS+=(-j apps_config -n total_apps)
 
           # Exclude some apps

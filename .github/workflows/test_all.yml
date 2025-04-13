@@ -69,7 +69,6 @@ jobs:
     with:
       mode: "test"
       sdk_branch: ${{ inputs.sdk_ref }}
-      sdk_type: "all"
       devices: ${{ needs.devices_config.outputs.devices_config }}
       exclude_apps: ${{ needs.apps_config.outputs.blacklist }}
       only_apps: ${{ needs.apps_config.outputs.whitelist }}
