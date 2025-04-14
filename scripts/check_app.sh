@@ -86,10 +86,15 @@ SDK="${TARGET_BUILD^^}_SDK"
 ERR=$?
 
 if [[ ${ERR} -ne 0 ]]; then
-    echo -n "|:x:" >> "${FILE_STATUS}"
     echo -e "\t• ${APP_DIR}" > "${FILE_ERROR}"
+fi
+
+if [[ -f /tmp/check_status.md ]]; then
+    cp /tmp/check_status.md "${FILE_STATUS}"
+elif [[ ${ERR} -ne 0 ]]; then
+    echo -n "|:x:" > "${FILE_STATUS}"
 else
-    echo -n "|:white_check_mark:" >> "${FILE_STATUS}"
+    echo -n "|:white_check_mark:" > "${FILE_STATUS}"
 fi
 
 exit "${ERR}"

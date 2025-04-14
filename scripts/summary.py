@@ -188,9 +188,10 @@ def status_report(report_file: str,
     # Format the header lines automatically
     headers = [" App Names ", " Jobs "]
     if args.Check:
-        headers += [" Result"]
+        added_hdr = [" manifest ", " icons ", " app_load_params ", " makefile ", " readme ", " scan"]
     else:
-        headers += [f" {d} " for d in devices]
+        added_hdr = [f" {d} " for d in devices]
+    headers += added_hdr
     lines.append("|" + "|".join(headers) + "|\n")
     lines.append("|" + "|".join(["-----------"] + [f":{'-' * max(3, len(h.strip()))}:" for h in headers[1:]]) + "|\n")
 
@@ -202,6 +203,9 @@ def status_report(report_file: str,
         with open(file_path, encoding="utf-8") as infile:
             app_status = infile.readline()
         nb_errors += app_status.count(":x:")
+        if args.Check and app_status == "|:x:":
+            # Only a single fail on the 1st step
+            app_status = f"|:x:{'|:black_circle:' * len(added_hdr)}"
 
         # Extract app name from file name
         app_name = os.path.splitext(os.path.basename(fname.split("_")[-1]))[0]

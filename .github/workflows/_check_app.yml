@@ -18,8 +18,7 @@ on:
       scan_device:
         description: Targeted device for scan.
         type: string
-        required: false
-        default: 'stax'
+        required: true
     outputs:
       total_apps:
         description: Total number of selected Apps.

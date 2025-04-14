@@ -60,6 +60,8 @@ The SDK reference (branch) used differ from one task to another:
 To add a new device, the modifications are:
 
 - In `input_files/devices_list.json`: Add the new device in the list `devices`.
+- If needed, also in `input_files/devices_list.json`: Update the default device used in the Check (Guildeline Enforcer)
+- In `check_all.yml`: Add the new device in the input parameters.
 - In `_build_app.yml` & `_test_app.yml`: Add the corresponding steps `Run` and `Check failure`.
 
 > Note: To ensure finding all related parts, a simple grep on an existing one (e.g. __stax__) is sufficient.

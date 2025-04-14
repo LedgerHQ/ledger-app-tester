@@ -1,5 +1,8 @@
 [
   {
     "devices": ["nanos+", "nanox", "stax", "flex"]
+  },
+  {
+    "device for check": "stax"
   }
 ]
