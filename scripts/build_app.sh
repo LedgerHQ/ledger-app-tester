@@ -102,12 +102,21 @@ fi
 
 if [[ "${IS_RUST}" == "true" ]]; then
     CURRENT_DIR=$(pwd)
+    TARGET_BUILD="${TARGET/s+/splus}"
     cd "${APP_NAME}/${BUILD_DIR}" || exit 1
-    cargo +$RUST_NIGHTLY update ledger_device_sdk
-    cargo +$RUST_NIGHTLY update ledger_secure_sdk_sys
-    # Build, with particular case of Nanos+
-    cargo ledger build "${TARGET/s+/splus}"
-    ERR=$?
+    case "${MODE}" in
+        build|test)
+            cargo +$RUST_NIGHTLY update ledger_device_sdk
+            cargo +$RUST_NIGHTLY update ledger_secure_sdk_sys
+            # Build, with particular case of Nanos+
+            cargo ledger build "${TARGET_BUILD}"
+            ERR=$?
+            ;;
+        scan)
+            cargo +$RUST_NIGHTLY clippy --target "${TARGET_BUILD}" -- -Dwarnings
+            ERR=$?
+            ;;
+    esac
     cd "${CURRENT_DIR}" || exit 1
 else
     # Prepare SDK branch
@@ -135,10 +144,10 @@ else
         esac
     fi
 
-    # Prepare make arguments
-    ARGS=(-j -C "${APP_NAME}/${BUILD_DIR}" "${EXTRA_FLAGS}")
     # Particular target name of Nanos+
     TARGET_BUILD="${TARGET/s+/s2}"
+    # Prepare make arguments
+    ARGS=(-j -C "${APP_NAME}/${BUILD_DIR}" "${EXTRA_FLAGS}")
     if [[ -n "${VAR_PARAM}" ]]; then
         for val in ${VAR_VALUE}; do
             echo "===== Compiling for VARIANT: ${VAR_PARAM} -> ${val}"
