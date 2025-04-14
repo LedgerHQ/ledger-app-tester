@@ -203,9 +203,9 @@ def status_report(report_file: str,
         with open(file_path, encoding="utf-8") as infile:
             app_status = infile.readline()
         nb_errors += app_status.count(":x:")
-        if args.Check and app_status == "|:x:":
+        if app_status in ("|:x:", "|:construction:"):
             # Only a single fail on the 1st step
-            app_status = f"|:x:{'|:black_circle:' * len(added_hdr)}"
+            app_status += f"{'|:black_circle:' * len(added_hdr)}"
 
         # Extract app name from file name
         app_name = os.path.splitext(os.path.basename(fname.split("_")[-1]))[0]

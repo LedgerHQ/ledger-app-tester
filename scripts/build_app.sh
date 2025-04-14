@@ -5,6 +5,7 @@
 
 exeName=$(readlink "$0")
 [[ -z ${exeName} ]] && exeName=$0
+dirName=$(dirname "$exeName")
 
 VERBOSE=false
 IS_RUST=false
@@ -29,7 +30,6 @@ help() {
     echo
     echo "  -a <name>   : App name"
     echo "  -b <dir>    : Application build directory"
-    echo "  -t <target> : Targeted device"
     echo "  -d <names>  : List of supported devices (separated with space)"
     echo "  -f <flags>  : List of extra flags (separated with space)"
     echo "  -m <mode>   : Required mode (scan, test or build)"
@@ -49,11 +49,10 @@ help() {
 #
 #===============================================================================
 
-while getopts ":a:b:t:d:f:m:s:P:V:rvh" opt; do
+while getopts ":a:b:d:f:m:s:P:V:rvh" opt; do
     case ${opt} in
         a)  APP_NAME=${OPTARG}  ;;
         b)  BUILD_DIR=${OPTARG} ;;
-        t)  TARGET=${OPTARG}    ;;
         d)  DEVICES=${OPTARG}   ;;
         m)  MODE=${OPTARG}      ;;
         s)  BRANCH=${OPTARG}    ;;
@@ -78,7 +77,6 @@ done
 
 [[ -z "${APP_NAME}" ]] && help "Error: Application name not specified"
 [[ -z "${BUILD_DIR}" ]] && help "Error: Build directory not specified"
-[[ -z "${TARGET}" ]] && help "Error: TARGET not specified"
 [[ "${IS_RUST}" == "false" && -z "${BRANCH}" && -z "${MODE}" ]] && help "Error: Mode or Branch must be specified"
 
 [[ -n "${VAR_PARAM}" && -z "${VAR_VALUE}" ]] && help "Error: Variant Value not specified"
@@ -89,20 +87,16 @@ FILE_ERROR="build_errors_${APP_NAME}.md"
 
 #===============================================================================
 #
-#     Main
+#     Build Rust application
 #
 #===============================================================================
+build_RUST() {
+    local target="$1"
+    local CURRENT_DIR=""
+    local TARGET_BUILD=""
 
-# Check supported devices
-if [[ ! "${DEVICES}" =~ ${TARGET} ]]; then
-    echo -n "|:black_circle:" >> "${FILE_STATUS}"
-    [[ "${VERBOSE}" == "true" ]] && echo "${TARGET} not supported."
-    exit 0
-fi
-
-if [[ "${IS_RUST}" == "true" ]]; then
     CURRENT_DIR=$(pwd)
-    TARGET_BUILD="${TARGET/s+/splus}"
+    TARGET_BUILD="${target/s+/splus}"
     cd "${APP_NAME}/${BUILD_DIR}" || exit 1
     case "${MODE}" in
         build|test)
@@ -118,7 +112,17 @@ if [[ "${IS_RUST}" == "true" ]]; then
             ;;
     esac
     cd "${CURRENT_DIR}" || exit 1
-else
+
+}
+
+#===============================================================================
+#
+#     Prepare SDK path and branch
+#
+#===============================================================================
+prepare_SDK() {
+    local target="$1"
+
     # Prepare SDK branch
     SDK_PATH="/opt/ledger-secure-sdk"
     if [[ -n "${BRANCH}" ]]; then
@@ -128,11 +132,11 @@ else
             build) ;;
             test)
                 # Using SDK from the container for the targeted device
-                SDK_PATH="/opt/${TARGET/s+/splus}-secure-sdk"
+                SDK_PATH="/opt/${target/s+/splus}-secure-sdk"
                 ;;
             scan)
                 # Using the HEAD of the dedicated API_LEVEL_xx branch for the targeted device
-                VAL=$(jq --arg name "${TARGET}" -r '[to_entries[] | select(.value[] | contains($name)) | select(.value[] | contains("-rc") | not) | .key | tonumber] | max' ${SDK_PATH}/api_levels.json)
+                VAL=$(jq --arg name "${target}" -r '[to_entries[] | select(.value[] | contains($name)) | select(.value[] | contains("-rc") | not) | .key | tonumber] | max' ${SDK_PATH}/api_levels.json)
                 if [ -z "${VAL}" ]; then
                     echo "No API_LEVEL branch found. Keep master!"
                 else
@@ -144,20 +148,35 @@ else
             *)    help "Error: Unknown mode ${MODE}" ;;
         esac
     fi
+}
+
+#===============================================================================
+#
+#     Build C application
+#
+#===============================================================================
+build_C() {
+    local target="$1"
+
+    local ARGS=""
+    local BUILD_ARGS=""
+    local TARGET_BUILD=""
+    local val=""
 
     # Particular target name of Nanos+
-    TARGET_BUILD="${TARGET/s+/s2}"
+    TARGET_BUILD="${target/s+/s2}"
     # Prepare make arguments
-    ARGS=(-j -C "${APP_NAME}/${BUILD_DIR}" "${EXTRA_FLAGS}")
+    ARGS=(-j -C "${APP_NAME}/${BUILD_DIR}")
     if [[ -n "${VAR_PARAM}" ]]; then
         for val in ${VAR_VALUE}; do
             echo "===== Compiling for VARIANT: ${VAR_PARAM} -> ${val}"
             BUILD_ARGS=("${ARGS[@]}")
-            BUILD_ARGS+=("${VAR_PARAM}=${val}")
             # Clean
             # shellcheck disable=SC2068
             TARGET="${TARGET_BUILD}" BOLOS_SDK="${SDK_PATH}" make ${BUILD_ARGS[@]} clean
             # Build
+            BUILD_ARGS+=("${VAR_PARAM}=${val}")
+            BUILD_ARGS+=("${EXTRA_FLAGS}")
             # shellcheck disable=SC2068
             # shellcheck disable=SC2086
             TARGET="${TARGET_BUILD}" BOLOS_SDK="${SDK_PATH}" make ${BUILD_ARGS[@]}
@@ -168,27 +187,58 @@ else
         done
     else
         echo "===== Compiling for default VARIANT"
+        BUILD_ARGS=("${ARGS[@]}")
+        BUILD_ARGS+=("${EXTRA_FLAGS}")
         # Build
         # shellcheck disable=SC2068
-        TARGET="${TARGET_BUILD}" BOLOS_SDK="${SDK_PATH}" make ${ARGS[@]}
+        TARGET="${TARGET_BUILD}" BOLOS_SDK="${SDK_PATH}" make ${BUILD_ARGS[@]}
         ERR=$?
     fi
-fi
+}
 
-# Particular target name of Nanos+
-TARGET_BUILD="${TARGET/s+/sp}"
-if [[ ${ERR} -ne 0 ]]; then
-    echo -n "|:x:" >> "${FILE_STATUS}"
-    if [[ -f "${FILE_ERROR}" ]]; then
-        echo -n ", ${TARGET_BUILD}" >> "${FILE_ERROR}"
+#===============================================================================
+#
+#     Main
+#
+#===============================================================================
+
+DEVICES_LIST=$(jq -r '.[0].devices | join (" ")' "${dirName}/../input_files/devices_list.json")
+
+FINAL_ERR=0
+for target in ${DEVICES_LIST}; do
+
+    # Check supported devices
+    if [[ ! "${DEVICES}" =~ ${target} ]]; then
+
+        echo -n "|:black_circle:" >> "${FILE_STATUS}"
+        [[ "${VERBOSE}" == "true" ]] && echo "${target} not supported."
+
     else
-        {
-            echo -e "\t• ${APP_NAME}"
-            echo -e -n "\t\t${TARGET_BUILD}"
-        } > "${FILE_ERROR}"
-    fi
-else
-    echo -n "|:white_check_mark:" >> "${FILE_STATUS}"
-fi
 
-exit "${ERR}"
+        if [[ "${IS_RUST}" == "true" ]]; then
+            build_RUST "${target}"
+        else
+            prepare_SDK "${target}"
+            build_C "${target}"
+        fi
+
+        # Particular target name of Nanos+
+        TARGET_BUILD="${target/s+/sp}"
+        if [[ ${ERR} -ne 0 ]]; then
+            echo -n "|:x:" >> "${FILE_STATUS}"
+            if [[ -f "${FILE_ERROR}" ]]; then
+                echo -n ", ${TARGET_BUILD}" >> "${FILE_ERROR}"
+            else
+                {
+                    echo -e "\t• ${APP_NAME}"
+                    echo -e -n "\t\t${TARGET_BUILD}"
+                } > "${FILE_ERROR}"
+            fi
+        else
+            echo -n "|:white_check_mark:" >> "${FILE_STATUS}"
+        fi
+        FINAL_ERR=$((FINAL_ERR + ERR))
+    fi
+done
+
+exit "${FINAL_ERR}"
