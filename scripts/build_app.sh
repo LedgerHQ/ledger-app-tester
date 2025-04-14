@@ -139,6 +139,7 @@ else
                     echo "API_LEVEL branch found: ${VAL}"
                     git -C ${SDK_PATH} checkout "API_LEVEL_${VAL}"
                 fi
+                EXTRA_FLAGS="${EXTRA_FLAGS} ENABLE_SDK_WERROR=1 scan-build"
                 ;;
             *)    help "Error: Unknown mode ${MODE}" ;;
         esac
