@@ -11,8 +11,10 @@ import sys
 from typing import List, Optional, Tuple
 from argparse import ArgumentParser, Namespace
 from github import Github
-from utils import logging_init, logging_set_level, set_gh_summary
-from parse_all_apps import devices
+from utils import logging_init, logging_set_level, set_gh_summary, get_full_devices
+
+
+devices = get_full_devices()
 
 
 # ===============================================================================

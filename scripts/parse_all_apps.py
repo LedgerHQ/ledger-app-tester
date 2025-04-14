@@ -13,10 +13,10 @@ from typing import List, Optional
 from argparse import ArgumentParser, Namespace
 from dataclasses import asdict, dataclass, field
 from ledgered.github import AppRepository, Condition, GitHubLedgerHQ
-from utils import logging_init, logging_set_level, set_gh_output
+from utils import logging_init, logging_set_level, set_gh_output, get_full_devices
 
 
-devices = ["nanos+", "nanox", "stax", "flex"]
+devices = get_full_devices()
 sdks = ["C", "Rust"]
 
 

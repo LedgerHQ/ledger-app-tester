@@ -14,10 +14,6 @@ on:
         value: ${{ jobs.define_devices.outputs.devices_config }}
 
 
-env:
-  DEFAULT_DEVICES: "nanos+ nanox stax flex"
-
-
 jobs:
   define_devices:
     name: Set devices
@@ -26,13 +22,17 @@ jobs:
       devices_config: ${{ steps.devices_list.outputs.devices_config }}
 
     steps:
+      - name: Clone Repo
+        uses: actions/checkout@v4
+
       - name: Define the list of devices to target
         id: devices_list
+        shell: bash
         run: |
           if [ "${{ inputs.run_for_devices }}" = "All" ]; then
-              run_for_devices="${{ env.DEFAULT_DEVICES }}"
+            run_for_devices=$(jq -r '.[0].devices | join (" ")' "input_files/devices_list.json")
           else
-              run_for_devices="${{ inputs.run_for_devices }}"
+            run_for_devices="${{ inputs.run_for_devices }}"
           fi
           echo "devices_config=${run_for_devices}" >> "$GITHUB_OUTPUT"
 

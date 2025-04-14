@@ -59,9 +59,8 @@ The SDK reference (branch) used differ from one task to another:
 
 To add a new device, the modifications are:
 
-- In `_setup_devices.yml`: Adapt the env variable `DEFAULT_DEVICES`.
+- In `input_files/devices_list.json`: Add the new device in the list `devices`.
 - In `_build_app.yml` & `_test_app.yml`: Add the corresponding steps `Run` and `Check failure`.
-- In `parse_all_apps.py`: Add the new device in the list `devices`.
 
 > Note: To ensure finding all related parts, a simple grep on an existing one (e.g. __stax__) is sufficient.
 
