@@ -133,59 +133,20 @@ jobs:
         id: prepare_test
         shell: bash
         run: |
-          pip install --break-system-packages toml-cli
+          pip install --break-system-packages toml-cli ledgered
 
           # Initial build args
           ARGS="-v -a ${{ matrix.repo_info.repo_name }}"
-          ARGS="${ARGS} -b ${{ matrix.repo_info.build_directory }}"
+          ARGS="${ARGS} -m ${{ inputs.mode }}"
 
           # Check if the SDK branch is set
           if [ -n "${{ inputs.sdk_branch }}" ]; then
             ARGS="${ARGS} -s ${{ inputs.sdk_branch }}"
-          else
-            ARGS="${ARGS} -m ${{ inputs.mode }}"
           fi
-
-          # Supported devices
-          DEVICES=$(echo '${{ toJSON(matrix.repo_info.devices) }}' | jq -r '. | join(" ")')
-          ARGS="${ARGS} -d '${DEVICES}'"
-
-          # SDK: C or Rust
-          SDK=$(echo "${{ matrix.repo_info.sdk }}" | tr '[:upper:]' '[:lower:]')
-          if [ "${SDK}" = "rust" ]; then
-            ARGS="${ARGS} -r"
-          fi
-
-          # Extra build flags
-          case "${{ inputs.mode }}" in
-            build|scan)
-              ;;
-            test)
-              APP_FLAGS=$(jq --arg name "${{ matrix.repo_info.repo_name }}" -r '.[] | select(.name == $name) | .build_flags' ledger-app-tester/input_files/test_info.json)
-              if [ "${APP_FLAGS}" != null ] && [ -n "${APP_FLAGS}" ]; then
-                echo "Found Extra flags: ${APP_FLAGS}"
-                ARGS="${ARGS} -f \"${APP_FLAGS}\""
-              fi
-              ;;
-            *)
-              echo "Invalid mode: ${{ inputs.mode }}"
-              exit 1
-          esac
 
           # Variants
           if [ "${{ inputs.with_variants }}" = true ]; then
-            PARAM="${{ matrix.repo_info.variant_param }}"
-            if [ "${PARAM}" != null ] && [ -n "${PARAM}" ]; then
-              ARGS="${ARGS} -P ${PARAM}"
-              VALUES_JSON='${{ toJson(matrix.repo_info.variants_values) }}'
-              if [ "${VALUES_JSON}" != null ] && [ -n "${VALUES_JSON}" ] && [ "${VALUES_JSON}" != "[]" ]; then
-                VALUES=()
-                for VALUE in $(echo "${VALUES_JSON}" | jq -r '.[]') ; do
-                  VALUES+=("${VALUE}")
-                done
-                ARGS="${ARGS} -V \"${VALUES[*]}\""
-              fi
-            fi
+            ARGS="${ARGS} -V"
           fi
 
           echo "CMD_ARGS=${ARGS}" >> "$GITHUB_ENV"

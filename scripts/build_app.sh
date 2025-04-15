@@ -8,9 +8,10 @@ exeName=$(readlink "$0")
 dirName=$(dirname "$exeName")
 
 VERBOSE=false
-IS_RUST=false
+WITH_VARIANTS=false
 VAR_PARAM=""
 VAR_VALUE=""
+EXTRA_FLAGS=""
 
 #===============================================================================
 #
@@ -29,14 +30,9 @@ help() {
     echo "Options:"
     echo
     echo "  -a <name>   : App name"
-    echo "  -b <dir>    : Application build directory"
-    echo "  -d <names>  : List of supported devices (separated with space)"
-    echo "  -f <flags>  : List of extra flags (separated with space)"
     echo "  -m <mode>   : Required mode (scan, test or build)"
     echo "  -s <branch> : SDK branch"
-    echo "  -P <name>   : Variant Param"
-    echo "  -V <name>   : Variant Value"
-    echo "  -r          : Rust application"
+    echo "  -V          : Build all Variants"
     echo "  -v          : Verbose mode"
     echo "  -h          : Displays this help"
     echo
@@ -49,17 +45,12 @@ help() {
 #
 #===============================================================================
 
-while getopts ":a:b:d:f:m:s:P:V:rvh" opt; do
+while getopts ":a:m:s:Vvh" opt; do
     case ${opt} in
         a)  APP_NAME=${OPTARG}  ;;
-        b)  BUILD_DIR=${OPTARG} ;;
-        d)  DEVICES=${OPTARG}   ;;
         m)  MODE=${OPTARG}      ;;
         s)  BRANCH=${OPTARG}    ;;
-        P)  VAR_PARAM=${OPTARG} ;;
-        V)  VAR_VALUE=${OPTARG} ;;
-        f)  EXTRA_FLAGS=${OPTARG} ;;
-        r)  IS_RUST=true ;;
+        V)  WITH_VARIANTS=true  ;;
         v)  VERBOSE=true ;;
         h)  help ;;
 
@@ -76,11 +67,6 @@ done
 #===============================================================================
 
 [[ -z "${APP_NAME}" ]] && help "Error: Application name not specified"
-[[ -z "${BUILD_DIR}" ]] && help "Error: Build directory not specified"
-[[ "${IS_RUST}" == "false" && -z "${BRANCH}" && -z "${MODE}" ]] && help "Error: Mode or Branch must be specified"
-
-[[ -n "${VAR_PARAM}" && -z "${VAR_VALUE}" ]] && help "Error: Variant Value not specified"
-[[ -z "${VAR_PARAM}" && -n "${VAR_VALUE}" ]] && help "Error: Variant Param not specified"
 
 FILE_STATUS="build_status_${APP_NAME}.md"
 FILE_ERROR="build_errors_${APP_NAME}.md"
@@ -126,27 +112,89 @@ prepare_SDK() {
     # Prepare SDK branch
     SDK_PATH="/opt/ledger-secure-sdk"
     if [[ -n "${BRANCH}" ]]; then
+        [[ "${VERBOSE}" == "true" ]] && echo "Selecting branch '${BRANCH}' in ${SDK_PATH}."
         git -C ${SDK_PATH} checkout "${BRANCH}"
     else
         case "${MODE}" in
-            build) ;;
+            build)
+                [[ "${VERBOSE}" == "true" ]] && echo "Selecting branch 'master' in ${SDK_PATH}."
+                git -C ${SDK_PATH} checkout master
+                ;;
             test)
                 # Using SDK from the container for the targeted device
                 SDK_PATH="/opt/${target/s+/splus}-secure-sdk"
+                [[ "${VERBOSE}" == "true" ]] && echo "Selecting default ${SDK_PATH}."
                 ;;
             scan)
                 # Using the HEAD of the dedicated API_LEVEL_xx branch for the targeted device
                 VAL=$(jq --arg name "${target}" -r '[to_entries[] | select(.value[] | contains($name)) | select(.value[] | contains("-rc") | not) | .key | tonumber] | max' ${SDK_PATH}/api_levels.json)
                 if [ -z "${VAL}" ]; then
-                    echo "No API_LEVEL branch found. Keep master!"
+                    BRANCH="master"
+                    [[ "${VERBOSE}" == "true" ]] && echo "No API_LEVEL branch found. Keep master!"
                 else
-                    echo "API_LEVEL branch found: ${VAL}"
-                    git -C ${SDK_PATH} checkout "API_LEVEL_${VAL}"
+                    BRANCH="API_LEVEL_${VAL}"
+                    [[ "${VERBOSE}" == "true" ]] && echo "Selecting branch '${BRANCH}' in ${SDK_PATH}."
                 fi
-                EXTRA_FLAGS="${EXTRA_FLAGS} ENABLE_SDK_WERROR=1 scan-build"
+                git -C ${SDK_PATH} checkout "${BRANCH}"
                 ;;
             *)    help "Error: Unknown mode ${MODE}" ;;
         esac
+    fi
+}
+
+#===============================================================================
+#
+#     Prepare Build Flags
+#
+#===============================================================================
+prepare_Flags() {
+    case "${MODE}" in
+        build) ;;
+        test)
+            APP_FLAGS=$(jq --arg name "${APP_NAME}" -r '.[] | select(.name == $name) | .build_flags' ledger-app-tester/input_files/test_info.json)
+            if [ "${APP_FLAGS}" != null ] && [ -n "${APP_FLAGS}" ]; then
+                echo "Found Extra flags: ${APP_FLAGS}"
+                EXTRA_FLAGS="${APP_FLAGS}"
+            fi
+            ;;
+        scan)
+            EXTRA_FLAGS="ENABLE_SDK_WERROR=1 scan-build"
+            ;;
+        *)    help "Error: Unknown mode ${MODE}" ;;
+    esac
+}
+
+#===============================================================================
+#
+#     Get Available Variants
+#
+#===============================================================================
+get_Variants() {
+    local target="$1"
+    local sdk_path="/opt/ledger-secure-sdk"
+    local variants=""
+    local target_build=""
+
+    if [[ "${SDK}" == "rust" ]]; then
+        [[ "${VERBOSE}" == "true" ]] && echo "Variants not supported on Rust Apps."
+        return
+    fi
+    if [[ "${WITH_VARIANTS}" == "false" ]]; then
+        [[ "${VERBOSE}" == "true" ]] && echo "Variants not requested."
+        return
+    fi
+
+    # Particular target name of Nanos+
+    target_build="${target/s+/s2}"
+    # shellcheck disable=SC2068
+    variants=$(TARGET="${target_build}" BOLOS_SDK="${sdk_path}" make -C "${APP_NAME}/${BUILD_DIR}" listvariants 2>/dev/null | grep VARIANTS)
+
+    if [[ -n "${variants}" ]]; then
+        VAR_PARAM=$(echo "${variants}" | cut -d' ' -f2)
+        VAR_VALUE=$(echo "${variants}" | cut -d' ' -f3-)
+        [[ "${VERBOSE}" == "true" ]] && echo "Found Variants: ${VAR_PARAM} -> ${VAR_VALUE}"
+    else
+        echo "No variants found."
     fi
 }
 
@@ -169,7 +217,9 @@ build_C() {
     ARGS=(-j -C "${APP_NAME}/${BUILD_DIR}")
     if [[ -n "${VAR_PARAM}" ]]; then
         for val in ${VAR_VALUE}; do
-            echo "===== Compiling for VARIANT: ${VAR_PARAM} -> ${val}"
+            echo "----------------------------------------------------"
+            echo "     Compiling VARIANT: ${VAR_PARAM} -> ${val}"
+            echo "----------------------------------------------------"
             BUILD_ARGS=("${ARGS[@]}")
             # Clean
             # shellcheck disable=SC2068
@@ -186,7 +236,11 @@ build_C() {
             fi
         done
     else
-        echo "===== Compiling for default VARIANT"
+        if [[ "${WITH_VARIANTS}" == "true" ]]; then
+            echo "----------------------------------------------------"
+            echo "     Compiling default VARIANT"
+            echo "----------------------------------------------------"
+        fi
         BUILD_ARGS=("${ARGS[@]}")
         BUILD_ARGS+=("${EXTRA_FLAGS}")
         # Build
@@ -202,23 +256,34 @@ build_C() {
 #
 #===============================================================================
 
-DEVICES_LIST=$(jq -r '.[0].devices | join (" ")' "${dirName}/../input_files/devices_list.json")
+ALL_DEVICES_LIST=$(jq -r '.[0].devices | join (" ")' "${dirName}/../input_files/devices_list.json")
+
+SUPPORTED_DEVICES=$(ledger-manifest -od "${APP_NAME}/ledger_app.toml" -j   | jq -r '.devices | join(" ")')
+BUILD_DIR=$(ledger-manifest -ob "${APP_NAME}/ledger_app.toml")
+SDK=$(ledger-manifest -os "${APP_NAME}/ledger_app.toml")
+SDK=${SDK,,}
+
+prepare_Flags
 
 FINAL_ERR=0
-for target in ${DEVICES_LIST}; do
+for target in ${ALL_DEVICES_LIST}; do
 
+    echo "#########################################################################"
+    echo "     Building for device ${target}"
+    echo "#########################################################################"
     # Check supported devices
-    if [[ ! "${DEVICES}" =~ ${target} ]]; then
+    if [[ ! "${SUPPORTED_DEVICES}" =~ ${target} ]]; then
 
         echo -n "|:black_circle:" >> "${FILE_STATUS}"
         [[ "${VERBOSE}" == "true" ]] && echo "${target} not supported."
 
     else
 
-        if [[ "${IS_RUST}" == "true" ]]; then
+        if [[ "${SDK}" == "rust" ]]; then
             build_RUST "${target}"
         else
             prepare_SDK "${target}"
+            get_Variants "${target}"
             build_C "${target}"
         fi
 
