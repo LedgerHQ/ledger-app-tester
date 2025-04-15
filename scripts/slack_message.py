@@ -11,8 +11,10 @@ import json
 import logging
 import re
 from argparse import ArgumentParser, Namespace
-from utils import logging_init, logging_set_level
-from parse_all_apps import devices
+from utils import logging_init, logging_set_level, get_full_devices
+
+
+devices = get_full_devices()
 
 
 # ===============================================================================

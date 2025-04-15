@@ -12,26 +12,6 @@
     "dependencies": "app-ethereum"
   },
   {
-    "name": "app-plugin-bricktowers",
-    "dependencies": "app-ethereum"
-  },
-  {
-    "name": "app-plugin-chorus-one",
-    "dependencies": "app-ethereum"
-  },
-  {
-    "name": "app-plugin-eigenlayer",
-    "dependencies": "app-ethereum"
-  },
-  {
-    "name": "app-plugin-kelp",
-    "dependencies": "app-ethereum"
-  },
-  {
-    "name": "app-plugin-origin",
-    "dependencies": "app-ethereum"
-  },
-  {
     "name": "app-solana",
     "build_flags": "TRUSTED_NAME_TEST_KEY=1"
   },

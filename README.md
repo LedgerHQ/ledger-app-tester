@@ -59,14 +59,9 @@ The SDK reference (branch) used differ from one task to another:
 
 To add a new device, the modifications are:
 
-- In each top level workflow, add a new _input parameter_, and update the job `devices_config` accordingly.
-- In `_setup_devices.yml`: Adapt the job `define_devices`.
-- In `_build_app.yml` & `_test_app.yml`: Add the corresponding steps `Run` and `Check failure`.
-- In `_test_app.yml`: Ensure the correct SDK reference is selected, or add a new step for this.
-- In `setup_devices.py`: Add a new parameter and adapt the code.
-- In `parse_all_apps.py`: Add the new device in the list `devices`.
-
-> Note: To ensure finding all related parts, a simple grep on an existing one (e.g. __stax__) is sufficient.
+- In `input_files/devices_list.json`: Add the new device in the list `devices`.
+- If needed, also in `input_files/devices_list.json`: Update the default device used in the Check (Guildeline Enforcer)
+- In `check_all.yml`: Add the new device in the input parameters.
 
 ## Workflows Output
 

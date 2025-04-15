@@ -31,6 +31,26 @@ on:
 
 
 jobs:
+  device_config:
+    name: Get device
+    runs-on: ubuntu-latest
+    outputs:
+      scan_device: ${{ steps.set_device.outputs.scan_device }}
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v4
+
+      - name: Set Device
+        id: set_device
+        run: |
+          if [ "${{ inputs.scan_device }}" = "" ]; then
+            scan_device=$(jq -r '.[1]["device for check"]' "input_files/devices_list.json")
+          else
+            scan_device="${{ inputs.scan_device }}"
+          fi
+          echo "scan_device=${scan_device}"
+          echo "scan_device=${scan_device}" >> "$GITHUB_OUTPUT"
+
   apps_config:
     name: Set Apps lists
     uses: ./.github/workflows/_setup_apps.yml
@@ -40,12 +60,12 @@ jobs:
 
   execute_check:
     name: Check All apps
-    needs: [apps_config]
+    needs: [device_config, apps_config]
     uses: ./.github/workflows/_check_app.yml
     with:
       exclude_apps: ${{ needs.apps_config.outputs.blacklist }}
       only_apps: ${{ needs.apps_config.outputs.whitelist }}
-      scan_device: ${{ inputs.scan_device || 'stax' }}
+      scan_device: ${{ needs.device_config.outputs.scan_device }}
 
   check_artifacts:
     name: Check Artifacts

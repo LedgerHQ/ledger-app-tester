@@ -1,4 +1,5 @@
 import os
+import json
 import logging
 
 
@@ -54,3 +55,21 @@ def set_gh_summary(value: str) -> None:
             except FileNotFoundError:
                 # Consider this is a simple string
                 outfile.write(f"{value}\n")
+
+
+def get_full_devices() -> list:
+    """Get the full list of devices from the config file.
+
+    Returns:
+        list: List of devices
+    """
+
+    # Get the directory of the current script
+    script_directory = os.path.dirname(os.path.abspath(__file__))
+    # Construct the absolute path to the JSON file
+    file_path = os.path.join(script_directory, "../input_files/devices_list.json")
+
+    with open(file_path, encoding="utf-8") as f:
+        data = json.load(f)
+        devices = data[0]["devices"]
+    return devices

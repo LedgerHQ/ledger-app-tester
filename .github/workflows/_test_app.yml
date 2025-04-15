@@ -69,13 +69,14 @@ jobs:
           pip install --break-system-packages -r ledger-app-tester/requirements.txt
           pip install --break-system-packages toml-cli
 
+          # Initial build args
+          ARGS="-v -a ${{ matrix.repo_info.repo_name }}"
+
           # Get Test directory from manifest
           TEST_DIR=$(ledger-manifest -otp "${{ matrix.repo_info.repo_name }}/ledger_app.toml")
           if [ -z "${TEST_DIR}" ]; then
             echo "No test directory found" && exit 1
           fi
-          # Initial build args
-          ARGS="-v -a ${{ matrix.repo_info.repo_name }} -d ${TEST_DIR}"
 
           # Install dedicated dependencies
           TEST_DIR="${{ matrix.repo_info.repo_name }}/${TEST_DIR}"
@@ -84,27 +85,6 @@ jobs:
           fi
           if [ -f "${TEST_DIR}/setup_script.sh" ]; then
             "${TEST_DIR}"/setup_script.sh
-          fi
-
-          # SDK: C or Rust
-          SDK=$(echo "${{ matrix.repo_info.sdk }}" | tr '[:upper:]' '[:lower:]')
-          if [ "${SDK}" = "rust" ]; then
-            ARGS="${ARGS} -r"
-            if [ -f "${{ matrix.repo_info.repo_name }}/Cargo.toml" ]; then
-              ELF_NAME=$(toml get --toml-path ${{ matrix.repo_info.repo_name }}/Cargo.toml package.name)
-            else
-              ELF_NAME="${{ matrix.repo_info.repo_name }}"
-            fi
-          else
-            ELF_NAME="app.elf"
-          fi
-          ARGS="${ARGS} -e \"${ELF_NAME}\""
-
-          # Extra build flags
-          APP_FLAGS=$(jq --arg name "${{ matrix.repo_info.repo_name }}" -r '.[] | select(.name == $name) | .test_flags' ledger-app-tester/input_files/test_info.json)
-          if [ "${APP_FLAGS}" != null ] && [ -n "${APP_FLAGS}" ]; then
-            echo "Found Test flags: ${APP_FLAGS}"
-            ARGS="${ARGS} -f \"${APP_FLAGS}\""
           fi
 
           echo "CMD_ARGS=${ARGS}" >> "$GITHUB_ENV"
@@ -121,47 +101,14 @@ jobs:
             done
           fi
 
-      - name: Run NanoS+
+      - name: Run Test
         if: ${{ always() && (steps.prepare_test.outcome == 'success') }}
-        id: run_nanos2
+        id: run_test
         run: |
           # shellcheck disable=SC2086
-          ./ledger-app-tester/scripts/test_app.sh -t nanosp ${{ env.CMD_ARGS}}
-      - name: Check failure NanoS+
-        if: ${{ always() && (steps.run_nanos2.outcome == 'skipped') }}
-        run: |
-          echo -n "|:construction:" >> test_status_${{ matrix.repo_info.repo_name }}.md
-
-      - name: Run NanoX
-        if: ${{ always() && (steps.prepare_test.outcome == 'success') }}
-        id: run_nanox
-        run: |
-          # shellcheck disable=SC2086
-          ./ledger-app-tester/scripts/test_app.sh -t nanox ${{ env.CMD_ARGS}}
-      - name: Check failure NanoX
-        if: ${{ always() && (steps.run_nanox.outcome == 'skipped') }}
-        run: |
-          echo -n "|:construction:" >> test_status_${{ matrix.repo_info.repo_name }}.md
-
-      - name: Run Stax
-        if: ${{ always() && (steps.prepare_test.outcome == 'success') }}
-        id: run_stax
-        run: |
-          # shellcheck disable=SC2086
-          ./ledger-app-tester/scripts/test_app.sh -t stax ${{ env.CMD_ARGS}}
-      - name: Check failure Stax
-        if: ${{ always() && (steps.run_stax.outcome == 'skipped') }}
-        run: |
-          echo -n "|:construction:" >> test_status_${{ matrix.repo_info.repo_name }}.md
-
-      - name: Run Flex
-        if: ${{ always() && (steps.prepare_test.outcome == 'success') }}
-        id: run_flex
-        run: |
-          # shellcheck disable=SC2086
-          ./ledger-app-tester/scripts/test_app.sh -t flex ${{ env.CMD_ARGS}}
-      - name: Check failure Flex
-        if: ${{ always() && (steps.run_flex.outcome == 'skipped') }}
+          ./ledger-app-tester/scripts/test_app.sh ${{ env.CMD_ARGS}}
+      - name: Check Test failure
+        if: ${{ always() && (steps.run_test.outcome == 'skipped') }}
         run: |
           echo -n "|:construction:" >> test_status_${{ matrix.repo_info.repo_name }}.md
 

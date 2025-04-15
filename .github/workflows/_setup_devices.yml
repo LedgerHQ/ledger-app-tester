@@ -3,26 +3,11 @@ name: Define targeted devices list
 on:
   workflow_call:
     inputs:
-      with_nanosp:
-        description: Request to target Nanos+
-        type: boolean
+      run_for_devices:
+        description: The list of device(s) to target. Defaults to 'All'
         required: false
-        default: true
-      with_nanox:
-        description: Request to target Nanox
-        type: boolean
-        required: false
-        default: true
-      with_stax:
-        description: Request to target Stax
-        type: boolean
-        required: false
-        default: true
-      with_flex:
-        description: Request to target Flex
-        type: boolean
-        required: false
-        default: true
+        default: 'All'
+        type: string
     outputs:
       devices_config:
         description: The list of devices to build for
@@ -42,21 +27,14 @@ jobs:
 
       - name: Define the list of devices to target
         id: devices_list
+        shell: bash
         run: |
-          ARGS=(-e "${{ github.event_name}}" -o devices_config)
-          if [ "${{ inputs.with_nanosp }}" = 'true' ]; then
-            ARGS+=(--nanosp)
+          if [ "${{ inputs.run_for_devices }}" = "All" ]; then
+            run_for_devices=$(jq -r '.[0].devices | join (" ")' "input_files/devices_list.json")
+          else
+            run_for_devices="${{ inputs.run_for_devices }}"
           fi
-          if [ "${{ inputs.with_nanox }}" = 'true' ]; then
-            ARGS+=(--nanox)
-          fi
-          if [ "${{ inputs.with_stax }}" = 'true' ]; then
-            ARGS+=(--stax)
-          fi
-          if [ "${{ inputs.with_flex }}" = 'true' ]; then
-            ARGS+=(--flex)
-          fi
-          ./scripts/setup_devices.py "${ARGS[@]}"
+          echo "devices_config=${run_for_devices}" >> "$GITHUB_OUTPUT"
 
       - name: Print devices
         run: |

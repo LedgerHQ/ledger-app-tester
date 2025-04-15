@@ -19,7 +19,6 @@
       "app-solana",
       "app-tron",
       "app-u2f",
-      "app-xah",
       "app-xrp"
     ],
     "check blacklist": [],
@@ -37,7 +36,6 @@
       "app-security-key",
       "app-solana",
       "app-u2f",
-      "app-xah",
       "app-xrp"
     ],
      "test blacklist": [],
@@ -47,6 +45,7 @@
       "app-bitcoin-clone-boilerplate",
       "app-bitcoin-new",
       "app-boilerplate",
+      "app-boilerplate-rust",
       "app-btcext-boilerplate",
       "app-cardano",
       "app-ethereum",
@@ -60,7 +59,6 @@
       "app-solana",
       "app-tron",
       "app-u2f",
-      "app-xah",
       "app-xrp"
     ],
     "scan blacklist": [],
