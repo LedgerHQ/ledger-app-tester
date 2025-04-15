@@ -72,8 +72,9 @@ jobs:
 
       - name: Send custom JSON data to Slack
         if: ${{ github.event_name == 'schedule' || inputs.send_to_slack == true }}
-        uses: slackapi/slack-github-action@v1.24.0
+        uses: slackapi/slack-github-action@v2
         with:
           payload-file-path: slack.json
+          webhook-type: 'incoming-webhook'
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_APP_TESTER }}
