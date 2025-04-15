@@ -68,18 +68,18 @@ flowchart LR
 
 Each devices to target is initialized with the following steps:
 
-1. If the workflow trigger is _schedule_ or _pull_request_, select all available devices.
-2. Else, if the input parameters target a device, then select it.
-3. This is computed thanks to:
-    - [_setup_devices.yml](../.github/workflows/_setup_devices.yml), calling that dedicated script
-    - [setup_devices.py](../scripts/setup_devices.py), allowing to correctly format the devices list
-      and automatically set the appropriate variable in `GITHUB_OUTPUT`.
+If the workflow trigger is _schedule_ or _pull_request_, select all available devices.
+Else, use the device(s) selected by the input parameters.
+
+This is computed thanks to the workflow [_setup_devices.yml](../.github/workflows/_setup_devices.yml),
+  using the input file [devices_list.json](../input_files/devices_list.json)
+  which automatically set the appropriate variable in `GITHUB_OUTPUT`.
 
 ### Apps Selection
 
 Here, we define which apps we want/need to test.
 This is computed thanks to [_setup_apps.yml](../.github/workflows/_setup_apps.yml),
-using the input file [test_lists.json](../input_files/test_lists.json),
+using the input file [apps_lists.json](../input_files/apps_lists.json),
 and setting the appropriate variables in `GITHUB_OUTPUT`.
 
 ## Building All Apps
@@ -346,6 +346,8 @@ The test status are concatenated in a dedicated file, named `test_status_<app_na
 In case of error, incriminated devices are written in a dedicated file, named `test_errors_<app_name>.md`.
 
 All those files are then uploaded as GitHub artifacts.
+
+The _Test_ are configured thanks to the input file [test_info.json](../input_files/test_info.json).
 
 ## Checking All Apps
 

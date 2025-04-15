@@ -28,10 +28,7 @@ The workflows accept few input parameters when executed manually:
 - SDK reference to be used (default is `master` for the Build, and the `HEAD` of `API_LEVEL` for the Test).
 - Request to send the result on Slack (dedicated channel `#embedded-apps-tester`).
 
-Also, some configuration files are available in the directory `input_files`:
-
-- `test_lists.json`: List of _Whitelist_ and _Blacklist_ Apps for each test.
-- `test_info.json`: List of config for the _ragger_ tests execution.
+Also, some configuration files are available in the directory `input_files`: See [Configuration files](#configuration-files)
 
 ## Workflows Configuration
 
@@ -45,15 +42,93 @@ Each workflow is executed independently, with its own schedule (thanks to `cron`
 
 ### SDK Reference
 
-The SDK reference (branch) used differ from one task to another:
+The SDK reference (branch) used differ from one operation to another.
+The default configuration, used for scheduled triggering:
 
-- ___Build___ & ___Scan___:
-  - Manual trigger: The user enters manually the reference. Default is `master`.
-  - Automatic: The reference is `master`.
-- ___Test___:
-  - Manual trigger: The user enters manually the reference. Default is `master`.
-  - Automatic: The reference is retrieved automatically from the SDK repository,
-    and set to the _latest_ available for each device.
+- ___Build___: `master` branch
+- ___Scan___: `HEAD` of `API_LEVEL_xx` branch  (excluding `-rc`).
+- ___Test___: Default SDK per device, directly from the docker container.
+- ___Check___: Use the `master` branch of the SDK.
+
+### Configuration files
+
+Some parameters are configured thanks to json files, stored in the directory  [input_files](../input_files/).
+
+#### Apps configuration
+
+The Apps are configured in the file [apps_lists.json](../input_files/apps_lists.json).
+
+Here, we define _Whitelist_ and _Blacklist_, for each operations. In each case, we just list the apps we want to setup:
+
+```json
+[
+  {
+    "check whitelist": [
+      "app-boilerplate",
+    ],
+    "check blacklist": [],
+
+    "test whitelist": [
+      "app-boilerplate",
+    ],
+     "test blacklist": [],
+
+   "scan whitelist": [
+      "app-boilerplate",
+     ],
+    "scan blacklist": [],
+
+    "build whitelist": [],
+    "build blacklist": ["app-pocket"]
+  }
+]
+```
+
+#### Devices configuration
+
+The devices are configured in the file [devices_list.json](../input_files/devices_list.json).
+
+Here, we define the list of the default available devices that will be used on each operations.
+
+Also, for the __Check__ (_Guideline Enforcer_), we need to define 1 device, on which the _scan-build_ will be run.
+
+```json
+[
+  {
+    "devices": ["nanos+", "nanox", "stax", "flex"]
+  },
+  {
+    "device for check": "stax"
+  }
+]
+```
+
+#### Tests configuration
+
+The _ragger_ tests are configured in the file [test_info.json](../input_files/test_info.json).
+
+Here, we configure, when an App needs it
+
+- Additional _Build flags_, needed by the App to run the tests.
+- Additional _Test flags_, to be passed to `pytest`/`ragger` to execute the test.
+- _Dependencies_, which are additional apps, needed for a test (like plugins, libraries)
+
+```json
+[
+  {
+    "name": "app-boilerplate1",
+    "build_flags": "DEBUG=1"
+  },
+  {
+    "name": "app-plugin-boilerplate",
+    "dependencies": "app-ethereum"
+  },
+  {
+    "name": "app-boilerplate2",
+    "test_flags": "--fast"
+  }
+]
+```
 
 ### Adding a new device
 
