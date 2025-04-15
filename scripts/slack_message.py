@@ -10,6 +10,7 @@ import sys
 import json
 import logging
 import re
+from typing import Any
 from argparse import ArgumentParser, Namespace
 from utils import logging_init, logging_set_level, get_full_devices
 
@@ -75,6 +76,58 @@ def count_apps(filepath: str) -> int:
         return 0
 
 
+def prepare_slack_payload(args: Namespace, status: str, run_id: str, status_detail: str) -> dict:
+    """
+    Prepares a JSON payload for sending a Slack message using slackapi/slack-github-action@v2.
+
+    Args:
+        url: The URL to link to in the message.
+        title: The main title of the message.
+        status: A short status string (e.g., ":red-cross: Fail").
+        status_detail: A detailed string that might contain newlines for formatting.
+
+    Returns:
+        A JSON string representing the Slack message payload.
+    """
+
+    blocks: list[dict[str, Any]] = [
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": f"*{args.title} on [{', '.join(args.devices)}]*"
+            }
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": status
+            }
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": f"<https://github.com/LedgerHQ/ledger-app-tester/actions/runs/{run_id}|View on GitHub Actions>"
+            }
+        }
+    ]
+    if status_detail:
+        context_block = {
+            "type": "context",
+            "elements": [
+                {
+                    "type": "mrkdwn",
+                    "text": f"Failed for:\n{status_detail}"
+                }
+            ]
+        }
+        blocks.append(context_block)
+
+    return {"blocks": blocks}
+
+
 # ===============================================================================
 #          MAIN
 # ===============================================================================
@@ -106,14 +159,11 @@ def main() -> None:
     # Processing
     # ----------
     logging.info("Preparing JSON data with workflow result")
-    slack_json = {}
-    slack_json["title"] = f"{args.title} on [{', '.join(args.devices)}]"
-    slack_json["status"] = status
-    slack_json["url"] = f"https://github.com/LedgerHQ/ledger-app-tester/actions/runs/{run_id}"
+    content = ""
     if args.errors:
         with open(args.errors, encoding="utf-8") as f:
             content = f.read()
-        slack_json["status_detail"] = f"Failed for:\n{content}"
+    slack_json = prepare_slack_payload(args, status, run_id, content)
 
     logging.debug("JSON_DATA:\n%s", json.dumps(slack_json, indent=4))
 
