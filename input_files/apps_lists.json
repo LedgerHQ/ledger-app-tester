@@ -18,7 +18,6 @@
       "app-security-key",
       "app-solana",
       "app-tron",
-      "app-u2f",
       "app-xrp"
     ],
     "check blacklist": [],
@@ -35,7 +34,6 @@
       "app-recovery-check",
       "app-security-key",
       "app-solana",
-      "app-u2f",
       "app-xrp"
     ],
      "test blacklist": [],
@@ -58,7 +56,6 @@
       "app-security-key",
       "app-solana",
       "app-tron",
-      "app-u2f",
       "app-xrp"
     ],
     "scan blacklist": [],

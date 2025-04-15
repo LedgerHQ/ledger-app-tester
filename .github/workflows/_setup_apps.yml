@@ -31,7 +31,7 @@ jobs:
       - name: Get Whitelist Apps
         id: get_whitelist
         run: |
-          APP_ARRAY=$(jq --arg name "${{ inputs.mode }} whitelist" '.[] | .[$name]' input_files/test_lists.json)
+          APP_ARRAY=$(jq --arg name "${{ inputs.mode }} whitelist" '.[] | .[$name]' input_files/apps_lists.json)
           if [ "${APP_ARRAY}" != "null" ]; then
             # Check if the array has any elements
             if [[ $(echo "${APP_ARRAY}" | jq 'length') -gt 0 ]]; then
@@ -42,7 +42,7 @@ jobs:
       - name: Get Blacklist Apps
         id: get_blacklist
         run: |
-          APP_ARRAY=$(jq --arg name "${{ inputs.mode }} blacklist" '.[] | .[$name]' input_files/test_lists.json)
+          APP_ARRAY=$(jq --arg name "${{ inputs.mode }} blacklist" '.[] | .[$name]' input_files/apps_lists.json)
           if [ "${APP_ARRAY}" != "null" ]; then
             # Check if the array has any elements
             if [[ $(echo "${APP_ARRAY}" | jq 'length') -gt 0 ]]; then
