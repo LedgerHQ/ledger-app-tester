@@ -126,10 +126,7 @@ for target in ${ALL_DEVICES_LIST}; do
             if [[ -f "${FILE_ERROR}" ]]; then
                 echo -n ", ${TARGET_TEST}" >> "${FILE_ERROR}"
             else
-                {
-                    echo -e "\t• ${APP_NAME}"
-                    echo -e -n "\t\t${TARGET_TEST}"
-                } > "${FILE_ERROR}"
+                echo -e -n "\t• ${APP_NAME}: ${TARGET_TEST}" > "${FILE_ERROR}"
             fi
         else
             echo -n "|:white_check_mark:" >> "${FILE_STATUS}"
