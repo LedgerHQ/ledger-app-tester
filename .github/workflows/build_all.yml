@@ -59,7 +59,7 @@ jobs:
       run_for_devices: ${{ needs.devices_config.outputs.devices_config }}
       exclude_apps: ${{ needs.apps_config.outputs.blacklist }}
       only_apps: ${{ needs.apps_config.outputs.whitelist }}
-      with_variants: ${{ inputs.with_variants || true }}
+      with_variants: ${{ github.event_name == 'pull_request' || github.event_name == 'schedule' || inputs.with_variants }}
 
   build_artifacts:
     name: Build Artifacts
@@ -88,5 +88,6 @@ jobs:
     with:
       run_for_devices: ${{ needs.devices_config.outputs.devices_config }}
       total_apps: ${{ needs.execute_build.outputs.total_apps }}
+      missing_apps: ${{ needs.build_status.outputs.missing_apps }}
       title: "Build"
       send_to_slack: ${{ inputs.send_to_slack || false }}

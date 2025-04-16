@@ -90,5 +90,6 @@ jobs:
     with:
       run_for_devices: ${{ needs.devices_config.outputs.devices_config }}
       total_apps: ${{ needs.execute_build.outputs.total_apps }}
-      title: "Test"
+      missing_apps: ${{ needs.test_status.outputs.missing_apps }}
+      title: "Ragger Tests"
       send_to_slack: ${{ inputs.send_to_slack || false }}

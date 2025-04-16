@@ -82,5 +82,6 @@ jobs:
     with:
       run_for_devices: ${{ needs.devices_config.outputs.devices_config }}
       total_apps: ${{ needs.execute_scan.outputs.total_apps }}
-      title: "Scan"
+      missing_apps: ${{ needs.scan_status.outputs.missing_apps }}
+      title: "Scan-Build"
       send_to_slack: ${{ inputs.send_to_slack || false }}

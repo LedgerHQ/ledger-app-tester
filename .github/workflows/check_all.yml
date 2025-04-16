@@ -93,5 +93,6 @@ jobs:
     secrets: inherit
     with:
       total_apps: ${{ needs.execute_check.outputs.total_apps }}
-      title: "Check"
+      missing_apps: ${{ needs.check_status.outputs.missing_apps }}
+      title: "Guideline Enforcer"
       send_to_slack: ${{ inputs.send_to_slack || false }}
