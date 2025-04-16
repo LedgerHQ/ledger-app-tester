@@ -11,7 +11,7 @@ import sys
 from typing import List, Optional, Tuple
 from argparse import ArgumentParser, Namespace
 from github import Github
-from utils import logging_init, logging_set_level, set_gh_summary, get_full_devices
+from utils import logging_init, logging_set_level, set_gh_summary, set_gh_output, get_full_devices
 
 
 devices = get_full_devices()
@@ -40,6 +40,11 @@ def arg_parse() -> Namespace:
                         required=True,
                         type=str,
                         help="Error output file.")
+    parser.add_argument("-m",
+                        "--missing",
+                        required=True,
+                        type=str,
+                        help="Output variable name for the Nb of Missing Apps.")
 
     parser.add_argument("-E",
                         "--Error",
@@ -339,6 +344,7 @@ def main() -> None:
     nb_apps_not_analyzed = args.total_apps - nb_apps_analyzed
     if nb_apps_not_analyzed != 0:
         set_gh_summary(f":warning: {nb_apps_not_analyzed} App(s) missing!!!\n<br>")
+    set_gh_output(args.missing, f"{nb_apps_not_analyzed}")
 
     # Generate full summary
     summary_report(nb_apps_error,

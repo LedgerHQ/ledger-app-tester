@@ -15,12 +15,19 @@ on:
         description: Total number of tested Apps.
         required: true
         type: string
+    outputs:
+      missing_apps:
+        description: Number of missing Apps in summary.
+        value: ${{ jobs.set_status.outputs.missing_apps }}
 
 
 jobs:
   set_status:
     name: Status
     runs-on: ubuntu-latest
+    outputs:
+      missing_apps: ${{ steps.results.outputs.missing_apps }}
+
     steps:
       - name: Clone Repo
         uses: actions/checkout@v4
@@ -65,9 +72,10 @@ jobs:
           name: ${{ inputs.mode }}_errors_all
 
       - name: Display Results
+        id: results
         run: |
           ARGS=(-t "${{ inputs.total_apps }}" -j ${{ inputs.job_name }} -o apps_errors.md)
-          ARGS+=(-E error)
+          ARGS+=(-m missing_apps -E error)
           if [ "${{ inputs.mode }}" = "check" ]; then
             ARGS+=(-C check_status)
           else
