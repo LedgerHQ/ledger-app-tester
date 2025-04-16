@@ -48,6 +48,7 @@ jobs:
     name: Scan All apps
     needs: [devices_config, apps_config]
     uses: ./.github/workflows/_build_app.yml
+    secrets: inherit
     with:
       mode: "scan"
       sdk_reference: ${{ inputs.sdk_reference }}
