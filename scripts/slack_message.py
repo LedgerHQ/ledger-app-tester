@@ -30,6 +30,11 @@ def arg_parse() -> Namespace:
                         required=True,
                         type=str,
                         help="Message title.")
+    parser.add_argument("-m",
+                        "--missing",
+                        required=True,
+                        type=str,
+                        help="Nb of Missing Apps in summary.")
     parser.add_argument("-e",
                         "--errors",
                         required=False,
@@ -43,7 +48,6 @@ def arg_parse() -> Namespace:
                         "--devices",
                         nargs="+",
                         required=False,
-                        default=["all"],
                         type=str,
                         choices=sorted(devices + ["nanosp", "all"]),
                         help="List of devices to filter on. "
@@ -81,8 +85,7 @@ def prepare_slack_payload(args: Namespace, status: str, run_id: str, status_deta
     Prepares a JSON payload for sending a Slack message using slackapi/slack-github-action@v2.
 
     Args:
-        url: The URL to link to in the message.
-        title: The main title of the message.
+        args: The command line arguments containing the title, devices, and other parameters.
         status: A short status string (e.g., ":red-cross: Fail").
         status_detail: A detailed string that might contain newlines for formatting.
 
@@ -90,12 +93,17 @@ def prepare_slack_payload(args: Namespace, status: str, run_id: str, status_deta
         A JSON string representing the Slack message payload.
     """
 
+    title = f"*{args.title}*"
+    if args.devices:
+        title += f" on [{', '.join(args.devices)}]"
+    url = f"<https://github.com/LedgerHQ/ledger-app-tester/actions/runs/{run_id}|View {args.title} on GitHub>"
+
     blocks: list[dict[str, Any]] = [
         {
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": f"*{args.title} on [{', '.join(args.devices)}]*"
+                "text": title
             }
         },
         {
@@ -109,7 +117,7 @@ def prepare_slack_payload(args: Namespace, status: str, run_id: str, status_deta
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": f"<https://github.com/LedgerHQ/ledger-app-tester/actions/runs/{run_id}|View on GitHub Actions>"
+                "text": url
             }
         }
     ]
@@ -153,6 +161,8 @@ def main() -> None:
     if args.errors:
         fail_count = count_apps(args.errors)
         status = f":red-cross: Fail for {fail_count} / {args.nb} Apps"
+    elif args.missing and int(args.missing) > 0:
+        status = f":rotating_light: Missing {args.missing} Apps in summary"
     else:
         status = ":large_green_circle: Success"
 

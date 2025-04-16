@@ -15,6 +15,10 @@ on:
         description: Total number of analyzed Apps.
         required: true
         type: string
+      missing_apps:
+        description: Total number of missing Apps.
+        required: true
+        type: string
       send_to_slack:
         description: Send the result on Slack.
         type: boolean
@@ -53,7 +57,7 @@ jobs:
       - name: Convert to Slack Json
         id: slack_msg
         run: |
-          ARGS=(--json slack.json --title "${{ inputs.title }}")
+          ARGS=(--json slack.json --title "${{ inputs.title }}" -m "${{ inputs.missing_apps }}")
           if [ -n "${{ inputs.run_for_devices }}" ]; then
             ARGS+=(-d ${{ inputs.run_for_devices }})
           fi
