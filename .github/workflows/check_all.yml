@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       default_all_apps:
-        description: Run on All Apps (default is defined Whitelist & Blacklist).
+        description: Run on All Apps (default is the predefined Whitelist & Blacklist).
         type: boolean
         required: false
         default: false
@@ -24,7 +24,7 @@ on:
         required: false
         default: 'stax'
       send_to_slack:
-        description: Request to send the result on Slack.
+        description: Send the result on Slack.
         type: boolean
         required: false
         default: false

@@ -9,22 +9,17 @@ on:
   workflow_dispatch:
     inputs:
       default_all_apps:
-        description: Run on All Apps (default is defined Whitelist & Blacklist).
+        description: Run on All Apps (default is the predefined Whitelist & Blacklist).
         type: boolean
         required: false
         default: false
-      sdk_ref:
-        description: The SDK branch or sha1 to build against.
-        type: string
-        required: false
-        default: 'master'
       run_for_devices:
-        description: The list of device(s) to target. Defaults to 'All'
+        description: List of device(s) to target. Defaults to 'All'
         required: false
         default: 'All'
         type: string
       send_to_slack:
-        description: Request to send the result on Slack.
+        description: Send the result on Slack.
         type: boolean
         required: false
         default: false
@@ -50,7 +45,6 @@ jobs:
     uses: ./.github/workflows/_build_app.yml
     with:
       mode: "test"
-      sdk_branch: ${{ inputs.sdk_ref }}
       run_for_devices: ${{ needs.devices_config.outputs.devices_config }}
       exclude_apps: ${{ needs.apps_config.outputs.blacklist }}
       only_apps: ${{ needs.apps_config.outputs.whitelist }}
