@@ -26,7 +26,7 @@ The workflows accept few input parameters when executed manually:
 
 - Device(s) to target.
 - SDK reference to be used (default is `master` for the Build, and the `HEAD` of `API_LEVEL` for the Test).
-- Request to send the result on Slack (dedicated channel `#embedded-apps-tester`).
+- Send the result on Slack (dedicated channel `#embedded-apps-tester`).
 
 Also, some configuration files are available in the directory `input_files`: See [Configuration files](#configuration-files)
 
@@ -49,6 +49,8 @@ The default configuration, used for scheduled triggering:
 - ___Scan___: `HEAD` of `API_LEVEL_xx` branch  (excluding `-rc`).
 - ___Test___: Default SDK per device, directly from the docker container.
 - ___Check___: Use the `master` branch of the SDK.
+
+> __Note__: When triggering manually the __Test__, the default branch is `API_LEVEL_22`.
 
 ### Configuration files
 

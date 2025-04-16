@@ -7,12 +7,12 @@ on:
         description: Indicate if we are in build, scan or test.
         type: string
         required: true
-      sdk_branch:
+      sdk_reference:
         description: The SDK branch to build against. Defaults to `master`.
         required: false
         type: string
       run_for_devices:
-        description: The list of device(s) to target. Defaults to 'All'.
+        description: List of device(s) to target. Defaults to 'All'.
         required: false
         default: 'All'
         type: string
@@ -29,7 +29,7 @@ on:
         default: ""
         type: string
       with_variants:
-        description: Request to build all known variants.
+        description: Build for all known variants.
         type: boolean
         required: false
         default: false
@@ -140,8 +140,8 @@ jobs:
           ARGS="${ARGS} -m ${{ inputs.mode }}"
 
           # Check if the SDK branch is set
-          if [ -n "${{ inputs.sdk_branch }}" ]; then
-            ARGS="${ARGS} -s ${{ inputs.sdk_branch }}"
+          if [ -n "${{ inputs.sdk_reference }}" ]; then
+            ARGS="${ARGS} -s ${{ inputs.sdk_reference }}"
           fi
 
           # Variants

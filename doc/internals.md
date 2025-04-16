@@ -71,37 +71,49 @@ Each devices to target is initialized with the following steps:
 If the workflow trigger is _schedule_ or _pull_request_, select all available devices.
 Else, use the device(s) selected by the input parameters.
 
-This is computed thanks to the workflow [_setup_devices.yml](../.github/workflows/_setup_devices.yml),
-  using the input file [devices_list.json](../input_files/devices_list.json)
-  which automatically set the appropriate variable in `GITHUB_OUTPUT`.
+This is computed thanks to the workflow [_setup_devices.yml](../.github/workflows/_setup_devices.yml).  
+This workflow uses the following input parameter:
+
+- `run_for_devices`: The list of devices to target.
+
+This workflow returns the following output value:
+
+- `devices_config`: Json data with all Apps configuration.
+
+This workflow uses the input file [devices_list.json](../input_files/devices_list.json)
+and sets the appropriate variable in `GITHUB_OUTPUT`.
 
 ### Apps Selection
 
 Here, we define which apps we want/need to test.
-This is computed thanks to [_setup_apps.yml](../.github/workflows/_setup_apps.yml),
-using the input file [apps_lists.json](../input_files/apps_lists.json),
-and setting the appropriate variables in `GITHUB_OUTPUT`.
+This is computed thanks to [_setup_apps.yml](../.github/workflows/_setup_apps.yml).  
+This workflow uses the following input parameter:
+
+- `mode`: Indicate if we are in _build_, _scan_ or _test_.
+
+This workflow returns the following output values:
+
+- `whitelist`: The Applications to whitelist.
+- `blacklist`: The Applications to blacklist.
+
+This workflo uses the input file [apps_lists.json](../input_files/apps_lists.json),
+and sets the appropriate variables in `GITHUB_OUTPUT`.
 
 ## Building All Apps
 
-Building the Apps is done thanks to a dedicated internal workflow [_build_app.yml](../.github/workflows/_build_app.yml).
+Building the Apps is done thanks to a dedicated internal workflow [_build_app.yml](../.github/workflows/_build_app.yml).  
 This workflow uses the following input parameters:
 
 - `mode`: Indicate if we are in _build_, _scan_ or _test_.
-- `sdk_branch`: The SDK branch to build against.
-- `run_for_devices`: The list of devices to target.
+- `sdk_reference`: The SDK reference (branch or sha1) to be used for the build.
+- `run_for_devices`: List of device(s) to target.
 - `exclude_apps`: List of application names to exclude from the build.
 - `only_apps`: List of application names to include in the build.
-- `with_variants`: Request to build all known variants.
+- `with_variants`: Build for all known variants.
 
 This workflow returns the following output value:
 
 - `total_apps`: Total number of selected Apps
-
-> **Notes**:
->
-> - The SDK type is defined like this: `C` for _Scan_, and `All` for other cases.
-> - The SDK branch, unless specified in input, is `master`
 
 ### Apps List
 
@@ -113,12 +125,12 @@ The result is a Json data which looks like:
 ```json
 [
   {
-    repo_name: app-boilerplate,
-    sdk: c,
-    devices: [flex, nanos+, nanox, stax],
-    build_directory: ./,
-    variant_param: COIN,
-    COIN, variants_values: [BOL]
+    "repo_name": "app-boilerplate",
+    "sdk": "c",
+    "devices": ["flex", "nanos+", "nanox", "stax"],
+    "build_directory": "./",
+    "variant_param": "COIN",
+    "variants_values": ["BOL"]
   }
 ]
 ```
@@ -197,7 +209,11 @@ flowchart LR
     L -->A --> M --> D
 ```
 
-This operation is done by a dedicated internal workflow [_artifacts.yml](../.github/workflows/_artifacts.yml).
+This operation is done by a dedicated internal workflow [_artifacts.yml](../.github/workflows/_artifacts.yml).  
+This workflow uses the following input parameter:
+
+- `mode`: Indicate if we are in _build_ or _test_.
+
 The steps consist in:
 
 - Merging the different `build_status_<app_name>.md` into a unique archive `build_status_all`.
@@ -239,13 +255,16 @@ flowchart LR
     R --> U
 ```
 
-This is done by a dedicated internal workflow [_status.yml](../.github/workflows/_status.yml).
-This workflow uses a single input parameter:
+This is done by a dedicated internal workflow [_status.yml](../.github/workflows/_status.yml).  
+This workflow uses a single input parameters:
 
 - `mode`: Indicate if we are in _build_ or _test_.
 - `job_name`: Substring to check in jobs to get the URL (_Build_ or _Scan_).
 - `total_apps`: Total number of tested Apps.
-- `exclude_apps`: List of excluded Apps.
+
+This workflow returns the following output value:
+
+- `missing_apps`: Number of missing Apps in summary
 
 After cloning the app-tester and installing few dependencies, the following steps are executed:
 
@@ -264,9 +283,10 @@ This is done by a dedicated internal workflow [_slack_message.yml](../.github/wo
 This workflow uses different input parameters:
 
 - `title`: Title of the message.
-- `run_for_devices`: The list of analyzed devices.
+- `run_for_devices`: List of analyzed devices.
 - `total_apps`: Total number of tested Apps.
-- `send_to_slack`: Request to send the result on Slack.
+- `missing_apps`: Total number of missing Apps.
+- `send_to_slack`: Send the result on Slack.
 
 Despite there is an input parameter (`send_to_slack`), these steps are still executed,
 allowing to prepare (and check) the message.
@@ -324,7 +344,8 @@ Thus, that means other operations are the same as the _Build_ case, and won't be
 
 > **Note**: The SDK branch, unless specified in input, is the default one in the container for the targeted device
 
-These operations are performed by [_test_app.yml](../.github/workflows/_test_app.yml).
+These operations are performed by [_test_app.yml](../.github/workflows/_test_app.yml).  
+This workflow doesn't take any input parameters.
 
 ### Apps List
 
@@ -371,7 +392,7 @@ flowchart LR
     A --> C1 & C2 --> P --> R --> S
 ```
 
-The operations are thanks to a dedicated internal workflow [_check_app.yml](../.github/workflows/_check_app.yml).
+The operations are thanks to a dedicated internal workflow [_check_app.yml](../.github/workflows/_check_app.yml).  
 This workflow uses the following input parameters:
 
 - `exclude_apps`: List of application names to exclude from the build.

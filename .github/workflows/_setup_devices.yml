@@ -4,13 +4,13 @@ on:
   workflow_call:
     inputs:
       run_for_devices:
-        description: The list of device(s) to target. Defaults to 'All'
+        description: List of device(s) to target. Defaults to 'All'
         required: false
         default: 'All'
         type: string
     outputs:
       devices_config:
-        description: The list of devices to build for
+        description: List of device(s) to build for.
         value: ${{ jobs.define_devices.outputs.devices_config }}
 
 
