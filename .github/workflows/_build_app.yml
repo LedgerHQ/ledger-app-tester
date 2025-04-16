@@ -39,10 +39,6 @@ on:
         value: ${{ jobs.define_apps.outputs.total_apps }}
 
 
-env:
-  DEF_API_LEVEL: 22
-
-
 jobs:
   define_apps:
     name: Get applications list
@@ -75,7 +71,7 @@ jobs:
 
           ./scripts/parse_all_apps.py "${ARGS[@]}"
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.CI_BOT_TOKEN }}
 
       - name: Print matrix
         shell: bash
@@ -128,6 +124,7 @@ jobs:
           repository: LedgerHQ/${{ matrix.repo_info.repo_name }}
           path: ${{ matrix.repo_info.repo_name }}
           submodules: true
+          token: ${{ secrets.CI_BOT_TOKEN }}
 
       - name: Prepare test conditions
         id: prepare_test
@@ -160,8 +157,10 @@ jobs:
           ./ledger-app-tester/scripts/build_app.sh ${{ env.CMD_ARGS}}
       - name: Check Build failure
         if: ${{ always() && (steps.run_build.outcome == 'skipped') }}
+        shell: bash
         run: |
           echo -n "|:construction:" >> build_status_${{ matrix.repo_info.repo_name }}.md
+          echo -e -n "\t• ${{ matrix.repo_info.repo_name }}: All" >> build_errors_${{ matrix.repo_info.repo_name }}.md
 
       - name: Archive Status
         if: always()
