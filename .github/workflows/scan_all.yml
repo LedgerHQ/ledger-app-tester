@@ -23,6 +23,11 @@ on:
         required: false
         default: 'All'
         type: string
+      with_variants:
+        description: Scan all known variants.
+        type: boolean
+        required: false
+        default: false
       send_to_slack:
         description: Send the result on Slack.
         type: boolean
@@ -55,6 +60,7 @@ jobs:
       run_for_devices: ${{ needs.devices_config.outputs.devices_config }}
       exclude_apps: ${{ needs.apps_config.outputs.blacklist }}
       only_apps: ${{ needs.apps_config.outputs.whitelist }}
+      with_variants: ${{ inputs.with_variants || false }}
 
   scan_artifacts:
     name: Scan Artifacts
