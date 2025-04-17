@@ -23,6 +23,18 @@ on:
         type: boolean
         required: false
         default: false
+  workflow_call:
+    inputs:
+      default_all_apps:
+        description: Run on All Apps (default is the predefined Whitelist & Blacklist).
+        type: boolean
+        required: false
+        default: false
+      run_for_devices:
+        description: List of device(s) to target. Defaults to 'All'
+        required: false
+        default: 'All'
+        type: string
 
 
 jobs:
