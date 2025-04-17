@@ -44,6 +44,7 @@ jobs:
 
       - name: Download Build Status artifact
         if: inputs.mode != 'check'
+        id: download_build_status
         uses: actions/download-artifact@v4
         with:
           path: build_status
@@ -72,19 +73,26 @@ jobs:
           name: ${{ inputs.mode }}_errors_all
 
       - name: Display Results
+        if: always()
         id: results
+        shell: bash
         run: |
-          ARGS=(-t "${{ inputs.total_apps }}" -j ${{ inputs.job_name }} -o apps_errors.md)
-          ARGS+=(-m missing_apps -E error)
-          if [ "${{ inputs.mode }}" = "check" ]; then
-            ARGS+=(-C check_status)
-          else
-            ARGS+=(-B build_status)
-            if [ "${{ inputs.mode }}" = "test" ]; then
-              ARGS+=(-T test_status)
+          if [[ ${{ steps.download_build_status.outcome }} != 'failure' ]]; then
+            ARGS=(-t "${{ inputs.total_apps }}" -j ${{ inputs.job_name }} -o apps_errors.md)
+            ARGS+=(-m missing_apps -E error)
+            if [ "${{ inputs.mode }}" = "check" ]; then
+              ARGS+=(-C check_status)
+            else
+              ARGS+=(-B build_status)
+              if [ "${{ inputs.mode }}" = "test" ]; then
+                ARGS+=(-T test_status)
+              fi
             fi
+            scripts/summary.py "${ARGS[@]}"
+          else
+            echo -e ":rotating_light: No Status file found:rotating_light:\n:no_entry_sign: Errors during workflow execution!" >> "$GITHUB_STEP_SUMMARY"
+            echo "missing_apps=All" >> "$GITHUB_OUTPUT"
           fi
-          scripts/summary.py "${ARGS[@]}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_RUN_ID: ${{ github.run_id }}

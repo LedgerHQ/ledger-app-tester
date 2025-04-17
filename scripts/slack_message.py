@@ -80,6 +80,9 @@ def count_apps(filepath: str) -> int:
         return 0
 
 
+# ===============================================================================
+#          Prepare the Slack payload content
+# ===============================================================================
 def prepare_slack_payload(args: Namespace, status: str, run_id: str, status_detail: str) -> dict:
     """
     Prepares a JSON payload for sending a Slack message using slackapi/slack-github-action@v2.
@@ -161,7 +164,7 @@ def main() -> None:
     if args.errors:
         fail_count = count_apps(args.errors)
         status = f":red-cross: Fail for {fail_count} / {args.nb} Apps"
-    elif args.missing and int(args.missing) > 0:
+    elif args.missing and args.missing != "0":
         status = f":rotating_light: Missing {args.missing} Apps in summary"
     else:
         status = ":large_green_circle: Success"

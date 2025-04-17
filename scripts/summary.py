@@ -211,6 +211,7 @@ def status_report(report_file: str,
         if app_status in ("|:x:", "|:construction:"):
             # Only a single fail on the 1st step
             app_status += f"{'|:black_circle:' * len(added_hdr)}"
+            nb_errors += len(added_hdr)
 
         # Extract app name from file name
         app_name = os.path.splitext(os.path.basename(fname.split("_")[-1]))[0]
