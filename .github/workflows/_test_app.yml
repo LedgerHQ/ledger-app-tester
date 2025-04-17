@@ -55,7 +55,7 @@ jobs:
         with:
           repository: LedgerHQ/${{ matrix.repo_info.repo_name }}
           path: ${{ matrix.repo_info.repo_name }}
-          submodules: true
+          submodules: recursive
           token: ${{ secrets.CI_BOT_TOKEN }}
 
       - name: Download Binaries artifact
