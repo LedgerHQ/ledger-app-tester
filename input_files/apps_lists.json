@@ -61,6 +61,10 @@
     "scan blacklist": [],
 
     "build whitelist": [],
-    "build blacklist": ["app-pocket"]
+    "build blacklist": [
+      "app-condor",
+      "app-display-bleeding",
+      "app-pocket"
+    ]
   }
 ]
