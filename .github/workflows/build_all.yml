@@ -33,6 +33,28 @@ on:
         type: boolean
         required: false
         default: false
+  workflow_call:
+    inputs:
+      default_all_apps:
+        description: Run on All Apps (default is the predefined Whitelist & Blacklist).
+        type: boolean
+        required: false
+        default: false
+      sdk_reference:
+        description: The SDK reference for the build.
+        type: string
+        required: false
+        default: 'master'
+      run_for_devices:
+        description: List of device(s) to target. Defaults to 'All'
+        required: false
+        default: 'All'
+        type: string
+      with_variants:
+        description: Build for all known variants.
+        type: boolean
+        required: false
+        default: false
 
 
 jobs:
@@ -53,6 +75,7 @@ jobs:
     name: Build All apps
     needs: [devices_config, apps_config]
     uses: ./.github/workflows/_build_app.yml
+    secrets: inherit
     with:
       mode: "build"
       sdk_reference: ${{ inputs.sdk_reference }}

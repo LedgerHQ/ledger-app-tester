@@ -55,7 +55,8 @@ jobs:
         with:
           repository: LedgerHQ/${{ matrix.repo_info.repo_name }}
           path: ${{ matrix.repo_info.repo_name }}
-          submodules: true
+          submodules: recursive
+          token: ${{ secrets.CI_BOT_TOKEN }}
 
       - name: Download Binaries artifact
         uses: actions/download-artifact@v4
@@ -109,8 +110,10 @@ jobs:
           ./ledger-app-tester/scripts/test_app.sh ${{ env.CMD_ARGS}}
       - name: Check Test failure
         if: ${{ always() && (steps.run_test.outcome == 'skipped') }}
+        shell: bash
         run: |
           echo -n "|:construction:" >> test_status_${{ matrix.repo_info.repo_name }}.md
+          echo -e "\t• ${{ matrix.repo_info.repo_name }}: All" >> test_errors_${{ matrix.repo_info.repo_name }}.md
 
       - name: Archive Status
         if: always()

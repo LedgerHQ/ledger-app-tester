@@ -62,6 +62,7 @@ jobs:
     name: Check All apps
     needs: [device_config, apps_config]
     uses: ./.github/workflows/_check_app.yml
+    secrets: inherit
     with:
       exclude_apps: ${{ needs.apps_config.outputs.blacklist }}
       only_apps: ${{ needs.apps_config.outputs.whitelist }}

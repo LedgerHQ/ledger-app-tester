@@ -23,6 +23,18 @@ on:
         type: boolean
         required: false
         default: false
+  workflow_call:
+    inputs:
+      default_all_apps:
+        description: Run on All Apps (default is the predefined Whitelist & Blacklist).
+        type: boolean
+        required: false
+        default: false
+      run_for_devices:
+        description: List of device(s) to target. Defaults to 'All'
+        required: false
+        default: 'All'
+        type: string
 
 
 jobs:
@@ -43,6 +55,7 @@ jobs:
     name: Build All apps
     needs: [devices_config, apps_config]
     uses: ./.github/workflows/_build_app.yml
+    secrets: inherit
     with:
       mode: "test"
       run_for_devices: ${{ needs.devices_config.outputs.devices_config }}
@@ -62,6 +75,7 @@ jobs:
     if: always()
     needs: [build_artifacts]
     uses: ./.github/workflows/_test_app.yml
+    secrets: inherit
 
   test_artifacts:
     name: Test Artifacts

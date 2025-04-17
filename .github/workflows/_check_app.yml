@@ -56,7 +56,7 @@ jobs:
 
           ./scripts/parse_all_apps.py "${ARGS[@]}"
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.CI_BOT_TOKEN }}
 
       - name: Print matrix
         run: |
@@ -97,7 +97,8 @@ jobs:
         with:
           repository: LedgerHQ/${{ matrix.repo_info.repo_name }}
           path: ${{ matrix.repo_info.repo_name }}
-          submodules: true
+          submodules: recursive
+          token: ${{ secrets.CI_BOT_TOKEN }}
 
       - name: Prepare test conditions
         id: prepare_test
@@ -118,8 +119,10 @@ jobs:
           ./ledger-app-tester/scripts/check_app.sh ${{ env.CMD_ARGS}}
       - name: Check failure
         if: ${{ always() && (steps.run_check.outcome == 'skipped') }}
+        shell: bash
         run: |
           echo -n "|:construction:" >> check_status_${{ matrix.repo_info.repo_name }}.md
+          echo -e "\t• ${{ matrix.repo_info.repo_name }}: All" >> check_errors_${{ matrix.repo_info.repo_name }}.md
 
       - name: Archive Status
         if: always()
