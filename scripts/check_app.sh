@@ -61,7 +61,6 @@ done
 
 [[ -z "${APP_DIR}" ]] && help "Error: Application directory not specified"
 [[ -z "${BUILD_DIR}" ]] && help "Error: Build directory not specified"
-[[ -z "${TARGET}" ]] && help "Error: TARGET not specified"
 
 FILE_STATUS="check_status_${APP_DIR}.md"
 FILE_ERROR="check_errors_${APP_DIR}.md"
@@ -72,17 +71,22 @@ FILE_ERROR="check_errors_${APP_DIR}.md"
 #
 #===============================================================================
 
-# Particular target name of Nanos+
-TARGET_BUILD="${TARGET/s+/sp}"
 # Prepare make arguments
-ARGS=(-a "$(readlink -f "${APP_DIR}")" -b "${BUILD_DIR} " -t "${TARGET_BUILD}")
+ARGS=(-a "$(readlink -f "${APP_DIR}")" -b "${BUILD_DIR}")
 [[ "${VERBOSE}" == "true" ]] && ARGS+=(-v)
 
-SDK="${TARGET_BUILD^^}_SDK"
-[[ "${VERBOSE}" == "true" ]] && echo "Selected SDK: ${SDK}"
+if [[ -n "${TARGET}" ]]; then
+    # Particular target name of Nanos+
+    TARGET_BUILD="${TARGET/s+/sp}"
+    SDK_PATH="${TARGET_BUILD^^}_SDK"
+    ARGS+=(-t "${TARGET_BUILD}")
+else
+    SDK_PATH="/opt/ledger-secure-sdk"
+fi
+[[ "${VERBOSE}" == "true" ]] && echo "Selected SDK: ${SDK_PATH}"
 # Check
 # shellcheck disable=SC2068
-(cd "${APP_DIR}" && BOLOS_SDK="${SDK}" /opt/enforcer.sh ${ARGS[@]})
+(cd "${APP_DIR}" && BOLOS_SDK="${SDK_PATH}" /opt/enforcer.sh ${ARGS[@]})
 ERR=$?
 
 if [[ ${ERR} -ne 0 ]]; then
