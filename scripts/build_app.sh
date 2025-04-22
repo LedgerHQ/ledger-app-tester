@@ -111,14 +111,15 @@ prepare_SDK() {
 
     # Prepare SDK branch
     SDK_PATH="/opt/ledger-secure-sdk"
+    git -C "${SDK_PATH}" fetch -q
     if [[ -n "${BRANCH}" ]]; then
         [[ "${VERBOSE}" == "true" ]] && echo "Selecting branch '${BRANCH}' in ${SDK_PATH}."
-        git -C ${SDK_PATH} checkout "${BRANCH}"
+        git -C "${SDK_PATH}" checkout "${BRANCH}"
     else
         case "${MODE}" in
             build)
                 [[ "${VERBOSE}" == "true" ]] && echo "Selecting branch 'master' in ${SDK_PATH}."
-                git -C ${SDK_PATH} checkout master
+                git -C "${SDK_PATH}" checkout master
                 ;;
             test)
                 # Using SDK from the container for the targeted device
@@ -135,11 +136,12 @@ prepare_SDK() {
                     BRANCH="API_LEVEL_${VAL}"
                     [[ "${VERBOSE}" == "true" ]] && echo "Selecting branch '${BRANCH}' in ${SDK_PATH}."
                 fi
-                git -C ${SDK_PATH} checkout "${BRANCH}"
+                git -C "${SDK_PATH}" checkout "${BRANCH}"
                 ;;
             *)    help "Error: Unknown mode ${MODE}" ;;
         esac
     fi
+    [[ "${MODE}" != "test" ]] && git -C "${SDK_PATH}" pull
 }
 
 #===============================================================================
