@@ -92,15 +92,10 @@ The devices are configured in the file [devices_list.json](../input_files/device
 
 Here, we define the list of the default available devices that will be used on each operations.
 
-Also, for the __Check__ (_Guideline Enforcer_), we need to define 1 device, on which the _scan-build_ will be run.
-
 ```json
 [
   {
     "devices": ["nanos+", "nanox", "stax", "flex"]
-  },
-  {
-    "device for check": "stax"
   }
 ]
 ```

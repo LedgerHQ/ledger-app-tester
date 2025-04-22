@@ -18,7 +18,7 @@ on:
       scan_device:
         description: Targeted device for scan.
         type: string
-        required: true
+        required: false
     outputs:
       total_apps:
         description: Total number of selected Apps.
@@ -65,7 +65,9 @@ jobs:
             echo ":dart: Workflow event: ${{ github.event_name }}"
               echo ":heavy_multiplication_x: Without Variants!"
             echo ":rocket: Nb Apps checked: ${{ steps.apps_list.outputs.total_apps }}"
-            echo ":sparkles: Selected device for Scan: ${{ inputs.scan_device }}"
+            if [ -n "${{ inputs.scan_device }}" ] && [ "${{ inputs.scan_device }}" != "all" ]; then
+              echo ":sparkles: Selected device for Scan: ${{ inputs.scan_device }}"
+            fi
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload Apps Config
@@ -105,7 +107,9 @@ jobs:
         run: |
           # Initial check args
           ARGS="-v -a ${{ matrix.repo_info.repo_name }}"
-          ARGS="${ARGS} -t ${{ inputs.scan_device }}"
+          if [ -n "${{ inputs.scan_device }}" ] && [ "${{ inputs.scan_device }}" != "all" ]; then
+            ARGS="${ARGS} -t ${{ inputs.scan_device }}"
+          fi
           ARGS="${ARGS} -b ${{ matrix.repo_info.build_directory }}"
 
           echo "CMD_ARGS=${ARGS}" >> "$GITHUB_ENV"
