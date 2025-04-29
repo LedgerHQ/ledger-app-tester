@@ -133,7 +133,7 @@ jobs:
           pip install --break-system-packages toml-cli ledgered
 
           # Initial build args
-          ARGS="-v -a ${{ matrix.repo_info.repo_name }}"
+          ARGS="-v -a ${{ matrix.repo_info.repo_name }} -d '${{ inputs.run_for_devices }}'"
           ARGS="${ARGS} -m ${{ inputs.mode }}"
 
           # Check if the SDK branch is set
