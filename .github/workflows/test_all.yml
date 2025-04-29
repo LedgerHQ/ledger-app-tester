@@ -13,6 +13,11 @@ on:
         type: boolean
         required: false
         default: false
+      sdk_reference:
+        description: The SDK reference for the build (ATTENTION - an SDK change impacts most probably the apps snapshots).
+        type: string
+        required: false
+        default: 'master'
       run_for_devices:
         description: List of device(s) to target. Defaults to 'All'
         required: false
@@ -30,6 +35,11 @@ on:
         type: boolean
         required: false
         default: false
+      sdk_reference:
+        description: The SDK reference for the build.
+        type: string
+        required: false
+        default: 'master'
       run_for_devices:
         description: List of device(s) to target. Defaults to 'All'
         required: false
@@ -58,6 +68,7 @@ jobs:
     secrets: inherit
     with:
       mode: "test"
+      sdk_reference: ${{ inputs.sdk_reference }}
       run_for_devices: ${{ needs.devices_config.outputs.devices_config }}
       exclude_apps: ${{ needs.apps_config.outputs.blacklist }}
       only_apps: ${{ needs.apps_config.outputs.whitelist }}
