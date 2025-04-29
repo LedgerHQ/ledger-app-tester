@@ -30,6 +30,7 @@ help() {
     echo "Options:"
     echo
     echo "  -a <name>   : App name"
+    echo "  -d <names>  : List of selected devices (separated with space)"
     echo "  -m <mode>   : Required mode (scan, test or build)"
     echo "  -s <branch> : SDK branch"
     echo "  -V          : Build all Variants"
@@ -45,9 +46,10 @@ help() {
 #
 #===============================================================================
 
-while getopts ":a:m:s:Vvh" opt; do
+while getopts ":a:d:m:s:Vvh" opt; do
     case ${opt} in
         a)  APP_NAME=${OPTARG}  ;;
+        d)  DEVICES=${OPTARG}   ;;
         m)  MODE=${OPTARG}      ;;
         s)  BRANCH=${OPTARG}    ;;
         V)  WITH_VARIANTS=true  ;;
@@ -278,6 +280,11 @@ for target in ${ALL_DEVICES_LIST}; do
 
         echo -n "|:black_circle:" >> "${FILE_STATUS}"
         [[ "${VERBOSE}" == "true" ]] && echo "${target} not supported."
+
+    elif [[ ! "${DEVICES}" =~ ${target} ]]; then
+
+        echo -n "|:black_circle:" >> "${FILE_STATUS}"
+        [[ "${VERBOSE}" == "true" ]] && echo "${target} not selected."
 
     else
 
