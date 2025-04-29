@@ -79,6 +79,10 @@ jobs:
           echo "Matrix content: ${{ steps.apps_list.outputs.apps_config }}"
           {
             echo ":dart: Workflow event: ${{ github.event_name }}"
+            if [ -n "${{ inputs.sdk_reference}}" ]; then
+              echo ":floppy_disk: The SDK reference for the build: ${{ inputs.sdk_reference }}"
+            fi
+            echo ":pager: List of device(s) to target: ${{ inputs.run_for_devices }}"
             if [ "${{ inputs.with_variants}}" = true ]; then
               echo ":heavy_check_mark: With Variants included"
             else
