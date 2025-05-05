@@ -1,7 +1,7 @@
 [
   {
     "name": "app-ethereum",
-    "build_flags": "DEBUG=1 CAL_TEST_KEY=1 DOMAIN_NAME_TEST_KEY=1 SET_PLUGIN_TEST_KEY=1 NFT_TEST_KEY=1"
+    "build_flags": "DEBUG=1 CAL_TEST_KEY=1 TRUSTED_NAME_TEST_KEY=1 SET_PLUGIN_TEST_KEY=1 NFT_TEST_KEY=1 EIP7702_TEST_WHITELIST=1"
   },
   {
     "name": "app-monero",
